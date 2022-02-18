@@ -1,0 +1,39 @@
+<%- include('../partials/header.ejs'); %> 
+    <% if (modal == 1) { %> 
+        <div style="height: 30px; background-color: rgb(133, 255, 133); color: whitesmoke;">Sus datos han sido actualizados exitosamente.</div>
+    <% } %> 
+    <% if (modal == 2) { %> 
+        <div style="height: 30px; background-color: rgb(253, 155, 155); color: whitesmoke;">Ha ocurrido un error al realizar la actualizacion.</div>
+    <% } %> 
+    <p><%= session.Nombre %> </p>
+    <p><%= session.Apellido %> </p>
+    <p><%= session.Empresa %> </p>
+    <p><%= session.Email %> </p>
+    <p><%= session.Rol %> </p>
+    <br>
+    <a href="#">Modificar informacion personal</a>
+    <br>
+    <a href="#">Cambiar contrasena</a>
+
+    <form action="/apiClient/updateInfo" method="post">
+        <label for="name">Nombre</label>
+        <input type="text" name="name" id="name"><br>
+        <label for="lastname">Apellido</label>
+        <input type="text" name="lastname" id="lastname"><br>
+        <input type="hidden" name="id" id="id" value="<%= session.Id %> ">
+        <input type="submit" value="Actualizar informacion">
+    </form>
+
+    <form action="/apiClient/updateInfo" method="post">
+        <label for="oldPassword">Ingrese la contrasena actual</label>
+        <input type="text" name="oldPassword" id="oldPassword"><br>
+        <label for="newPassword">Ingrese la nueva contrasena</label>
+        <input type="text" name="newPassword" id="newPassword"><br>
+        <label for="newPassword2">Confirme la nueva contrasena</label>
+        <input type="text" name="newPassword2" id="newPassword2"><br>
+        <input type="hidden" name="id" id="id" value="<%= session.Id %> ">
+        <input type="submit" value="Cambiar contrasena">
+    </form>
+
+</body>
+</html>

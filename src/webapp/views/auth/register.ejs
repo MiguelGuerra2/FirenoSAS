@@ -1,0 +1,32 @@
+<%- include('../partials/header.ejs'); %> 
+    <a href="/">Volver a pagina de inicio</a>
+    <h1>Register</h1>
+    <form action="/auth/register" method="post">
+        <label for="name">Nombre:</label>
+        <input type="text" name="name" id="name">
+        <br>
+        <label for="lastname">Apellido:</label>
+        <input type="text" name="lastname" id="lastname">
+        <br>
+        <label for="company">Empresa:</label>
+        <input type="text" name="company" id="company">
+        <br>
+        <label for="email">Email:</label>
+        <input type="email" name="email" id="email">
+        <br>
+        <label for="password">Contrasena:</label>
+        <input type="password" name="password" id="password">
+        <br>
+        <label for="pass2">Confirmar contrasena:</label>
+        <input type="password" name="pass2" id="pass2">
+        <br>
+        <label for="rol">Tipo de usuario:</label>
+        <select name="rol" id="rol">
+            <option value="3">Administrador</option>
+            <option value="1">Cliente</option>
+            <option value="2">Miembro de Fireno S.A.S</option>
+        </select>
+        <br>
+        <input type="submit" value="Registrarme">
+    </form>
+<%- include('../partials/footer.ejs'); %> 

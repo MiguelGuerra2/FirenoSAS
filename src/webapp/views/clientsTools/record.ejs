@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historial</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+    integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+    crossorigin=""/>
+</head>
+<body>
+    <input type="hidden" value="<%= rol %>" id="rol">
+    <style>
+        .infoContainer{
+            width: 100%;
+            border: 1px solid rgb(185, 185, 185);
+            background-color: rgb(219, 219, 219);
+            padding: 8px;
+            box-sizing: border-box;
+        }
+        .infoContainer:active{
+            background-color: rgb(173, 173, 173);
+        }
+        #infoColumn {
+            width: 30vw;
+        }
+        #map {
+            width: 65vw;
+        }
+        @media (max-width: 700px) { 
+            .flexContainer{
+                flex-direction: column;
+            }
+            #infoColumn{
+                width: 100vw;
+            }
+            #infoContainer{
+                width: 100vw;
+            }
+            #map{
+                width: 100vw;
+            }
+        }
+    </style>
+    <a href="/">Volver a pagina de inicio</a>
+    <h1>Visualizacion en tiempo real</h1>
+    <div style="display: flex;" class="flexContainer">
+        <div style="border: 1px solid #000;" id="infoColumn">
+            <h2 style="text-align: center;">Informacion</h2>
+        </div>
+        <div id="map" style="height: 70vh;margin: 20px auto; border: 1px solid #000"></div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+   integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+   crossorigin=""></script>
+   <script>
+       var map = L.map('map').setView([10.976083642910236, -74.80313783393801], 12);
+       L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+        maxZoom: 18,
+        id: 'mapbox/streets-v11',
+        tileSize: 512,
+        zoomOffset: -1,
+        accessToken: 'pk.eyJ1Ijoic3RlZmYxNiIsImEiOiJja3RjNzJmamsyM2NqMnBwazFleXJveXRmIn0.WX6x2YRLtRxdp4RealPs5w'
+       }).addTo(map);
+
+   </script>
+   <script src="/scripts/record.js"></script>
+</body>
+</html>

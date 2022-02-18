@@ -1,0 +1,11 @@
+<%- include('../partials/header.ejs'); %> 
+    <a href="/">Volver a pagina de inicio</a>
+    <h1>Login</h1>
+    <form action="/auth/login" method="post">
+        <input type="email" name="email" id="email">
+        <br>
+        <input type="password" name="password" id="password">
+        <br>
+        <input type="submit">
+    </form>
+<%- include('../partials/footer.ejs'); %> 

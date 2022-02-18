@@ -1,0 +1,20 @@
+<%- include('../partials/header.ejs'); %> 
+    <style>
+        .userContainer{
+            margin: 5px;
+            width: 500px;
+            border: 1px solid #000;
+        }
+    </style>
+    <% if (modal == 1) { %> 
+        <div style="height: 30px; background-color: rgb(133, 255, 133); color: whitesmoke;">Usuario eliminado exitosamente.</div>
+    <% } %>
+    <a href="/">Volver a pagina de inicio</a>
+    <a href="/tools/createUser">Crear nuevo usuario</a>
+    <h1>Bienvenido <%= nombre %></h1>
+    <div id="usersColumn">
+
+    </div>
+    <script src="/scripts/users.js"></script>
+</body>
+</html>

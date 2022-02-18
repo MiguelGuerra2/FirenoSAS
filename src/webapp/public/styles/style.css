@@ -1,0 +1,109 @@
+:root{
+    --graybg:#ECEFF1;
+    --mainColor: #CF1B1B;
+    --darkGray:#212529;
+}
+body{
+    background-color: var(--graybg);
+    margin-top: 74px !important;
+}
+.bgGray {
+    background-color: var(--graybg)
+}
+.redBg {
+    background: rgb(207,27,27);
+    background: -moz-radial-gradient(circle, rgba(207,27,27,1) 36%, rgba(185,26,26,1) 79%, rgba(158,21,21,1) 100%);
+    background: -webkit-radial-gradient(circle, rgba(207,27,27,1) 36%, rgba(185,26,26,1) 79%, rgba(158,21,21,1) 100%);
+    background: radial-gradient(circle, rgba(207,27,27,1) 36%, rgba(185,26,26,1) 79%, rgba(158,21,21,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#cf1b1b",endColorstr="#9e1515",GradientType=1); 
+}
+.redColor {
+    color: var(--mainColor)
+}
+.darkColor {
+    color: var(--darkGray);
+}
+.darkColor:hover {
+    color: var(--mainColor);
+}
+.redHover:hover {
+    color: var(--mainColor);
+}
+.active-link {
+    border-bottom: 2px solid var(--mainColor);
+}
+.borderTop {
+    border-top: 5px solid var(--mainColor);
+}
+.logoContainer {
+    position: fixed;
+    background-color: transparent;
+}
+.navbar {
+    z-index: 100;
+}
+.nav-link:hover {
+    transform: scale(1.2);
+    transition: all 0.5s;
+    background-color: var(--graybg);
+}
+.divHomeContainer {
+    padding-bottom: 5px;
+}
+.homeDiv{
+    position: relative;
+    height: 400px;
+    background-color: var(--graybg);
+    border: 1px solid rgb(189, 189, 189);
+}
+.infoContainer {
+    margin-top: 30px;
+}
+
+@media (min-width: 992px) {
+    body{
+        margin-top: 120px !important;
+    }
+    .logoContainer {
+        position: relative;
+        background-color: var(--graybg);
+    }
+    .divHomeContainer {
+        position: relative;
+        height: 410px;
+    }
+    .homeDiv{
+        height: 240px;
+        position: absolute;
+        transition: 0.5s all;
+        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    }
+    .homeDiv:hover{
+        transform: scale(1.1);
+        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    }
+    #firstDiv{
+        top: 250px;
+        left: 150px;
+    }
+    #secondDiv {
+        top: 250px;
+        right: 150px;
+    }
+    #thirdDiv {
+        top: 200px;
+        margin-left: auto;
+        margin-right: auto;
+        left: 0;
+        right: 0;
+        text-align: center;
+    }
+    .infoContainer {
+        margin-top: 120px;
+        height: 500px;
+    }
+        /* left: 200px;
+        top: 270px; */
+}
+
+

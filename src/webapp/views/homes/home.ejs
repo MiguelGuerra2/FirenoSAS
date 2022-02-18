@@ -1,0 +1,43 @@
+<%- include('../partials/header.ejs'); %> 
+    <% if(warning == 1) { %> 
+        <div class="modal fade" id="modalHome" data-mdb-backdrop="static" data-mdb-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Ups ...</h5>
+                    <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">Algo salio mal. Su cuenta aun no ha sido confirmada</div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-mdb-dismiss="modalHome">Cerrar</button>
+                </div>
+                </div>
+            </div>
+        </div>
+        <script>     
+            const myModal = new bootstrap.Modal(document.getElementById("modalHome"), {});
+            document.onreadystatechange = function () {
+                myModal.show();
+            };
+        </script>
+    <% } %> 
+
+    <div class="divHomeContainer mb-5 redBg">
+        <h1 class="text-center text-light fs-3 pt-4">TITULO</h1>
+        <p class="text-light fs-5 text-center mx-auto col-6 pt-2">Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo praesentium commodi ipsum, esse temporibus at voluptatem dignissimos optio, est dicta amet sequi ratione sint? Voluptas fugiat perferendis error omnis.</p>
+        <div class="homeDiv col-11 mx-auto my-2 col-lg-2" id="firstDiv">
+
+        </div>
+        <div class="homeDiv rounded col-11 mx-auto my-2 col-lg-2" id="secondDiv">
+
+        </div>
+        <div class="homeDiv rounded col-11 mx-auto my-2 col-lg-2" id="thirdDiv">
+
+        </div>
+    </div>
+    <div class="borderTop infoContainer">
+        <div>
+
+        </div>
+    </div>
+<%- include('../partials/footer.ejs'); %> 
