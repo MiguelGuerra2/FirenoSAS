@@ -8,14 +8,18 @@ const {authUser} = require('./authMiddlewords')
 let session,nombre,apellido,empresa,email,rol,pass1,pass2,queryvalues;
 
 router.get('/register', (req,res) => {
+    const info = req.query.i;
     if(req.session.userData){
         return res.redirect('../');
+    } else if (info != undefined) {
+        res.render('./auth/register',{title:'Registro',info:info});
+    } else {
+        res.render('./auth/register',{title:'Registro'});
     }
-    res.render('./auth/register',{title:'Registro'});
 });
 
 router.post('/register', ({body},res) => {
-    nombre = body.name;
+    nombre = body.names;
     apellido = body.lastname;
     empresa = body.company;
     email = body.email;
@@ -27,22 +31,20 @@ router.post('/register', ({body},res) => {
         `SELECT Id FROM usuarios WHERE Email = '${email}';`, (err,result) => {
             if (!err) {
                 if(result.length > 0) {
-                    return res.send('Ya existe un usuario con el correo electronico ingresado.')
+                    return res.redirect('./register?i=1')
                 } else  {
-                    //Validar campos del formulario
-                    //Validar nombre
                     if( nombre == null || nombre.length == 0 ){
-                        return res.send('Ingrese un nombre valido')
+                        return res.redirect('./register?i=2')
                     }else if( apellido == null || apellido.length == 0 ){
-                        return res.send('Ingrese un apellido valido')
+                        return res.redirect('./register?i=3')
                     }else if( empresa == null || empresa.length == 0 ){
-                        return res.send('Ingrese una empresa valida')
+                        return res.redirect('./register?i=4')
                     }else if( !(/\S+@\S+\.\S+/.test(email.value) || email.length > 0) ) {
-                        return res.send('Ingrese un email valido')
+                        return res.redirect('./register?i=5')
                     }else if( pass1 == null || pass1.length < 8 ) {
-                        return res.send('Ingrese una contrasena valida')
+                        return res.redirect('./register?i=6')
                     }else if( pass1 != pass2 ) {
-                        return res.send('Las contrasenas no coinciden')
+                        return res.redirect('./register?i=7')
                     }else {
                         const hash = bcrypt.hashSync(body.password, 10);
                     
@@ -57,7 +59,7 @@ router.post('/register', ({body},res) => {
                                 }
                             }
                         )
-                        res.render('./statusResponse/200')
+                        res.redirect('./register?i=8')
                     }
                 }
             } else {

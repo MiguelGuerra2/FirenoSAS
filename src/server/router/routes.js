@@ -11,10 +11,10 @@ const authUser = (req,res,next) => {
             return next();
         } else {
             session.destroy();
-            return res.render('./homes/home',{warning:1,title:'Inicio'});
+            return res.render('./homes/home',{title:'Inicio',info:9});
         }
     }else {
-        return res.render('./homes/home',{warning:0,title:'Inicio'});
+        return res.render('./homes/home',{title:'Inicio'});
     }
 }
 
