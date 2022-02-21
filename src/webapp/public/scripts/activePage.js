@@ -1,6 +1,6 @@
 const link = window.location.pathname;
+
 let element;
-console.log(link);
 if( link == '/') {
     element = document.getElementById('home');
 } else if ( link == '/auth/login' ){

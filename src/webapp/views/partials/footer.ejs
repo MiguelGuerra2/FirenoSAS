@@ -58,7 +58,56 @@
       </div>
     </div>
   </footer>
+  <% if(typeof info!='undefined') { %>
+      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Informacion</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <% if (info == 1) { %>
+                <p>Ya existe una cuenta con el correo electronico ingresado.</p>
+              <% } else if (info == 2) { %>
+                <p>Ingrese un nombre valido</p>
+              <% } else if (info == 3) { %>
+                <p>Ingrese un apellido valido</p>
+              <% } else if (info == 4) { %>
+                <p>Ingrese un nombre de empresa valido</p>  
+              <% } else if (info == 5) { %>
+                <p>Ingrese un correo electronico valido</p>
+              <% } else if (info == 6) { %>
+                <p>Ingrese una contrasena valida</p>
+              <% } else if (info == 7) { %>
+                <p>Las contrasenas no coinciden</p>
+              <% } else if (info == 8) { %>
+                <p>Felicitaciones! Su cuenta ha sido creada exitosamente y esta a la espera de ser confirmada por un administrador de Fireno S.A.S</p>
+              <% } else if (info == 9) { %>
+                <p>Lo sentimos, su cuenta aun no ha sido confirmada por uno de nuestros administradores.</p>
+              <% } %>  
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Entendido</button>
+              <% if (info == 8) {%>
+                <a href="/" class="btn btn-success">Ir a Inicio</a>  
+              <% } %>  
+            </div>
+          </div>
+        </div>
+      </div>
+      <script>
+        const myModal = new bootstrap.Modal(document.getElementById("exampleModal"), {});
+        document.onreadystatechange = function () {
+          myModal.show();
+      };
+      </script>
+    <% } %> 
+
+
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.10.2/mdb.min.js"></script>
   <script src="/scripts/activePage.js"></script>
+  <script src="/scripts/header.js"></script>
+  <script src="/scripts/validateForms.js"></script>
 </body>
 </html>

@@ -1,32 +1,94 @@
 <%- include('../partials/header.ejs'); %> 
-    <a href="/">Volver a pagina de inicio</a>
-    <h1>Register</h1>
-    <form action="/auth/register" method="post">
-        <label for="name">Nombre:</label>
-        <input type="text" name="name" id="name">
-        <br>
-        <label for="lastname">Apellido:</label>
-        <input type="text" name="lastname" id="lastname">
-        <br>
-        <label for="company">Empresa:</label>
-        <input type="text" name="company" id="company">
-        <br>
-        <label for="email">Email:</label>
-        <input type="email" name="email" id="email">
-        <br>
-        <label for="password">Contrasena:</label>
-        <input type="password" name="password" id="password">
-        <br>
-        <label for="pass2">Confirmar contrasena:</label>
-        <input type="password" name="pass2" id="pass2">
-        <br>
-        <label for="rol">Tipo de usuario:</label>
-        <select name="rol" id="rol">
-            <option value="3">Administrador</option>
-            <option value="1">Cliente</option>
-            <option value="2">Miembro de Fireno S.A.S</option>
-        </select>
-        <br>
-        <input type="submit" value="Registrarme">
-    </form>
+    <div class="row mx-auto d-flex flex-column py-4">
+        <div class="col-11 col-md-4 mx-auto rounded p-4 border" style="background-color: white;">
+            <h1 class="text-center pb-2">Registrarme</h1>
+            <form action="/auth/register" id="form" method="post">
+               
+                <div class="form-floating mb-3">
+                    <input 
+                    type="text" 
+                    name="names" 
+                    id="names" 
+                    class="form-control"
+                    pattern="[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{2,48}" 
+                    autocomplete="off"
+                    onkeyup=validateInput(names)
+                    required>
+                    <label for="floatingInput">Nombres</label>                    
+                </div> 
+                <div class="form-floating mb-3">
+                    <input type="text" 
+                    name="lastname" 
+                    id="lastname" 
+                    class="form-control" 
+                    pattern="[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{2,64}"
+                    autocomplete="off"
+                    onkeyup=validateInput(lastname)
+                    required>
+                    <label for="lastname">Apellidos</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="text" 
+                    name="company" 
+                    id="company" 
+                    class="form-control" 
+                    minlength="3"
+                    maxlength="20"
+                    autocomplete="off"
+                    onkeyup=validateInput(company)
+                    required>
+                    <label for="company">Empresa</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="email" 
+                    name="email" 
+                    id="email" 
+                    class="form-control" 
+                    pattern="^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$"
+                    autocomplete="off"
+                    autocomplete="ÑÖcompletes"
+                    onkeyup=validateInput(email)
+                    required>
+                    <label for="email">Email</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input 
+                    type="password" 
+                    name="password" 
+                    id="password" 
+                    class="form-control" 
+                    pattern="[A-Za-z0-9!?-]{8,12}"
+                    autocomplete="off"
+                    onkeyup=validateInput(password)
+                    required>
+                    <label for="password">Contrasena</label>
+                    <div class="invalid-feedback">La contrasena debe contener entre 8-20 caracteres.</div>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="password" 
+                    name="pass2" 
+                    id="pass2" 
+                    class="form-control" 
+                    pattern="[A-Za-z0-9!?-]{8,12}"
+                    autocomplete="off"
+                    onkeyup=validateInput(pass2)
+                    required>
+                    <label for="pass2">Confirmar contrasena</label>
+                </div>
+                <div class="form-floating mb-4">
+                    <select name="rol" id="rol" class="form-select" onkeyup=validateInput(rol) required>
+                        <option selected disabled value="">Seleccione el tipo de usuario</option>
+                        <option value="3">Administrador</option>
+                        <option value="1">Cliente</option>
+                        <option value="2">Miembro de Fireno S.A.S</option>
+                    </select>
+                    <label for="rol">Tipo de usuario</label>
+                </div>
+                <div class="d-flex">
+                    <input id="submit" type="submit" value="Registrarme" class="btn btn-success col-10 mx-auto">                    
+                </div>
+            </form>
+        </div>
+    </div>    
+
 <%- include('../partials/footer.ejs'); %> 
