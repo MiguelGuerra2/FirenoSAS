@@ -35,9 +35,7 @@ router.get('/getCoordsRealTime',authApiClient,(req,res) => {
 router.get('/getCoordsRecord',authApiClient,(req,res) => {
     const idate = req.query.idate;
     const fdate = req.query.fdate;
-    // iDate = iDate.split(';').join(' ');
     const machine = req.query.machine;
-    // ';
     connection.query(
         `SELECT * FROM informacion WHERE Equipo = ${machine} AND (Hora_envio BETWEEN '${idate}' AND '${fdate}');`, (err,result) => {
             if (!err) {
@@ -110,5 +108,7 @@ router.post('/updateInfo',authApiClient,(req,res) => {
     }
     
 });
+
+
 
 module.exports = router;

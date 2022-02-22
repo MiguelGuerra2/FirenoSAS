@@ -4,9 +4,21 @@ const express = require('express');
 const router = express.Router();
 const {authUser, authApiAdmin, authApiClient} = require('./authMiddlewords');
 
+//HERRAMIENTAS DE CLIENTES EN GENERAL
+
 router.get('/', (req,res) =>{
     return res.render('./clientsTools/tools',{title:'Herramientas'})    
 })
+
+router.get('/profile', authUser, (req,res) =>{
+    const info = req.session.userData;
+    const modal = req.query.m;
+    if (modal == undefined){
+        return res.render('./clientsTools/profile',{session:info, modal:0,title:'Perfil'});
+    }else {
+        return res.render('./clientsTools/profile',{session:info, modal:modal,title:'Perfil'});
+    };
+});
 
 //HERRAMIENTAS DE ADMINISTRADOR
 router.get('/users', authApiAdmin, (req,res) =>{ 
@@ -65,18 +77,6 @@ router.get('/updateMachine', authApiAdmin, (req,res) => {
 });
 
 //HERRAMIENTAS DE CLIENTE
-
-router.get('/profile', authUser, (req,res) =>{
-    const info = req.session.userData;
-    const modal = req.query.m;
-    if (modal == 1){
-        return res.render('./clientsTools/profile',{session:info, modal:1,title:'Perfil'});
-    } else if (modal == 2) {
-        return res.render('./clientsTools/profile',{session:info, modal:2,title:'Perfil'});
-    }else {
-        return res.render('./clientsTools/profile',{session:info, modal:0,title:'Perfil'});
-    };
-});
 
 router.get('/realTime', authApiClient, (req,res) =>{ 
     return res.render('./clientsTools/realtime')

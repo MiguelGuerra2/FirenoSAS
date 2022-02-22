@@ -85,7 +85,15 @@
                 <p>Felicitaciones! Su cuenta ha sido creada exitosamente y esta a la espera de ser confirmada por un administrador de Fireno S.A.S</p>
               <% } else if (info == 9) { %>
                 <p>Lo sentimos, su cuenta aun no ha sido confirmada por uno de nuestros administradores.</p>
+              <% } else if (info == 10) { %>
+                <h3>Solicitud exitosa</h3>
+                <p>Se ha enviado un enlace para cambiar la contrasena al email ingresado.</p>
+              <% } else if (info == 11) { %>
+                <p>Lo sentimos, la cuenta asociada al email ingresado aun no ha sido confirmada.</p>
+              <% } else if (info == 12) { %>
+                <p>Lo sentimos, no existe una cuenta asociada al email ingresado.</p>
               <% } %>  
+
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Entendido</button>

@@ -5,6 +5,8 @@ const router = express.Router();
 const bcrypt = require('bcryptjs');
 const connection = require('../db');
 const {authUser} = require('./authMiddlewords')
+const {sendEmail} = require('../mail.js')
+
 let session,nombre,apellido,empresa,email,rol,pass1,pass2,queryvalues;
 
 router.get('/register', (req,res) => {
@@ -107,6 +109,41 @@ router.post('/login', (req,res) => {
 router.get('/logout',authUser,(req,res) => {
     session.destroy();
     res.redirect('../');    
+});
+
+router.get('/forgottenPassword', (req,res) =>{
+    const info = req.query.i;
+    if (info != undefined) {
+        res.render('./clientsTools/forgottenPassword',{title:'Reestablecer contrasena',info:info});
+    } else {
+        res.render('./clientsTools/forgottenPassword',{title:'Reestablecer contrasena'});
+    }
+    
+});
+
+router.get('/resetPassword', (req,res) =>{
+    res.render('./clientsTools/resetPassword',{title:'Reestablecer contrasena'})
+});
+
+
+router.post('/forgottenPassword', ({body},res) => {
+    const email = body.email;
+    connection.query(
+        `SELECT Confirmado FROM usuarios WHERE Email = '${email}';`, (err,result) => {
+            if (!err) {
+                if(result.length > 0) {
+                    if(result[0].Confirmado == 1){
+                        sendEmail(email,'resetPassword')
+                        return res.redirect('./forgottenPassword?i=10')    
+                    } else {
+                        return res.redirect('./forgottenPassword?i=11')
+                    }
+                } else  {
+                    return res.redirect('./forgottenPassword?i=12')
+                };
+            };
+        }
+    )
 });
 
 module.exports = router;
