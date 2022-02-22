@@ -23,15 +23,16 @@ body{
     background: radial-gradient(circle, rgba(207,27,27,1) 36%, rgba(185,26,26,1) 79%, rgba(158,21,21,1) 100%);
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#cf1b1b",endColorstr="#9e1515",GradientType=1); 
 }
+.greyLightBg {
+    background-color: var(--graymid);
+}
 .redColor {
     color: var(--mainColor)
 }
 .darkColor {
     color: var(--darkGray);
 }
-.darkColor:hover {
-    color: var(--mainColor);
-}
+
 .redHover:hover {
     color: var(--mainColor);
 }
@@ -66,7 +67,7 @@ body{
 }
 .homeDiv{
     position: relative;
-    height: 350px;
+    height: 321px;
     background-color: var(--graybg);
     border: 1px solid rgb(189, 189, 189);
 }
@@ -86,6 +87,33 @@ body{
 
 .infoContainer {
     margin-top: 30px;
+}
+.infoDiv {
+    height: 250px;
+    border-radius: 10px 10px 0 0;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover; 
+}
+#meetingImage {
+    background-image: url("/images/meeting.jpg"); 
+}
+#softwareImage {
+    background-image: url("/images/code2.jpg"); 
+}
+#machinesImage {
+    background-image: url("/images/machines.jpg"); 
+}
+
+.infoTextContainer {
+    height: 250px;
+}
+.infoFlexContainer:nth-child(2n) {
+    flex-direction: column-reverse;
+}
+.formsContainer {
+    background-image: linear-gradient(45deg, #eceff1 49.02%, #d9dbdd 49.02%, #d9dbdd 50%, #eceff1 50%, #eceff1 99.02%, #d9dbdd 99.02%, #d9dbdd 100%);
+    background-size: 72.12px 72.12px;
 }
 
 @media (min-width: 992px) {
@@ -127,7 +155,19 @@ body{
     }
     .infoContainer {
         margin-top: 120px;
-        height: 500px;
+    }
+    .infoFlexContainer:nth-child(2n) {
+        border-radius: 8px 8px 150px 8px;
+        flex-direction: row;
+    }
+    .infoFlexContainer:nth-child(2n-1) {
+        border-radius: 8px 8px 8px 150px;
+    }
+    .infoDiv:nth-child(2n) {
+        border-radius: 0 8px 150px 0;        
+    }
+    .infoDiv:nth-child(2n-1) {
+        border-radius: 8px 0 0 150px;        
     }
     
     .homeDiv:hover{
@@ -145,6 +185,19 @@ body{
         -webkit-animation: slide-top 1s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
                 animation: slide-top 1s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
     }
+    .desaturate {
+        filter: url("data:image/svg+xml;utf8,&lt;svg xmlns=\'http://www.w3.org/2000/svg\'&gt;&lt;filter id=\'grayscale\'&gt;&lt;feColorMatrix type=\'matrix\' values=\'0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0 0 0 1 0\'/&gt;&lt;/filter&gt;&lt;/svg&gt;#grayscale"); /* Firefox 10+, Firefox on Android */
+        filter: gray; /* IE6-9 */
+        -webkit-filter: grayscale(100%); /* Chrome 19+, Safari 6+, Safari 6+ iOS */
+        transition: filter 0.5s ease-in-out;
+    }
+    .desaturate:hover {
+        filter: url("data:image/svg+xml;utf8,&lt;svg xmlns=\'http://www.w3.org/2000/svg\'&gt;&lt;filter id=\'grayscale\'&gt;&lt;feColorMatrix type=\'matrix\' values=\'1 0 0 0 0, 0 1 0 0 0, 0 0 1 0 0, 0 0 0 1 0\'/&gt;&lt;/filter&gt;&lt;/svg&gt;#grayscale");
+        -webkit-filter: grayscale(0%);
+        transform: scale(1.02);
+        transition: 1s all;
+    }
+      
     @-webkit-keyframes slide-top {
         0% {
           -webkit-transform: translateY(300px);

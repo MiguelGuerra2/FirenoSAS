@@ -1,11 +1,46 @@
 <%- include('../partials/header.ejs'); %> 
-    <a href="/">Volver a pagina de inicio</a>
-    <h1>Login</h1>
-    <form action="/auth/login" method="post">
-        <input type="email" name="email" id="email">
-        <br>
-        <input type="password" name="password" id="password">
-        <br>
-        <input type="submit">
-    </form>
+<div class="row mx-auto d-flex flex-column py-4 formsContainer">
+    <div class="col-11 col-md-4 mx-auto rounded p-4 border" style="background-color: white;">
+        <h1>Login</h1>
+        <form action="/auth/login" method="post" id="form">
+            <div class="form-floating mb-3">
+                <input type="email" 
+                name="email" 
+                id="email" 
+                class="form-control" 
+                pattern="^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$"
+                autocomplete="off"
+                autocomplete="ÑÖcompletes"
+                onkeyup=validateInput(email)
+                required>
+                <label for="email">Email</label>
+            </div>
+            <div class="form-floating mb-3">
+                <input 
+                type="password" 
+                name="password" 
+                id="password" 
+                class="form-control" 
+                pattern="[A-Za-z0-9!?-]{8,12}"
+                autocomplete="off"
+                onkeyup=validateInput(password)
+                required>
+                <label for="password">Contrasena</label>
+                <div class="invalid-feedback">La contrasena debe contener entre 8-20 caracteres.</div>
+            </div>
+            <div class="form-check my-3 ps-0">
+                <input type="checkbox" value="" id="flexCheckChecked" checked>
+                <label class="form-check-label" for="flexCheckChecked">
+                  Mantener sesion iniciada
+                </label>
+            </div>
+            <div class="d-flex">
+                <input id="submit" type="submit" value="Iniciar sesion" class="btn btn-success col-10 mx-auto rounded-pill">                    
+            </div>    
+        </form>    
+        <div class="col-12 d-flex my-3">
+            <a href="#" class="mx-auto text-center darkColor">Olvidaste tu contrasena?</a>           
+        </div>         
+    </div>
+</div>    
 <%- include('../partials/footer.ejs'); %> 
