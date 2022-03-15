@@ -7,43 +7,37 @@ const {authUser, authApiAdmin, authApiClient} = require('./authMiddlewords');
 //HERRAMIENTAS DE CLIENTES EN GENERAL
 
 router.get('/', (req,res) =>{
-    return res.render('./clientsTools/tools',{title:'Herramientas'})    
-})
+    if (req.session.userData) {
+        return res.render('./clientsTools/tools',{title:'Herramientas', rol:req.session.userData.Rol})            
+    } else {
+        return res.render('./clientsTools/tools',{title:'Herramientas'})    
+    }
+}) 
 
 router.get('/profile', authUser, (req,res) =>{
-    const info = req.session.userData;
-    const modal = req.query.m;
-    if (modal == undefined){
-        return res.render('./clientsTools/profile',{session:info, modal:0,title:'Perfil'});
-    }else {
-        return res.render('./clientsTools/profile',{session:info, modal:modal,title:'Perfil'});
-    };
+    return res.render('./clientsTools/profile',{session:req.session.userData, modal:0,title:'Perfil', rol:req.session.userData.Rol});
 });
 
 //HERRAMIENTAS DE ADMINISTRADOR
 router.get('/users', authApiAdmin, (req,res) =>{ 
-    if (req.query.m == 1){
-        return res.render('./adminTools/users',{nombre:req.session.userData.Nombre,modal:1,title:'Usuarios'});       
-    } else {
-        return res.render('./adminTools/users',{nombre:req.session.userData.Nombre,modal:0,title:'Usuarios'});
-    };
+    return res.render('./adminTools/users',{nombre:req.session.userData.Nombre,modal:0,title:'Usuarios', rol:req.session.userData.Rol});
 });
 
 router.get('/machines', authApiAdmin, (req,res) =>{ 
     if (req.query.m == 1){
-        return res.render('./adminTools/machines',{nombre:req.session.userData.Nombre,modal:1,title:'Maquinas'});
+        return res.render('./adminTools/machines',{nombre:req.session.userData.Nombre,modal:1,title:'Maquinas', rol:req.session.userData.Rol});
     } else {
-        return res.render('./adminTools/machines',{nombre:req.session.userData.Nombre,modal:0,title:'Maquinas'});
+        return res.render('./adminTools/machines',{nombre:req.session.userData.Nombre,modal:0,title:'Maquinas', rol:req.session.userData.Rol});
     };
 
 });
 
 router.get('/createUser',authApiAdmin, (req,res) => {
-    res.render('./adminTools/createUser',{title:'Crear Usuario'});
+    res.render('./adminTools/createUser',{title:'Crear Usuario', rol:req.session.userData.Rol});
 });
 
 router.get('/createMachine',authApiAdmin, (req,res) => {
-    res.render('./adminTools/createMachine',{title:'Crear Maquina'});
+    res.render('./adminTools/createMachine',{title:'Crear Maquina', rol:req.session.userData.Rol});
 });
 
 router.get('/updateUser', authApiAdmin, (req,res) => {
@@ -52,11 +46,11 @@ router.get('/updateUser', authApiAdmin, (req,res) => {
         res.redirect('./users')
     } else {
         if (req.query.m == 1) {
-            return res.render('./adminTools/updateUser',{modal:1,id:id,title:'Actualizar Usuario'})        
+            return res.render('./adminTools/updateUser',{modal:1,id:id,title:'Actualizar Usuario', rol:req.session.userData.Rol})        
         } else if (req.query.m == 2){
-            res.render('./adminTools/updateUser', {modal:2,id:id,title:'Actualizar Usuario'})
+            res.render('./adminTools/updateUser', {modal:2,id:id,title:'Actualizar Usuario', rol:req.session.userData.Rol})
         } else {
-            res.render('./adminTools/updateUser', {modal:0,id:id,title:'Actualizar Usuario'})
+            res.render('./adminTools/updateUser', {modal:0,id:id,title:'Actualizar Usuario', rol:req.session.userData.Rol})
         }
     }
 });
@@ -67,11 +61,11 @@ router.get('/updateMachine', authApiAdmin, (req,res) => {
         res.redirect('./machines')
     } else {
         if (req.query.m == 1) {
-            return res.render('./adminTools/updateMachine',{modal:1,id:id,title:'Actualizar Maquina'})        
+            return res.render('./adminTools/updateMachine',{modal:1,id:id,title:'Actualizar Maquina', rol:req.session.userData.Rol})        
         } else if (req.query.m == 2){
-            res.render('./adminTools/updateMachine', {modal:2,id:id,title:'Actualizar Maquina'})
+            res.render('./adminTools/updateMachine', {modal:2,id:id,title:'Actualizar Maquina', rol:req.session.userData.Rol})
         } else {
-            res.render('./adminTools/updateMachine', {modal:0,id:id,title:'Actualizar Maquina'})
+            res.render('./adminTools/updateMachine', {modal:0,id:id,title:'Actualizar Maquina', rol:req.session.userData.Rol})
         };
     };
 });
@@ -79,15 +73,11 @@ router.get('/updateMachine', authApiAdmin, (req,res) => {
 //HERRAMIENTAS DE CLIENTE
 
 router.get('/realTime', authApiClient, (req,res) =>{ 
-    return res.render('./clientsTools/realtime')
+    return res.render('./clientsTools/realtime',{title:'Tiempo Real', rol:req.session.userData.Rol, imglogo:1})
 });
 
 router.get('/record', authApiClient, (req,res) =>{ 
-    if(req.session.userData.Rol == 1) {
-        return res.render('./clientsTools/record',{rol:1});
-    } else {
-        return res.render('./clientsTools/record',{rol:2});
-    };
+    return res.render('./clientsTools/record',{tite:'Historial', rol:req.session.userData.Rol, imglogo:1});
 });
 
 module.exports = router;

@@ -1,4 +1,4 @@
 package-lock.json
-package.json
-schema.txt
+development.env
+production.env
 node_modules

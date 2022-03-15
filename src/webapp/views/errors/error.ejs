@@ -1,0 +1,11 @@
+<%- include('../partials/header.ejs'); %> 
+<div class="row mx-auto d-flex flex-column py-4 formsContainer">
+    <h1>Lo sentimos</h1>
+    <h2><%= errorName %></h2>
+    <p><%= error %> </p>
+    <pq><%= solution %> </p>
+    <% if(typeof link!='undefined') { %>
+        <a href="<%= linkHref %> " class="btn redBg text-light"><%= link %></a>
+    <% } %>  
+</div>    
+<%- include('../partials/footer.ejs'); %> 

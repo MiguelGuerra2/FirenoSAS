@@ -1,5 +1,5 @@
 <!-- Footer -->
-<footer class="page-footer font-small blue-grey lighten-5 mt-5 pt-5 borderTop" style="background-color: #eceff1;">
+<footer class="page-footer font-small blue-grey lighten-5 pt-5 borderTop" style="background-color: #eceff1;">
     <div class="container text-center text-md-left mt-5">
       <div class="row mt-3 dark-grey-text">
         <div class="col-md-4 mb-4">
@@ -67,7 +67,9 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              <% if (info == 1) { %>
+              <% if (info == 0) { %>
+                <p>No existe una cuenta asociada al correo electronico ingresado</p>
+              <% } else if (info == 1) { %>
                 <p>Ya existe una cuenta con el correo electronico ingresado.</p>
               <% } else if (info == 2) { %>
                 <p>Ingrese un nombre valido</p>
@@ -80,7 +82,7 @@
               <% } else if (info == 6) { %>
                 <p>Ingrese una contrasena valida</p>
               <% } else if (info == 7) { %>
-                <p>Las contrasenas no coinciden</p>
+                <p>Las contrasenas deben coincidir</p>
               <% } else if (info == 8) { %>
                 <p>Felicitaciones! Su cuenta ha sido creada exitosamente y esta a la espera de ser confirmada por un administrador de Fireno S.A.S</p>
               <% } else if (info == 9) { %>
@@ -92,6 +94,10 @@
                 <p>Lo sentimos, la cuenta asociada al email ingresado aun no ha sido confirmada.</p>
               <% } else if (info == 12) { %>
                 <p>Lo sentimos, no existe una cuenta asociada al email ingresado.</p>
+              <% } else if (info == 13) { %>
+                <p>La contrasena ha sido modificada exitosamente.</p>
+              <% } else if (info == 14) { %>
+                <p>Usuario y/o contrasena incorrectos.</p>
               <% } %>  
 
             </div>
@@ -111,11 +117,12 @@
       };
       </script>
     <% } %> 
-
+  </div>
 
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.10.2/mdb.min.js"></script>
   <script src="/scripts/activePage.js"></script>
   <script src="/scripts/header.js"></script>
   <script src="/scripts/validateForms.js"></script>
+  <script src="/scripts/animations.js"></script>
 </body>
 </html>

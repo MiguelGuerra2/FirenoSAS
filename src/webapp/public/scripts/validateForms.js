@@ -1,7 +1,9 @@
 const validateInput = (input) => {
+    const feedBack = document.getElementById('passwordFeedBack');
     if (input.checkValidity()) {
         if(input.classList.contains('is-invalid')){
             input.classList.remove('is-invalid')
+           
         };
         return input.classList.add('is-valid')
     } else {

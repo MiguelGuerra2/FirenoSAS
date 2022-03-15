@@ -1,74 +1,38 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tiempo Real</title>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
-    integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
-    crossorigin=""/>
-</head>
-<body>
-    <style>
-        .infoContainer{
-            width: 100%;
-            border: 1px solid rgb(185, 185, 185);
-            background-color: rgb(219, 219, 219);
-            padding: 8px;
-            box-sizing: border-box;
-        }
-        .infoContainer:active{
-            background-color: rgb(173, 173, 173);
-        }
-        #infoColumn {
-            width: 30vw;
-        }
-        #map {
-            width: 65vw;
-        }
-        @media (max-width: 700px) { 
-            .flexContainer{
-                flex-direction: column;
-            }
-            #infoColumn{
-                width: 100vw;
-            }
-            #infoContainer{
-                width: 100vw;
-            }
-            #map{
-                width: 100vw;
-            }
-        }
-    </style>
-    <a href="/">Volver a pagina de inicio</a>
-    <h1>Visualizacion en tiempo real</h1>
-    <div style="display: flex;" class="flexContainer">
-        <div style="border: 1px solid #000;" id="infoColumn">
-            <h2 style="text-align: center;">Informacion</h2>
-            <div class="infoContainer" id="viewAll">
-                <p>Visualizar todos los marcadores</p>
-            </div>
+<%- include('../partials/header.ejs'); %> 
+<style>
+  body {
+    margin-top: 64px !important;
+    height: calc(100vh - 64px);
+  }
+</style>
+<div class="row col-12 mx-0 h-100">
+    <div class="d-flex align-items-center col-md-4 px-0" id="infoContainer">
+      <div class="curveContainer mx-auto col-11 my-4 py-4" style="height: 80vh;">
+        <div class="d-flex">
+          <a type="button" class="btn btn-primary mx-auto" >Visualizar todos los marcadores</a>          
         </div>
-        <div id="map" style="height: 70vh;margin: 20px auto; border: 1px solid #000"></div>
+        <div class="d-flex">
+            <input id="searchInput" type="search" class="rounded ms-auto border-0 px-3" placeholder="Ej: 123456789" aria-label="Search" aria-describedby="search-addon" onkeyup="search()" />
+            <button type="button" class="btn btn-outline-light me-4" onclick="search()" style="background-color: #48577B;">Buscar</button>
+        </div>
+      </div> 
+    </div>
+    <div class="col-md-8 bg-danger px-0 h-100" id="mapContainer">
+        <div id="map" class="h-100" style="width: 700px;"></div>
     </div>
 
-    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
-   integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
-   crossorigin=""></script>
-   <script>
-       var map = L.map('map').setView([10.976083642910236, -74.80313783393801], 12);
-       L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
-        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-        maxZoom: 18,
-        id: 'mapbox/streets-v11',
-        tileSize: 512,
-        zoomOffset: -1,
-        accessToken: 'pk.eyJ1Ijoic3RlZmYxNiIsImEiOiJja3RjNzJmamsyM2NqMnBwazFleXJveXRmIn0.WX6x2YRLtRxdp4RealPs5w'
-       }).addTo(map);
-
-   </script>
-   <script src="/scripts/realTime.js"></script>
+</div>
+<script>
+  var map = L.map('map').setView([4, -74], 5);
+  L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoicHJhY3RpY2FudGVmaXJlbm8iLCJhIjoiY2wwaWx1bG56MDN2YzNrcjVxcm5pZG5hMSJ9.45Wt5JTHi42NZgVOIU5S_g', {
+    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+    maxZoom: 18,
+    id: 'mapbox/streets-v11',
+    tileSize: 512,
+    zoomOffset: -1,
+    accessToken: 'your.mapbox.access.token'
+}).addTo(map);
+</script>
+<script src="/scripts/activePage.js"></script>
 </body>
 </html>

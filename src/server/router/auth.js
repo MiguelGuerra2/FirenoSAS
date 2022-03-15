@@ -3,31 +3,30 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
-const connection = require('../db');
-const {authUser} = require('./authMiddlewords')
-const {sendEmail} = require('../mail.js')
+const jwt = require('jwt-simple');
+const moment = require("moment");
 
-let session,nombre,apellido,empresa,email,rol,pass1,pass2,queryvalues;
+const config = require('../config/config');
+const connection = require('../utils/db');
+const {authUser,authToken} = require('./authMiddlewords')
+const {sendEmail} = require('../utils/mail.js')
 
 router.get('/register', (req,res) => {
-    const info = req.query.i;
     if(req.session.userData){
         return res.redirect('../');
-    } else if (info != undefined) {
-        res.render('./auth/register',{title:'Registro',info:info});
     } else {
-        res.render('./auth/register',{title:'Registro'});
-    }
+        res.render('./auth/register',{title:'Registro',info:req.query.i});
+    };
 });
 
 router.post('/register', ({body},res) => {
-    nombre = body.names;
-    apellido = body.lastname;
-    empresa = body.company;
-    email = body.email;
-    rol = body.rol;
-    pass1 = body.password;
-    pass2 = body.pass2;
+    const nombre = body.names;
+    const apellido = body.lastname;
+    const empresa = body.company;
+    const email = body.email.toLowerCase();
+    const rol = body.rol;
+    const pass1 = body.password;
+    const pass2 = body.pass2;
 
     connection.query(
         `SELECT Id FROM usuarios WHERE Email = '${email}';`, (err,result) => {
@@ -50,7 +49,7 @@ router.post('/register', ({body},res) => {
                     }else {
                         const hash = bcrypt.hashSync(body.password, 10);
                     
-                        queryvalues = `'${nombre}','${apellido}','${empresa}','${email}','${hash}',${rol},0`;
+                        const queryvalues = `'${nombre}','${apellido}','${empresa}','${email}','${hash}',${rol},0`;
 
                         connection.query(
                             `INSERT INTO usuarios (Nombre,Apellido,Empresa,Email,Passwords,Rol,Confirmado) VALUES (${queryvalues});`, err => {
@@ -73,21 +72,21 @@ router.post('/register', ({body},res) => {
 
 router.get('/login', (req,res) => {
     if(req.session.userData){
-        res.redirect('../');
+        return res.redirect('../');
     } else {
-        res.render('./auth/login',{title:'Iniciar Sesion'});
-    }
+        return res.render('./auth/login',{title:'Iniciar Sesion',info:req.query.i});
+    };
 });
 
 router.post('/login', (req,res) => {
-    connection.query(
+    connection.query( 
         `SELECT * FROM usuarios WHERE Email = '${req.body.email}';`, (err,result) => {
             if (!err) {
                 if(result.length < 1) {
-                    res.send('El usuario no existe, registrate ahora!')
+                    return res.redirect('./login?i=0');
                 } else {
                     const infoUsuario = result[0];
-                    const isValidUser = req.body.email == infoUsuario.Email;
+                    const isValidUser = req.body.email.toLowerCase() == infoUsuario.Email;
                     const isValidPass = bcrypt.compareSync(req.body.password, infoUsuario.Passwords);    
                     if(isValidUser && isValidPass){
                         session=req.session;
@@ -95,7 +94,7 @@ router.post('/login', (req,res) => {
                         res.redirect('../');
                     }
                     else{
-                        res.status(401).render('./statusResponse/401');
+                        return res.redirect('./login?i=14');
                     }
                 }
                 
@@ -112,31 +111,82 @@ router.get('/logout',authUser,(req,res) => {
 });
 
 router.get('/forgottenPassword', (req,res) =>{
-    const info = req.query.i;
-    if (info != undefined) {
-        res.render('./clientsTools/forgottenPassword',{title:'Reestablecer contrasena',info:info});
+    if(req.session.userData) {
+        return res.render('./auth/forgottenPassword',{title:'Reestablecer contrasena',info:req.query.i, rol:req.session.userData.Rol});
     } else {
-        res.render('./clientsTools/forgottenPassword',{title:'Reestablecer contrasena'});
+        return res.render('./auth/forgottenPassword',{title:'Reestablecer contrasena',info:req.query.i, rol:undefined});
     }
-    
 });
 
-router.get('/resetPassword', (req,res) =>{
-    res.render('./clientsTools/resetPassword',{title:'Reestablecer contrasena'})
+router.get('/resetPassword/:token?/:i?', authToken,(req,res) =>{
+    if(req.tokenInfo == 'Error') {
+        return res.render('./errors/error', 
+        {
+        title:'Error',
+        errorName:'La solicitud es invalida',
+        error:'No es posible realizar el cambio de contrasena. Esto puede deberse a que su solicitud caduco.Verifique que su peticion haya sido ralizada hace menos de una hora.',
+        solution:'Para solucionar esto puede realizar una nueva solicitud',
+        link:'Nueva solicitud', 
+        linkHref:'/auth/forgottenPassword', 
+        rol:req.session.userData.Rol
+        });
+    } else {
+        return res.render('./auth/resetPassword',
+        {
+        title:'Reestablecer contrasena',
+        token:req.params.token,
+        info:req.params.i, 
+        rol:req.session.userData.Rol
+        });
+    };
 });
 
+router.post('/resetPassword/:token', authToken, (req,res) =>{
+    const newPassword = req.body.newPassword;
+    const newPassword2 = req.body.newPassword2;
+    if( newPassword == null || newPassword.length < 8 ) {
+        return res.redirect(`./${req.params.token}/6`)
+    } else if( newPassword2 == null || newPassword2.length < 8 || newPassword!=newPassword2) {
+        return res.redirect(`./${req.params.token}/7`)
+    } else {
+        const hash = bcrypt.hashSync(newPassword, 10);
+        connection.query(
+            `UPDATE usuarios SET Passwords = '${hash}' WHERE Id = '${req.userId}';`, err => {
+                if (err) {
+                    console.log(`Ha ocurrido el siguiente error: ${err}`);
+                    res.redirect('/')
+                } else {
+                    console.log('Se ha modificado la contrasena exitosamente.')
+                    res.redirect('../login?i=13')
+                };
+            }
+        );
+    };
+});
 
 router.post('/forgottenPassword', ({body},res) => {
     const email = body.email;
     connection.query(
-        `SELECT Confirmado FROM usuarios WHERE Email = '${email}';`, (err,result) => {
+        `SELECT Id, Confirmado FROM usuarios WHERE Email = '${email}';`, (err,result) => {
             if (!err) {
                 if(result.length > 0) {
                     if(result[0].Confirmado == 1){
-                        sendEmail(email,'resetPassword')
-                        return res.redirect('./forgottenPassword?i=10')    
+                        const userId = result[0].Id; 
+                        const createToken = (id) => {
+                            const secretKey = config.TOKEN_SECRET_KEY;
+                            const payload = {
+                                sub: id,
+                                iat: moment().unix(),
+                                exp: moment().add(3600, 'seconds').unix(),
+                            };
+                            return jwt.encode(payload,secretKey);
+                        };
+                        const token = createToken(userId);
+                        sendEmail(email,'resetPassword',token)
+
+                        return res.redirect('./login?i=10')    
                     } else {
-                        return res.redirect('./forgottenPassword?i=11')
+                        return res.redirect('./login?i=11')
                     }
                 } else  {
                     return res.redirect('./forgottenPassword?i=12')

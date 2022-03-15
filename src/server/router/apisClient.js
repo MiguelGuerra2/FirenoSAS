@@ -3,7 +3,9 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
-const connection = require('../db');
+
+
+const connection = require('../utils/db');
 const {authApiClient} = require('./authMiddlewords');
 
 router.get('/getCoordsRealTime',authApiClient,(req,res) => {

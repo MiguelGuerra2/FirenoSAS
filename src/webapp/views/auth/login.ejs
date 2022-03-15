@@ -2,7 +2,7 @@
 <div class="row mx-auto d-flex flex-column py-4 formsContainer">
     <div class="col-11 col-md-4 mx-auto rounded p-4 border" style="background-color: white;">
         <h1>Login</h1>
-        <form action="/auth/login" method="post" id="form">
+        <form class="needs-validation" action="/auth/login" method="post" id="form">
             <div class="form-floating mb-3">
                 <input type="email" 
                 name="email" 
@@ -15,7 +15,7 @@
                 required>
                 <label for="email">Email</label>
             </div>
-            <div class="form-floating mb-3">
+            <div class="form-floating mb-3 position-relative">
                 <input 
                 type="password" 
                 name="password" 
@@ -26,7 +26,7 @@
                 onkeyup=validateInput(password)
                 required>
                 <label for="password">Contrasena</label>
-                <div class="invalid-feedback">La contrasena debe contener entre 8-20 caracteres.</div>
+                <div class="invalid-tooltip">La contrasena debe contener entre 8-20 caracteres.</div>
             </div>
             <div class="form-check my-3 ps-0">
                 <input type="checkbox" value="" id="flexCheckChecked" checked>
@@ -39,7 +39,7 @@
             </div>    
         </form>    
         <div class="col-12 d-flex my-3">
-            <a href="/auth/forgottenPassword" class="mx-auto text-center darkColor">Olvidaste tu contrasena?</a>           
+            <a href="/auth/forgottenPassword" class="mx-auto text-center darkColor">¿Olvidaste tu contrasena?</a>           
         </div>         
     </div>
 </div>    

@@ -11,7 +11,7 @@ const authUser = (req,res,next) => {
             return next();
         } else {
             session.destroy();
-            return res.render('./homes/home',{title:'Inicio',info:9});
+            return res.render('./homes/home',{title:'Inicio',info:9, rol:req.session.userData.Rol});
         }
     }else {
         return res.render('./homes/home',{title:'Inicio'});
@@ -20,9 +20,9 @@ const authUser = (req,res,next) => {
 
 router.get('/',authUser,(req,res) => {
     if(session.userData.Rol == 3){
-        res.render(`./homes/adminHome`,{title:'Inicio'});
+        return res.render(`./homes/adminHome`,{title:'Inicio', rol:req.session.userData.Rol});
     } else {
-        res.render('./homes/clientHome',{title:'Inicio'});
+        return res.render('./homes/clientHome',{title:'Inicio', rol:req.session.userData.Rol});
     }
 });
 

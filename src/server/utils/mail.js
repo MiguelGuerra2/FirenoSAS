@@ -1,8 +1,8 @@
 const sgMail = require('@sendgrid/mail')
-sgMail.setApiKey()
+sgMail.setApiKey('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');
 
 let subject, title, text1, text2, link,linkText;
-const sendEmail = (reciver, msg) => {
+const sendEmail = (reciver, msg, token) => {
     if (msg == 'confirmation') {
         subject = 'Cuenta creada exitosamente';
         title = 'Cuenta creada exitosamente'
@@ -16,7 +16,7 @@ const sendEmail = (reciver, msg) => {
         title = 'Reestablecer contrasena'
         text1 = `Estimado usuario, se solicito un reestablecimiento de contrasena para tu cuenta ${reciver}.`;
         text2 =`Por favor, has click en el boton que aparece a continuacion para cambiar tu contrasena.`;
-        link = 'http://localhost:3000/tools/resetPassword';
+        link = `http://localhost:3000/auth/resetPassword/${token}`;
         linkText = 'Cambiar contrasena'
     };
 

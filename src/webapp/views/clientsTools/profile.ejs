@@ -26,11 +26,11 @@
 
     <form action="/apiClient/updateInfo" method="post">
         <label for="oldPassword">Ingrese la contrasena actual</label>
-        <input type="text" name="oldPassword" id="oldPassword"><br>
+        <input type="text" name="oldPassword" id="oldPassword" required><br>
         <label for="newPassword">Ingrese la nueva contrasena</label>
-        <input type="text" name="newPassword" id="newPassword"><br>
+        <input type="text" name="newPassword" id="newPassword" required><br>
         <label for="newPassword2">Confirme la nueva contrasena</label>
-        <input type="text" name="newPassword2" id="newPassword2"><br>
+        <input type="text" name="newPassword2" id="newPassword2" required><br>
         <input type="hidden" name="id" id="id" value="<%= session.Id %> ">
         <input type="submit" value="Cambiar contrasena">
     </form>

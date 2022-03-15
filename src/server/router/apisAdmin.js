@@ -1,11 +1,15 @@
 'use estrict';
 
+//External imports
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
-const connection = require('../db');
+
+//Local imports
+const connection = require('../utils/db');
 const {authApiAdmin} = require('./authMiddlewords');
 
+//Get all users and machines info
 router.get('/getElements',authApiAdmin,(req,res) => {
     if (req.query.q == 1) {
         connection.query(
@@ -31,6 +35,8 @@ router.get('/getElements',authApiAdmin,(req,res) => {
         )
     };
 });
+
+//Get all info from specific user
 router.get('/getElement',authApiAdmin,(req,res) => {
     const id = req.query.id;
     connection.query(
@@ -45,6 +51,7 @@ router.get('/getElement',authApiAdmin,(req,res) => {
     )
 });
 
+//Create a new user
 router.post('/createUser',authApiAdmin,({body},res) => {
     const nombre = body.name;
     const apellido = body.lastname;
@@ -96,6 +103,7 @@ router.post('/createUser',authApiAdmin,({body},res) => {
     );    
 });
 
+//Update user info
 router.post('/updateUser',authApiAdmin,(req,res) => {
     let session = req.session;
     const id = req.body.id;
@@ -113,7 +121,7 @@ router.post('/updateUser',authApiAdmin,(req,res) => {
     if ((nuevaEmpresa != null && nuevaEmpresa != undefined) && nuevaEmpresa != ''){
         queryTxt += `Empresa = '${nuevaEmpresa}',`;
     }
-    if ((nuevoRol != null && nuevoNombre != undefined) && nuevoRol != 0 && nuevoRol != ''){
+    if ((nuevoRol != null && nuevoRol != undefined) && nuevoRol != 0 && nuevoRol != ''){
         queryTxt += `Rol = '${nuevoRol}',`;
     }
     queryTxt += `Id = ${id} WHERE Id = '${id}';`;
@@ -144,6 +152,7 @@ router.post('/updateUser',authApiAdmin,(req,res) => {
     );
 });
 
+//Confirm user account
 router.get('/confirmUser',authApiAdmin,(req,res) => {
     const id = req.query.id;
     connection.query(
@@ -173,6 +182,7 @@ router.get('/confirmUser',authApiAdmin,(req,res) => {
     );
 });
 
+//Delete specific user
 router.get('/deleteUser',authApiAdmin,(req,res) => {
     const id = req.query.id;
     connection.query(`DELETE FROM usuarios WHERE Id = ${id}`,(err,result) => {
@@ -186,6 +196,7 @@ router.get('/deleteUser',authApiAdmin,(req,res) => {
     )
 });
 
+//Create a new machine
 router.post('/createMachine',authApiAdmin,({body},res) => {
     const numero = body.number;
     const referencia = body.reference;
@@ -231,6 +242,7 @@ router.post('/createMachine',authApiAdmin,({body},res) => {
     );    
 });
 
+//Update machine info
 router.post('/updateMachine',authApiAdmin,({body},res) => {
     const id = body.id;
     const nuevoNumero = body.number;
@@ -260,6 +272,7 @@ router.post('/updateMachine',authApiAdmin,({body},res) => {
     );
 });
 
+//Delete specific machine
 router.get('/deleteMachine',authApiAdmin,(req,res) => {
     const id = req.query.id;
     connection.query(`DELETE FROM equipos WHERE Id = ${id}`,(err,result) => {
