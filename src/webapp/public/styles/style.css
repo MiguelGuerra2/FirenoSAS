@@ -22,6 +22,7 @@ body::-webkit-scrollbar-thumb {
 }
 .wraperDiv {
     overflow-x: hidden;
+    height: auto;
 }
 .curveContainer {
     border-radius: 50px;
@@ -223,7 +224,9 @@ body::-webkit-scrollbar-thumb {
     .midText {
         font-size: 18px;
     }  
-      
+    #mapContainer {
+        height: calc(100vh - 80px);
+    }
 }
 
 

@@ -15,7 +15,8 @@ const config = {
   BD_NAME: process.env.BD_NAME,
   BD_USER: process.env.BD_USER,
   BD_PASSWORD: process.env.BD_PASSWORD,
-  TOKEN_SECRET_KEY: process.env.TOKEN_SECRET_KEY
+  TOKEN_SECRET_KEY: process.env.TOKEN_SECRET_KEY,
+  SG_MAIL_KEY: process.env.SG_MAIL_KEY
 };
 
 module.exports = config;
