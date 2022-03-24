@@ -1,14 +1,14 @@
 :root{
-    --graybg:#eeeeee;
-    --graymid: #e3e4e6;
-    --grayLight: #d4d4d4;
+    --graybg:#f7f7f7;
+    --graymid: #ededee;
+    --grayLight: #e4e4e4;
     --mainColor: #CF1B1B;
     --darkGray:#212529;
 }
 body{
-    font-family: 'ubuntu', serif;
+    font-family: 'Roboto', sans-serif;
     background-color: var(--graybg);
-    margin-top: 60px !important;
+    margin-top: 64px !important;
 }
 body::-webkit-scrollbar {
     width: 10px;
@@ -17,6 +17,16 @@ body::-webkit-scrollbar-track {
     border-radius: 10px;
 }
 body::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color:#bebebe;
+}
+div::-webkit-scrollbar {
+    width: 10px;
+}
+div::-webkit-scrollbar-track {
+    border-radius: 10px;
+}
+div::-webkit-scrollbar-thumb {
     border-radius: 10px;
     background-color:#bebebe;
 }
@@ -29,6 +39,16 @@ body::-webkit-scrollbar-thumb {
     background: #eeeeee;
     box-shadow:  20px 20px 60px #cacaca,
                 -20px -20px 60px #ffffff;
+}
+.vehicleContainer {
+    height: auto;
+    width: 50%;
+    min-width: 300px;
+    background-color: var(--graymid);
+    border-radius: 25px;
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
 }
 .bgGray {
     background-color: var(--graybg)
@@ -75,11 +95,23 @@ body::-webkit-scrollbar-thumb {
     background-color: transparent;
     display: none;
 }
-.logoContainer img {
-    height: 45px;
+.nav-link {
+    position: relative;
 }
-#logo {
+.navIcon {
+    margin-right: 10px;
+    height: 18px;
+    top: 11px;
+    right: 90%;
+    filter: invert(49%) sepia(11%) saturate(401%) hue-rotate(167deg) brightness(88%) contrast(83%);
+}
+#logo1 {
+    height: 45px;
+    width: 120px;
+}
+#logo2 {
     height: 40px;
+    width: 100px;
 }
 .navcontainer {
     height: 60px;
@@ -87,6 +119,7 @@ body::-webkit-scrollbar-thumb {
 .navbar {
     z-index: 100;
     box-sizing: border-box;
+    height: 64px;
 }
 .nav-link:hover {
     transform: scale(1.1);
@@ -116,8 +149,23 @@ body::-webkit-scrollbar-thumb {
 .infoFlexContainer {
     filter: grayscale(100%);
 }
-.infoContainer {
-    margin-top: 30px;
+#infoContainer {
+    width: 100%;
+}
+.vehicleInfoRecord {
+    box-sizing: content-box;
+    height: 190px;
+    overflow-y: hidden;
+    transition: height 0.5s linear;
+    width: 100%;
+}
+#vehicleContainer > .vehicleInfoRecord {
+    min-width: 100%;
+    scroll-snap-align: start;
+}   
+#vehicleContainer > .viewAllContainer {
+    min-width: 100%;
+    scroll-snap-align: start;
 }
 .infoDiv {
     position: relative;
@@ -145,7 +193,7 @@ body::-webkit-scrollbar-thumb {
     flex-direction: column-reverse;
 }
 .formsContainer {
-    background-image: linear-gradient(45deg, #eceff1 49.02%, #d9dbdd 49.02%, #d9dbdd 50%, #eceff1 50%, #eceff1 99.02%, #d9dbdd 99.02%, #d9dbdd 100%);
+    background-image: linear-gradient(45deg, #f5f5f5 49.02%, #e7e7e7 49.02%, #e7e7e7 50%, #f5f5f5 50%, #f5f5f5 99.02%, #e7e7e7 99.02%, #e7e7e7 100%);
     background-size: 72.12px 72.12px;
 }
 .toolsDiv {
@@ -157,10 +205,88 @@ body::-webkit-scrollbar-thumb {
     padding: 0;
     margin: 20px auto;
 }
+#mapContainer {
+    width:100vw;
+    min-height:calc(100vh - 311px);
+}
+.vehicleTool {
+    flex-wrap: wrap;
+}
+.textLabel {
+    width: 60%;
+    display: inline-block;
+    margin: 5px;
+    font-weight: bold;
+    padding-left: 30px;
+}
+.textInfo {
+    text-align: center;
+    margin: 5px;
+    width: 30%;
+    display: inline-block;
+}
+#eye {
+    width: 25px;
+}
+.alertsInfo {
+    display:flex;
+    flex-direction: column;
+    width: 35px;
+    height: auto;
+    background-color: rgb(170, 170, 170);
+    margin: 0 5px;
+    border-radius:20px;
+    justify-content: center;
+    align-items: center;
+}
+.alerts {
+    margin: 0 auto;
+    text-align: center;
+}
+.alertImage {
+    width: 12px;
+    height: 12px;
+    padding-top: 6px;
+    box-sizing: content-box;
+}
+.noAlertNotification {
+    width:20px;
+    height:20px;
+    margin:8px 0;
+    filter: invert(24%) sepia(85%) saturate(6350%) hue-rotate(155deg) brightness(101%) contrast(80%);
+}
+.alertNotification {
+    width:20px;
+    height:20px;
+    margin:8px 0;
+    filter: invert(32%) sepia(64%) saturate(2266%) hue-rotate(332deg) brightness(87%) contrast(98%);
+}
+.arrowDown {
+    width:25px;
+    margin: 10px auto;
+    transition: transform .7s linear;
+    filter: invert(9%) sepia(8%) saturate(1091%) hue-rotate(169deg) brightness(94%) contrast(96%);
+}
+.arrowDown:hover {
+    cursor: pointer;
+    filter: none;
+}
+.vehicleButtonRecord {
+    display: none;
+}
 
+.chromeInput::-webkit-calendar-picker-indicator{
+    background-image: url('../images/calendar.svg');
+}
+.mozillaInput {
+    background-image: url('../images/calendar.svg');    
+    background-repeat: no-repeat;
+    background-position: 95%;
+}
 @media (min-width: 992px) {
     body{
-        margin-top: 120px !important;
+        margin-top: 64px !important;
+        height: calc(100vh - 64px); 
     }
     .navbar{
         height: auto;
@@ -173,6 +299,7 @@ body::-webkit-scrollbar-thumb {
     .divHomeContainer {
         position: relative;
         height: 410px;
+        margin-top:63px;
     }
     .homeDiv{
         height: 300px;
@@ -198,8 +325,11 @@ body::-webkit-scrollbar-thumb {
         right: 0;
         text-align: center;
     }
-    .infoContainer {
+    .infoContainerHome {
         margin-top: 120px;
+    }
+    #infoContainer {
+        width: 400px;
     }
     .infoFlexContainer:nth-child(2n) {
         border-radius: 8px 8px 150px 8px;
@@ -225,7 +355,64 @@ body::-webkit-scrollbar-thumb {
         font-size: 18px;
     }  
     #mapContainer {
-        height: calc(100vh - 80px);
+        height: calc(100vh - 66px);
+        width: calc(100vw - 400px);
+    }
+    .vehicleContainer {
+        display: block;
+        height: calc(100%);
+        max-height: 80vh;
+        min-height: 300px;
+        width: 350px;
+        min-width: auto;
+        overflow-y: auto;
+    }
+    #vehicleContainer > .vehicleInfo {
+        min-width: 100%;
+        scroll-snap-align: none;
+    }   
+    #vehicleContainer > .viewAllContainer {
+        min-width: 100%;
+        scroll-snap-align: none;
+    }
+    .vehicleTool {
+        flex-wrap: nowrap;
+    }
+    .vehicleInfo {
+        background-color: var(--grayLight);
+        margin: 20px auto;
+        width: 100%;
+        padding: 10px 0;
+        border-radius: 15px;
+        display: flex;
+        flex-wrap: wrap;
+        overflow-y: auto;
+    }
+    .vehicleInfo:hover {
+        outline: 3px solid #353735;
+    }
+    .vehicleInfoActive {
+        outline: 3px solid #353735;
+    }
+    .vehicleInfoRecord {
+        background-color: var(--grayLight);
+        margin: 20px auto;
+        width: 100%;
+        padding: 10px 0;
+        border-radius: 15px;
+        display: flex;
+        flex-wrap: wrap;
+        transition: height 0.5s;
+    }
+    .vehicleInfoRecord:hover {
+        outline: 3px solid #353735;
+    }
+    .vehicleInfoRecordActive {
+        outline: 3px solid #353735;
+    }
+
+    .formsContainer {
+        margin-top: 63px;
     }
 }
 

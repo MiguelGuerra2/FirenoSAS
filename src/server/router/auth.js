@@ -106,7 +106,7 @@ router.post('/login', (req,res) => {
 });
 
 router.get('/logout',authUser,(req,res) => {
-    session.destroy();
+    req.session.destroy();
     res.redirect('../');    
 });
 

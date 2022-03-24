@@ -52,7 +52,7 @@ router.get('/getCoordsRecord',authApiClient,(req,res) => {
 
 router.post('/updateInfo',authApiClient,(req,res) => {
     const id = req.body.id;
-    const nuevoNombre = req.body.name;
+    const nuevoNombre = req.body.newName;
     const nuevoApellido = req.body.lastname;
     const oldPassword = req.body.oldpassword;
     const newPassword = req.body.newpassword;

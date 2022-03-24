@@ -77,7 +77,7 @@ router.get('/realTime', authApiClient, (req,res) =>{
 });
 
 router.get('/record', authApiClient, (req,res) =>{ 
-    return res.render('./clientsTools/record',{tite:'Historial', rol:req.session.userData.Rol, imglogo:1});
+    return res.render('./clientsTools/record',{title:'Historial', rol:req.session.userData.Rol, imglogo:1});
 });
 
 module.exports = router;

@@ -1,4 +1,49 @@
-<!DOCTYPE html>
+<%- include('../partials/header.ejs'); %> 
+<div class="d-flex col-12 mx-0 h-100 vehicleTool">
+    <div class="d-flex flex-column align-items-center px-0 py-4" id="infoContainer">
+      <div class="my-2 d-flex d-lg-none mx-auto align-items-center">
+        <input id="searchInput" name="searchInput" type="search" class="ps-2 rounded border-0 col-10 py-1 mx-2" placeholder="Ej: 123" aria-label="Search" aria-describedby="search-addon" onkeyup="search(this)"/>
+        <p id="searchInput" class="mt-3" style="cursor: pointer;"><img src="/icons/search.svg" alt="search"/></p>
+      </div>
+      <div class="vehicleContainer mx-auto p-0 p-lg-3" id="vehicleContainer">
+        <div class="d-flex flex-column mb-1 viewAllContainer">
+          <h1 class="fs-4 text-center d-none d-lg-block">Lista de vehiculos</h1>
+          <div class="container my-2 d-none d-lg-block">
+            <input id="searchInput" name="searchInput" type="search" class="ps-2 rounded border-0 col-10 d-inline-block py-1 mx-2" placeholder="Ej: 123" aria-label="Search" aria-describedby="search-addon" onkeyup="search(this)"/>
+            <p id="searchInput" class="d-inline-block" style="cursor: pointer;"><img src="/icons/search.svg" alt="search"/></p>
+          </div>
+          <a title="Visualizar todos los marcadores" class="mx-auto ms-lg-1 my-0 col-1" id="viewAll" style="cursor: pointer"><img src="/icons/eye.svg" id="eye" alt="view"></a>
+        </div>
+      </div> 
+    </div>
+    <div class="ms-auto px-0" id="mapContainer">
+        <div id="map" class="h-100 w-100" style="width: auto;"></div>
+    </div>
+
+</div>
+<script>
+  const map = L.map('map').setView([4, -74], 5);
+  L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoicHJhY3RpY2FudGVmaXJlbm8iLCJhIjoiY2wwaWx1bG56MDN2YzNrcjVxcm5pZG5hMSJ9.45Wt5JTHi42NZgVOIU5S_g', {
+    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+    maxZoom: 18,
+    id: 'mapbox/streets-v11',
+    tileSize: 512,
+    zoomOffset: -1,
+    accessToken: 'your.mapbox.access.token'
+}).addTo(map);
+</script>
+<script src="/scripts/activePage.js"></script>
+<script src="/scripts/record.js"></script>
+<script src="/scripts/filter.js"></script>
+<script src="/scripts/search.js"></script>
+
+</body>
+</html>
+
+
+
+
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -68,4 +113,4 @@
    </script>
    <script src="/scripts/record.js"></script>
 </body>
-</html>
+</html> -->

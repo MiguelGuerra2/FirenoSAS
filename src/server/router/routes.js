@@ -22,7 +22,7 @@ router.get('/',authUser,(req,res) => {
     if(session.userData.Rol == 3){
         return res.render(`./homes/adminHome`,{title:'Inicio', rol:req.session.userData.Rol});
     } else {
-        return res.render('./homes/clientHome',{title:'Inicio', rol:req.session.userData.Rol});
+        return res.render('./homes/home',{title:'Inicio', rol:req.session.userData.Rol});
     }
 });
 
