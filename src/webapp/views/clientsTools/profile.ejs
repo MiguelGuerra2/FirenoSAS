@@ -1,27 +1,27 @@
 
 <%- include('../partials/header.ejs'); %> 
 <div class="row mx-auto d-flex flex-column py-4 formsContainer">
-    <div class="col-11 col-md-5 mx-auto rounded p-4 border" style="background-color: white;">
+    <div class="col-11 col-md-6 mx-auto rounded p-4 border" style="background-color: white;">
         <h1 class="fs-3 text-center fw-bold">Informacion de la cuenta</h1>
         <div class="container border border-2 rounded py-3 px-3 px-md-5">
             <div class="d-flex mb-3">
                 <img class="col-3 col-md-2 mx-auto" src="/icons/profileHeader.svg" alt="">
             </div>
             <p class="mb-1 fw-bold">Nombre completo:</p>
-            <p class="text-center mx-auto mb-2"><%= session.Nombre %> <%= session.Apellido %></p>
+            <p class="text-center mx-auto mb-2 fw-light"><%= session.Nombre %> <%= session.Apellido %></p>
             <p class="mb-1 fw-bold">Empresa:</p>
-            <p class="text-center mx-auto mb-2"><%= session.Empresa %> </p>
+            <p class="text-center mx-auto mb-2 fw-light"><%= session.Empresa %> </p>
             <p class="mb-1 fw-bold">Email:</p>
-            <p class="text-center mx-auto mb-2"><%= session.Email %> </p> 
+            <p class="text-center mx-auto mb-2 fw-light"><%= session.Email %> </p> 
             <p class="mb-1 fw-bold">Tipo de usuario:</p>
             <% if (session.Rol == 1) { %> 
-                <p class="text-center mx-auto mb-1">Cliente</p> 
+                <p class="text-center mx-auto mb-1 fw-light">Cliente</p> 
             <% } else if (session.Rol == 2) { %> 
-                <p class="text-center mx-auto mb-1">Administrador</p>
+                <p class="text-center mx-auto mb-1 fw-light">Administrador</p>
             <% } %> 
             <div class="d-flex flex-wrap mt-3">
-                <a type="button" class="btn btn-secondary text-center mx-auto my-2" style="font-size: 13px;" href="#" data-bs-toggle="modal" data-bs-target="#infoModal">Actualizar informacion</a>
-                <a type="button" class="btn btn-secondary text-center mx-auto my-2" style="font-size: 13px;" href="#" data-bs-toggle="modal" data-bs-target="#passwordModal">Cambiar contrasena</a>
+                <a type="button" class="btn btn-secondary text-center mx-auto my-2" style="font-size: 15px;" href="#" data-bs-toggle="modal" data-bs-target="#infoModal">Actualizar informacion</a>
+                <a type="button" class="btn btn-secondary text-center mx-auto my-2" style="font-size: 15px;" href="#" data-bs-toggle="modal" data-bs-target="#passwordModal">Cambiar contrasena</a>
             </div>
         </div>
     </div>
@@ -85,6 +85,7 @@
         </div>
         <div class="modal-body">
             <form action="/apiClient/updateInfo" method="post">
+                <input type="hidden" id="id" name="id" value="<%= session.Id %> ">                  
                 <div class="form-floating mb-3">
                     <input 
                     type="password" 
@@ -124,62 +125,47 @@
                     placeholder="password"
                     onkeyup=validateInput(newPassword2)
                     required>
-                    <label for="pass2">Confirmar contrasena</label>
+                    <label for="pass2">Confirmar contrasena</label> 
                     <div class="invalid-tooltip">La contrasena debe contener entre 8-20 caracteres.</div>
                 </div>
                 
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                  <a type="button" id="deleteButton" class="btn btn-success">Actualizar contrasena</a>
+                  <input id="updateButton" type="submit" value="Actualizar contrasena" class="btn btn-primary">                
                 </div>
             </form>
         </div>
-
       </div>
     </div>
 </div>
+<% if(typeof info!='undefined') { %>
+    <div class="modal fade" id="info2Modal" tabindex="-1" aria-labelledby="info2ModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="info2ModalLabel">Lo sentimos...</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <% if (info == 0) { %>
+              <p>La contrasena actual es incorrecta.</p>
+            <% } else if (info == 1) { %>
+              <p>Las contrasenas no coinciden.</p>
+            <% } %>  
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Entendido</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      const myModal = new bootstrap.Modal(document.getElementById("info2Modal"), {});
+      document.onreadystatechange = function () {
+        myModal.show();
+    };
+    </script>
+<% } %> 
 
 <%- include('../partials/footer.ejs'); %> 
-
-
-
-
-<!-- %- include('../partials/header.ejs'); %> 
-    % if (modal == 1) { %> 
-        <div style="height: 30px; background-color: rgb(133, 255, 133); color: whitesmoke;">Sus datos han sido actualizados exitosamente.</div>
-    % } %> 
-    % if (modal == 2) { %> 
-        <div style="height: 30px; background-color: rgb(253, 155, 155); color: whitesmoke;">Ha ocurrido un error al realizar la actualizacion.</div>
-    % } %> 
-    <p>%= session.Nombre %> </p>
-    <p>%= session.Apellido %> </p>
-    <p>%= session.Empresa %> </p>
-    <p>%= session.Email %> </p>
-    <p>%= session.Rol %> </p>
-    <br>
-    <a href="#">Modificar informacion personal</a>
-    <br>
-    <a href="#">Cambiar contrasena</a>
-
-    <form action="/apiClient/updateInfo" method="post">
-        <label for="name">Nombre</label>
-        <input type="text" name="name" id="name"><br>
-        <label for="lastname">Apellido</label>
-        <input type="text" name="lastname" id="lastname"><br>
-        <input type="hidden" name="id" id="id" value="%= session.Id %> ">
-        <input type="submit" value="Actualizar informacion">
-    </form>
-
-    <form action="/apiClient/updateInfo" method="post">
-        <label for="oldPassword">Ingrese la contrasena actual</label>
-        <input type="text" name="oldPassword" id="oldPassword" required><br>
-        <label for="newPassword">Ingrese la nueva contrasena</label>
-        <input type="text" name="newPassword" id="newPassword" required><br>
-        <label for="newPassword2">Confirme la nueva contrasena</label>
-        <input type="text" name="newPassword2" id="newPassword2" required><br>
-        <input type="hidden" name="id" id="id" value="%= session.Id %> ">
-        <input type="submit" value="Cambiar contrasena">
-    </form>
-
-</body>
-</html> -->

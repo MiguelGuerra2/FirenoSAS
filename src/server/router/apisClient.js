@@ -54,31 +54,30 @@ router.post('/updateInfo',authApiClient,(req,res) => {
     const id = req.body.id;
     const nuevoNombre = req.body.newName;
     const nuevoApellido = req.body.lastname;
-    const oldPassword = req.body.oldpassword;
-    const newPassword = req.body.newpassword;
-    const newPassword2 = req.body.newpassword2;
+    const oldPassword = req.body.oldPassword;
+    const newPassword = req.body.newPassword;
+    const newPassword2 = req.body.newPassword2;
     let session = req.session;
     let hash;
-    
     if (id == session.userData.Id){
         let queryTxt =`UPDATE usuarios SET `;
-        if ((nuevoNombre != null && nuevoNombre != undefined) && nuevoNombre != ''){
+        if (nuevoNombre){
             queryTxt += `Nombre = '${nuevoNombre}',`;
         }
-        if ((nuevoApellido != null && nuevoApellido != undefined) && nuevoApellido != ''){
+        if (nuevoApellido){
             queryTxt += `Apellido = '${nuevoApellido}',`;
         }
-        if ((newPassword != null && newPassword != undefined) && newPassword != ''){
+        if (newPassword){
             const isValidPass = bcrypt.compareSync(oldPassword, session.userData.Passwords);
             if( isValidPass ){
                 if (newPassword == newPassword2) {
                     hash = bcrypt.hashSync(newPassword, 10);
-                    queryTxt += `Password = '${hash}',`;
+                    queryTxt += `Passwords = '${hash}',`;
                 } else {
-                    console.log('Las contrasenas no coinciden');
+                    return res.redirect('/tools/profile?info=2');
                 }
             } else {
-                console.log('La contrasena actual es incorrecta')
+                return res.redirect('/tools/profile?info=1');
             };
         }
         queryTxt += `Id = ${id} WHERE Id = '${id}';`;

@@ -22,7 +22,7 @@ const oneMonth = 1000 * 60 * 60 * 24 * 30;
 
 //session middleware
 app.use(sessions({
-    secret: "thisismysecrctekeyfhrgfgrfrty84fwir767",
+    secret: process.env.SECRET_SESSION,
     saveUninitialized:true,
     cookie: { maxAge: oneMonth },
     resave: false
@@ -39,8 +39,10 @@ app.use(express.static('../webapp/public'));
 app.use('/', require('./router/routes'));
 app.use('/auth', require('./router/auth'));
 app.use('/tools', require('./router/tools'));
+app.use('/certificates', require('./router/certificates'));
 app.use('/apiAdmin', require('./router/apisAdmin'));
 app.use('/apiClient', require('./router/apisClient'));
+app.use('/apiCertificate', require('./router/apisCertificate'));
 
 app.use((req, res, next) => {
     //Handle 404 Status

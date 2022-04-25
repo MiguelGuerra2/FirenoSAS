@@ -34,12 +34,6 @@ div::-webkit-scrollbar-thumb {
     overflow-x: hidden;
     height: auto;
 }
-.curveContainer {
-    border-radius: 50px;
-    background: #eeeeee;
-    box-shadow:  20px 20px 60px #cacaca,
-                -20px -20px 60px #ffffff;
-}
 .vehicleContainer {
     height: auto;
     width: 50%;
@@ -80,10 +74,13 @@ div::-webkit-scrollbar-thumb {
     color: var(--mainColor);
 }
 .active-link {
-    border-bottom: 2px solid var(--mainColor);
+    border-bottom: 2px solid #48577B;
 }
 .borderTop {
     border-top: 5px solid var(--mainColor);
+}
+.toolTitle {
+    border-bottom: 3px solid #48577B;
 }
 #header {
     width: 100vw;
@@ -94,6 +91,11 @@ div::-webkit-scrollbar-thumb {
     position: fixed;
     background-color: transparent;
     display: none;
+}
+#eye {
+    filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(325deg) brightness(103%) contrast(102%);
+    margin-left: 0;
+    width: 25px;
 }
 .nav-link {
     position: relative;
@@ -131,9 +133,9 @@ div::-webkit-scrollbar-thumb {
 }
 .homeDiv{
     position: relative;
-    height: 321px;
+    height: auto;
     background-color: var(--graybg);
-    border: 1px solid rgb(189, 189, 189);
+    padding-top: 5px;
     opacity: 0;
 }
 .homeCardImage {
@@ -148,17 +150,27 @@ div::-webkit-scrollbar-thumb {
 }
 .infoFlexContainer {
     filter: grayscale(100%);
+    max-width: 1320px;
 }
 #infoContainer {
     width: 100%;
 }
 .vehicleInfoRecord {
     box-sizing: content-box;
-    height: 190px;
+    height: 240px;
     overflow-y: hidden;
     transition: height 0.5s linear;
     width: 100%;
 }
+.vehicleInfo {
+    padding-top: 15px;
+    height: 240px;
+    width: 100%;
+}
+#vehicleContainer > .vehicleInfo {
+    min-width: 100%;
+    scroll-snap-align: start;
+}   
 #vehicleContainer > .vehicleInfoRecord {
     min-width: 100%;
     scroll-snap-align: start;
@@ -169,7 +181,7 @@ div::-webkit-scrollbar-thumb {
 }
 .infoDiv {
     position: relative;
-    height: 250px;
+    height: 300px;
     border-radius: 10px 10px 0 0;
     background-position: center;
     background-repeat: no-repeat;
@@ -207,34 +219,33 @@ div::-webkit-scrollbar-thumb {
 }
 #mapContainer {
     width:100vw;
-    min-height:calc(100vh - 311px);
+    min-height:calc(100vh - 430px);
 }
 .vehicleTool {
     flex-wrap: wrap;
 }
 .textLabel {
-    width: 60%;
+    width: 40%;
     display: inline-block;
-    margin: 5px;
+    margin: 5px auto;
     font-weight: bold;
-    padding-left: 30px;
+    padding-left: 5%;
 }
 .textInfo {
     text-align: center;
-    margin: 5px;
-    width: 30%;
+    margin: 5px auto;
+    width: 40%;
     display: inline-block;
+    overflow-wrap: break-word;
 }
-#eye {
-    width: 25px;
-}
+
 .alertsInfo {
     display:flex;
     flex-direction: column;
     width: 35px;
     height: auto;
     background-color: rgb(170, 170, 170);
-    margin: 0 5px;
+    margin: 5px 8px;
     border-radius:20px;
     justify-content: center;
     align-items: center;
@@ -274,19 +285,48 @@ div::-webkit-scrollbar-thumb {
 .vehicleButtonRecord {
     display: none;
 }
+.vehicleButton {
+    background-color: #48577B;
+    color: #fff;
+    transition: all 0.5s;
+}
+.vehicleButton:hover {
+    color: #fff;
+    transform: scale(1.1);
+}
 
 .chromeInput::-webkit-calendar-picker-indicator{
-    background-image: url('../images/calendar.svg');
+    background-image: url('../icons/calendar.svg');
 }
 .mozillaInput {
-    background-image: url('../images/calendar.svg');    
+    background-image: url('../icons/calendar.svg');    
     background-repeat: no-repeat;
     background-position: 95%;
+}
+.imgVehicle {
+    margin: 0 auto;
+    height: 30px;
+}
+
+#usersColumn {
+    max-height: 90vh;
+    overflow-y: auto;
+}
+.divUsers {
+    border-radius: 15px;
+    border: 1px solid rgb(199, 198, 198);
+}
+
+.active > .navIcon {
+    filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(93deg) brightness(103%) contrast(103%);
+}
+
+.toolsDiv > h4 {
+    min-height: 72px;
 }
 @media (min-width: 992px) {
     body{
         margin-top: 64px !important;
-        height: calc(100vh - 64px); 
     }
     .navbar{
         height: auto;
@@ -300,6 +340,9 @@ div::-webkit-scrollbar-thumb {
         position: relative;
         height: 410px;
         margin-top:63px;
+    }
+    #eye {
+        margin-left: 0;
     }
     .homeDiv{
         height: 300px;
@@ -366,19 +409,18 @@ div::-webkit-scrollbar-thumb {
         width: 350px;
         min-width: auto;
         overflow-y: auto;
+        scroll-snap-type: none;
     }
     #vehicleContainer > .vehicleInfo {
         min-width: 100%;
-        scroll-snap-align: none;
+        scroll-snap-align: start;
     }   
-    #vehicleContainer > .viewAllContainer {
-        min-width: 100%;
-        scroll-snap-align: none;
-    }
     .vehicleTool {
         flex-wrap: nowrap;
+        margin-top: 64px
     }
     .vehicleInfo {
+        height: auto;
         background-color: var(--grayLight);
         margin: 20px auto;
         width: 100%;

@@ -1,6 +1,11 @@
 const infoColumn = document.getElementById('infoColumn');
 const fragment = document.createDocumentFragment();
-const polyline = L.polyline([["0", "0"]], {color: "black"}).addTo(map);
+const polyline = L.polyline([["0", "0"]], {
+    color: "#48577B",
+    weight: 3,
+    opacity: 0.9,
+    smoothFactor: 1
+}).addTo(map);
 let firstLoop = true;
 let markers = {};
 let markersName = 'marcador';
@@ -21,6 +26,7 @@ const createElements = () => {
     elements.divCalendar2 = document.createElement('div')
     elements.divButton = document.createElement('div')
     elements.divArrow = document.createElement('div')
+    elements.divVehicle = document.createElement('div');
 
     elements.p1 = document.createElement('p');
     elements.p2 = document.createElement('p');
@@ -39,6 +45,8 @@ const createElements = () => {
     elements.calendar1 = document.createElement("input");
     elements.calendar2 = document.createElement("input");
 
+    elements.imgVehicle = document.createElement('img');
+
     elements.button = document.createElement('button');
     return elements;
 };
@@ -48,27 +56,32 @@ const assignClasses = (elements) => {
     elements.divCalendar1.classList.add('form-floating','mb-2','form-control','position-relative','p-0')
     elements.divCalendar2.classList.add('form-floating','mb-2','form-control','position-relative','p-0')
     elements.divButton.classList.add('container','flex-column','col-12','vehicleButtonRecord');
-    elements.divArrow.classList.add('d-flex');
+    elements.divArrow.classList.add('d-flex','col-12');
+    elements.divVehicle.classList.add('col-12','mx-0','d-flex');
 
     elements.p1.classList.add('textLabel');
-    elements.p2.classList.add('textInfo');
+    elements.p2.classList.add('textInfo','fw-light');
     elements.p3.classList.add('textLabel');
-    elements.p4.classList.add('textInfo');
+    elements.p4.classList.add('textInfo','fw-light');
     elements.p5.classList.add('textLabel');
-    elements.p6.classList.add('textInfo');
+    elements.p6.classList.add('textInfo','fw-light');
     elements.p7.classList.add('textLabel');
-    elements.p8.classList.add('textInfo');
+    elements.p8.classList.add('textInfo','fw-light');
 
     elements.arrow.classList.add('arrowDown','mx-auto');
     
+    elements.imgVehicle.classList.add('imgVehicle');
+
     elements.label1.classList.add('mt-3');
     elements.calendar1.classList.add('col-12','mx-0','border-0','p-2','rounded','rounded-3');
     elements.calendar2.classList.add('col-12','mx-0','border-0','p-2','rounded','rounded-3');
-    elements.button.classList.add('btn','btn-dark','mx-auto','mt-2');
+    elements.button.classList.add('btn','vehicleButton','mx-auto','mt-2');
+    
     return elements;
 }
 
 const configElements = (elements,info) => {
+    elements.imgVehicle.src = '/icons/truck.svg';
     elements.div.id = info.Numero;
     elements.p1.textContent = 'Numero del equipo:';
     elements.p2.textContent = info.Numero;
@@ -97,6 +110,8 @@ const buildBlock = (info) => {
     let elements = createElements();
     elements = assignClasses(elements);
     elements = configElements(elements,info);
+
+    elements.divVehicle.appendChild(elements.imgVehicle);
     elements.divCalendar1.appendChild(elements.calendar1);
     elements.divCalendar2.appendChild(elements.calendar2);
     elements.divButton.appendChild(elements.label1);
@@ -106,6 +121,7 @@ const buildBlock = (info) => {
     elements.divButton.appendChild(elements.button);
     elements.divArrow.appendChild(elements.arrow);
 
+    elements.div.appendChild(elements.divVehicle);
     elements.div.appendChild(elements.p1);
     elements.div.appendChild(elements.p2);
     elements.div.appendChild(elements.p3);
@@ -122,30 +138,32 @@ const buildBlock = (info) => {
 
 const addListeners = (vehicle,info) => {
     const vehicleArrow = vehicle.lastElementChild;
-    const buttonDiv = vehicle.children[8];
+    const buttonDiv = vehicle.children[9];
     const button = buttonDiv.lastElementChild;
     vehicleArrow.addEventListener('click',()=> {
         const vehicle = document.getElementById(info.Numero);
         const buttonDivs = document.querySelectorAll('.vehicleButtonRecord');
         const vehicleDivs = document.querySelectorAll('.vehicleInfoRecord');
         const arrows = document.querySelectorAll('.arrowDown');
-        if (vehicle.style.height == '412px') {
-            vehicle.style.height = '190px';
+        if (vehicle.style.height == '442px') {
+            vehicle.style.height = '240px';
             buttonDiv.style.display = 'none';
             vehicleArrow.style.transform = 'rotate(0deg)';
         } else {
-            for (let i = 0; i < buttonDivs.length; i++) {                
-                vehicleDivs[i].style.height = '190px';
-                buttonDivs[i].style.display = 'none';
-                arrows[i].style.transform = 'rotate(0deg)';
-            };
-            vehicle.style.height = '412px';
+            vehicle.style.height = '442px';
             buttonDiv.style.display = 'flex';
             vehicleArrow.style.transform = 'rotate(180deg)';
             vehicle.scrollIntoView({
                 behavior: 'smooth'
             });
         }
+        for (let i = 0; i < buttonDivs.length; i++) {  
+            if(vehicleDivs[i] != vehicle) {
+                vehicleDivs[i].style.height = '240px';
+                buttonDivs[i].style.display = 'none';
+                arrows[i].parentNode.style.transform = 'rotate(0deg)';
+            };
+        };
     })
     button.addEventListener('click', () => { 
         recordData(info.Numero,info.Equipo) 

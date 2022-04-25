@@ -1,5 +1,6 @@
 const getElement = (url) => {
-    const pageName = url.split('/').pop();
+    let pageName = url.split('/');
+    pageName[1] == 'auth' || pageName[1] == 'tools' ? pageName = pageName[2] : pageName = pageName[1]; 
     if (pageName == '') {
         const element = document.getElementById('home');
         return element;
@@ -11,4 +12,7 @@ const getElement = (url) => {
 
 const link = window.location.pathname;
 const element = getElement(link);
-element.classList.add('active-link');
+if (element) {
+    element.classList.add('active-link');
+};
+

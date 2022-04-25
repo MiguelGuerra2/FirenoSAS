@@ -11,7 +11,8 @@
     <!-- GoogleFonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,700;1,100&display=swap" rel="stylesheet">  
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,700;1,100&display=swap" rel="stylesheet">
+
 
     <!-- Bootstrap -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.10.2/mdb.min.css" rel="stylesheet"/>
@@ -29,13 +30,15 @@
    crossorigin=""></script>
 
     <!-- Local Imports -->
-    <link rel="stylesheet" href="/styles/style.css">
+    <link rel="stylesheet" href="/styles/certificates.css">
+    <link rel="stylesheet" href="/styles/style.css">    
     <link rel="stylesheet" href="/styles/transitions.css">
     <link rel="shortcut icon" href="/images/logo.ico">
     <title><%= title %></title>
   </head>
   <body>
     <div class="wraperDiv">
+    <% if (typeof header == 'undefined') { %> 
     <header class="fixed-top col-12" id="header">
       <% if (typeof imglogo == 'undefined') { %> 
       <div class="logoContainer row col-12 py-2 mx-0" id="logoContainer">
@@ -54,6 +57,7 @@
               <% if(typeof rol=='undefined') { %> 
                 <a id="tools" class="nav-link redHover px-3 mx-2 my-1" href="/tools"><img class="navIcon" src="/icons/toolsHeader.svg" alt="">Herramientas</a>
                 <a class="nav-link redHover px-3 mx-2 my-1" href="http://www.fireno.com" target="_blank"><img class="navIcon" src="/icons/infoHeader.svg" alt="">Nosotros</a>
+                <a id="certificates" class="nav-link redHover px-3 mx-2 my-1" href="/certificates"><img class="navIcon" src="/icons/certificatesHeader.svg" alt="">Certificados</a>
                 <a id="register" class="nav-link redHover px-3 mx-2 my-1" href="/auth/register"><img class="navIcon" src="/icons/registerHeader.svg" alt="">Registrarme</a>
                 <a id="login" class="nav-link redHover px-3 mx-2 my-1" href="/auth/login"><img class="navIcon" src="/icons/loginHeader.svg" alt="">Iniciar Sesion</a>
               <% } else if (rol == '1' || rol == '2') { %>
@@ -63,7 +67,7 @@
                 <li class="nav-item dropdown">
                   <a class="nav-link dropdown-toggle px-3 mx-2 my-1" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <img class="navIcon" src="/icons/profileHeader.svg" alt="">
-                    Mi perfil
+                    <%= name1 %> 
                   </a>
                   <ul class="dropdown-menu bgGray" aria-labelledby="navbarDropdown">
                     <li><a class="dropdown-item" href="/tools/profile">Configuracion</a></li>
@@ -72,11 +76,12 @@
                   </ul>
                 </li>
               <% } else { %>
-              <a id="users" class="nav-link redHover px-3 mx-2 my-1" href="/tools/users">Usuarios</a>
-              <a id="machines" class="nav-link redHover px-3 mx-2 my-1" href="/tools/machines">Maquinas</a>
+              <a id="users" class="nav-link redHover px-3 mx-2 my-1" href="/tools/users"><img class="navIcon" src="/icons/usersHeader.svg" alt="">Usuarios</a>
+              <a id="machines" class="nav-link redHover px-3 mx-2 my-1" href="/tools/machines"><img class="navIcon" src="/icons/truck.svg" alt="">Maquinas</a>
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle px-3 mx-2 my-1" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  Mi perfil
+                  <img class="navIcon" src="/icons/profileHeader.svg" alt="">
+                  <%= name1 %> 
                 </a>
                 <ul class="dropdown-menu bgGray" aria-labelledby="navbarDropdown">
                   <li><a class="dropdown-item" href="/tools/profile">Cuenta</a></li>
@@ -90,3 +95,4 @@
         </div>
       </nav>
   </header>
+<% } %> 

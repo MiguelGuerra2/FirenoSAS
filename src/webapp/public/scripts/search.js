@@ -2,6 +2,8 @@
 // Search certificates by CC (DNI) 
 const search = (searchInput) => {
     const pageName = window.location.pathname.split('/').pop();
+    let noResultsDiv = document.getElementById('noResults');
+    let machinesFound = 0;
     // Get all machines
     let machines;
     if (pageName == 'realTime') {
@@ -20,10 +22,21 @@ const search = (searchInput) => {
                 // Check if certificate id starts with text on input type search
                 if (element.id.startsWith(searchData)) {
                     element.style.display = 'block';
+                    machinesFound++
                 } else {
                     element.style.display = 'none';
                 };
             };
         });
+        if (machinesFound == 0) {
+            noResultsDiv.classList.remove('d-none');
+            noResultsDiv.classList.add('d-block');
+        } else {
+            noResultsDiv.classList.remove('d-block');
+            noResultsDiv.classList.add('d-none');
+        };
+    } else {
+        noResultsDiv.classList.remove('d-block');
+        noResultsDiv.classList.add('d-none');
     };
 };

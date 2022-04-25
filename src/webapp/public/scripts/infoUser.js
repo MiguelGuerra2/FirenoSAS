@@ -5,7 +5,7 @@ const actualCompany = document.getElementById('actualCompany');
 const actualRol = document.getElementById('actualRol');
 
 const getUser = async () => {
-    const result = await fetch(`http://localhost:3000/api/getElement?id=${id}`);
+    const result = await fetch(`/api/getElement?id=${id}`);
     if (result.status == 200) {
         const info = await result.json();
 

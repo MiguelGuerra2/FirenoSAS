@@ -1,0 +1,79 @@
+<%- include('../partials/header.ejs'); %> 
+    <div class="row col-12 fullPage mx-0">
+      <div class="d-none d-lg-flex align-items-center col-md-6 px-0 my-5">
+        <img class="col-10 mx-auto" src="/images/secureDocuments.svg" alt="Secure Documents">
+      </div>
+      <div class="d-flex align-items-center col-md-8 col-lg-6 my-5 mx-auto">
+        <% if (typeof certificateInfo=='undefined') { %> 
+          <div class="curveContainer mx-auto col-10 col-md-8 py-4" id="formContainer">
+            <h1 class="my-2 text-center">Bienvenido</h1>
+            <h2 class="my-2 text-center fs-4">Consulta de certificados</h2>
+            <p class="text-center px-4">A continuacion ingrese su numero de cedula o el numero de su certificado:</p>
+            <form class="needs-validation col-10 mx-auto" action="/certificates" method="post" id="form">
+              <div class="form-floating my-2">
+                  <input 
+                  type="text" 
+                  name="id" 
+                  id="id" 
+                  class="form-control" 
+                  pattern="^\d+$"
+                  autocomplete="off"
+                  onkeyup=validateInput(id)
+                  placeholder="Ej: 123456"
+                  required>
+                  <label for="certificateId">Cedula o Certificado</label>
+                  <div class="invalid-tooltip">El campo debe contener solo numeros</div>
+              </div>
+              <div class="d-flex">
+                  <input id="submit" type="submit" value="Consultar" class="btn text-light col-10 mx-auto my-4 p-2" />     
+              </div>    
+            </form>
+            <div class="d-flex">
+              <a class="text-decoration-none text-secondary text-center mx-auto" href="/auth/login">¿Eres un administrador?</a>    
+            </div>
+          </div>
+        <% } else if (certificateInfo == 'noCertificate') { %>   
+          <div class="curveContainer mx-auto col-11 col-md-10 py-4" id="dataContainer">
+            <div class="certificateContainer">
+              <h4 class="text-center">Lo sentimos</h4>
+              <p class="labelCertificate mx-auto text-center my-4"><b>No se ha encontrado certificados con la informacion ingresada.</b></p>
+              <p class="labelCertificate mx-auto text-center">Por favor verifique que los datos ingresados sean correctos.</p>
+              
+              <div class="d-flex">
+                <a class="btn btn-secondary mx-auto mt-3" href="/certificates">Realizar otra consulta</a>
+              </div>
+            </div>
+          </div>
+        <% } else { %>   
+          <div class="curveContainer mx-auto col-11 col-md-10 py-4" id="dataContainer">
+            <h4 class="text-center">Certificado #<%= certificateInfo.Id %></h4>
+            <div class="certificateContainer">
+              <p class="labelCertificate">Nombre Completo: </p>
+              <p class="infoCertificate fw-light" id="name"><%= certificateInfo.Name %> <%= certificateInfo.Lastname%></p>
+              <p class="labelCertificate">Cedula de ciudadania: </p>
+              <p class="infoCertificate fw-light" id="Cc"><%= certificateInfo.Cc %></p>
+              <p class="labelCertificate">Certificado creado el dia:</p>
+              <p class="infoCertificate fw-light" id="created_at"><%= certificateInfo.Created_At %></p>
+              <p class="labelCertificate">Certificado valido hasta:</p>
+              <p class="infoCertificate fw-light" id="valid_until"><%= certificateInfo.Valid_Until %></p>
+              <div class="d-flex flex-wrap">
+                <a class="btn btn-secondary mx-auto mt-3" href="/certificates">Realizar otra consulta</a>
+                <a class="btn btn-success mx-auto mt-3 px-4" id="<%= certificateInfo.Cc %>" onclick="showPDF(this.id)" >Ver certificado</a>
+              </div>
+            </div>
+          </div>
+        <% } %> 
+      </div>
+</div>
+
+<script src="/certificateScripts/spanishDates.js"></script>
+<script src="/certificateScripts/showPDF.js"></script>
+<script>
+  const created_at = document.getElementById('created_at');
+  const valid_until = document.getElementById('valid_until');
+  if (created_at && valid_until) {
+    formatDates(created_at.textContent,created_at);
+    formatDates(valid_until.textContent,valid_until);
+  };
+</script>
+<%- include('../partials/footer.ejs'); %> 

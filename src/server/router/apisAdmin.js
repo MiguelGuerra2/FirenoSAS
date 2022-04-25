@@ -124,7 +124,7 @@ router.post('/updateUser',authApiAdmin,(req,res) => {
     if ((nuevoRol != null && nuevoRol != undefined) && nuevoRol != 0 && nuevoRol != ''){
         queryTxt += `Rol = '${nuevoRol}',`;
     }
-    queryTxt += `Id = ${id} WHERE Id = '${id}';`;
+    queryTxt += ` Id = ${id} WHERE Id = '${id}';`;
     connection.query(
         queryTxt, (err,result) => {
             if (!err) {

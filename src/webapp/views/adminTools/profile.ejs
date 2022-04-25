@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Font-Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet"/>
+
+    <!-- GoogleFonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,700;1,100&display=swap" rel="stylesheet">
+
+
+    <!-- Bootstrap -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.10.2/mdb.min.css" rel="stylesheet"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js" integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT" crossorigin="anonymous"></script>
+    
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+    integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+    crossorigin=""/>
+
+    <!-- Leaflet Javascript -->
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+   integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+   crossorigin=""></script>
+
+    <!-- Local Imports -->
+    <link rel="stylesheet" href="/styles/certificates.css">
+    <link rel="stylesheet" href="/styles/style.css">    
+    <link rel="stylesheet" href="/styles/transitions.css">
+    <link rel="shortcut icon" href="/images/logo.ico">
+    <style>
+        body {
+            margin: 0 !important;
+        }
+    </style>
+    <title><%= title %></title>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light bgGray d-lg-none">
+        <div class="container-fluid navContainer bgGray">
+          <img class="rounded ms-auto d-block d-lg-none" src="/icons/image.png" alt="Logo-Fireno" id="logo2">
+          <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav mx-auto">
+              <a id="home" class="nav-link redHover px-3 mx-2 my-1" href="/"><img class="navIcon" src="/icons/homeHeader.svg" alt="">Inicio</a>
+              <% if(typeof rol=='undefined') { %> 
+                <a id="tools" class="nav-link redHover px-3 mx-2 my-1" href="/tools"><img class="navIcon" src="/icons/toolsHeader.svg" alt="">Herramientas</a>
+                <a class="nav-link redHover px-3 mx-2 my-1" href="http://www.fireno.com" target="_blank"><img class="navIcon" src="/icons/infoHeader.svg" alt="">Nosotros</a>
+                <a id="certificates" class="nav-link redHover px-3 mx-2 my-1" href="/certificates"><img class="navIcon" src="/icons/certificatesHeader.svg" alt="">Certificados</a>
+                <a id="register" class="nav-link redHover px-3 mx-2 my-1" href="/auth/register"><img class="navIcon" src="/icons/registerHeader.svg" alt="">Registrarme</a>
+                <a id="login" class="nav-link redHover px-3 mx-2 my-1" href="/auth/login"><img class="navIcon" src="/icons/loginHeader.svg" alt="">Iniciar Sesion</a>
+              <% } else if (rol == '1' || rol == '2') { %>
+                <a id="tools" class="nav-link redHover px-3 mx-2 my-1" href="/tools"><img class="navIcon" src="/icons/toolsHeader.svg" alt="">Herramientas</a>
+                <a id="realTime" class="nav-link redHover px-3 mx-2 my-1" href="/tools/realTime"><img class="navIcon" src="/icons/realTimeHeader.svg" alt="">Tiempo Real</a>
+                <a id="record" class="nav-link redHover px-3 mx-2 my-1" href="/tools/record"><img class="navIcon" src="/icons/recordHeader.svg" alt="">Historial</a>
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle px-3 mx-2 my-1" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img class="navIcon" src="/icons/profileHeader.svg" alt="">
+                    <%= name1 %> 
+                  </a>
+                  <ul class="dropdown-menu bgGray" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" href="/tools/profile">Configuracion</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="/auth/logout">Cerrar sesion</a></li>
+                  </ul>
+                </li>
+              <% } else { %>
+              <a id="users" class="nav-link redHover px-3 mx-2 my-1" href="/tools/users"><img class="navIcon" src="/icons/usersHeader.svg" alt="">Usuarios</a>
+              <a id="machines" class="nav-link redHover px-3 mx-2 my-1" href="/tools/machines"><img class="navIcon" src="/icons/truck.svg" alt="">Maquinas</a>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle px-3 mx-2 my-1" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  <img class="navIcon" src="/icons/profileHeader.svg" alt="">
+                  <%= name1 %> 
+                </a>
+                <ul class="dropdown-menu bgGray" aria-labelledby="navbarDropdown">
+                  <li><a class="dropdown-item" href="/tools/profile">Cuenta</a></li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li><a class="dropdown-item" href="/auth/logout">Cerrar sesion</a></li>
+                </ul>
+              </li>
+              <% } %> 
+            </div>
+          </div>
+        </div>
+      </nav>  
+      <div class="d-flex">
+        <div class="d-flex flex-column flex-shrink-0 p-3 bg-light border d-none d-lg-block" style="width: 280px; height:100vh">
+          <div class="row col-10 p-0 mx-auto d-none d-md-flex flex-column">
+              <img class="mx-auto col-7 " src="/icons/image.png"  alt="Logo-Fireno">
+          </div>
+          <div class="d-flex col-12">
+              <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
+              
+              </a>
+          </div>
+          <hr>
+          <ul class="nav nav-pills flex-column mb-auto">
+              <li style="height: 67px">
+                  <a href="/tools/users" class="nav-link link-dark">
+                      <img class="navIcon bi me-2 col-3" src="/icons/usersHeader.svg" alt="">
+                      Usuarios
+                  </a>
+              </li>
+              <li style="height: 67px">
+                  <a href="/tools/machines" class="nav-link link-dark">
+                      <img class="navIcon bi me-2 col-3" src="/icons/truck.svg" alt="">
+                      Maquinas
+                  </a>
+              </li>
+              <li style="height: 67px" class="nav-item active-link">
+                <a href="/tools/profile" class="nav-link">
+                    <img class="navIcon bi me-2 col-3" src="/icons/settingsFill.svg" alt="">
+                    Usuarios
+                </a>
+              </li>
+              <li style="height: 67px">
+                <a class="nav-link link-dark" data-bs-toggle="modal" data-bs-target="#logoutModal">
+                    <img class="navIcon bi me-2 col-3" src="/icons/logout.svg" alt="">
+                    Cerrar sesion
+                </a>
+              </li>
+              
+          </ul>        
+      </div>
+      <div class="row mx-auto d-flex flex-column py-4 formsContainer col-8">
+          <div class="col-12 col-md-10 mx-auto rounded p-4 border" style="background-color: white;">
+              <h1 class="fs-3 text-center fw-bold">Informacion de la cuenta</h1>
+              <div class="container border border-2 rounded py-3 px-3 px-md-5">
+                  <div class="d-flex mb-3">
+                      <img class="col-3 col-md-2 mx-auto" src="/icons/profileHeader.svg" alt="">
+                  </div>
+                  <p class="mb-1 fw-bold">Nombre completo:</p>
+                  <p class="text-center mx-auto mb-2 fw-light"><%= session.Nombre %> <%= session.Apellido %></p>
+                  <p class="mb-1 fw-bold">Empresa:</p>
+                  <p class="text-center mx-auto mb-2 fw-light"><%= session.Empresa %> </p>
+                  <p class="mb-1 fw-bold">Email:</p>
+                  <p class="text-center mx-auto mb-2 fw-light"><%= session.Email %> </p> 
+                  <p class="mb-1 fw-bold">Tipo de usuario:</p>
+                  <% if (session.Rol == 1) { %> 
+                      <p class="text-center mx-auto mb-1 fw-light">Cliente</p> 
+                  <% } else if (session.Rol == 2) { %> 
+                      <p class="text-center mx-auto mb-1 fw-light">Administrador</p>
+                  <% } %> 
+                  <div class="d-flex flex-wrap mt-3">
+                      <a type="button" class="btn btn-secondary text-center mx-auto my-2" style="font-size: 15px;" href="#" data-bs-toggle="modal" data-bs-target="#infoModal">Actualizar informacion</a>
+                      <a type="button" class="btn btn-secondary text-center mx-auto my-2" style="font-size: 15px;" href="#" data-bs-toggle="modal" data-bs-target="#passwordModal">Cambiar contrasena</a>
+                  </div>
+              </div>
+          </div>
+      </div>    
+
+      <!-- Info Modal -->
+      <div class="modal fade" id="infoModal" tabindex="-1" aria-labelledby="infoModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="infoModalLabel">Actualizar informacion</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                  <form class="needs-validation col-11 mx-auto" action="/apiClient/updateInfo" method="post" id="form2">
+                      <input type="hidden" id="id" name="id" value="<%= session.Id %> ">                  
+                      <div class="form-floating mb-1">
+                          <input 
+                          type="text" 
+                          name="newName" 
+                          id="newName" 
+                          class="form-control" 
+                          pattern="[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{2,48}" 
+                          autocomplete="off"
+                          onkeyup=validateInput(newName)
+                          placeholder="Ej: ejemplo ejemplo"
+                          >
+                          <label for="email">Nombres</label>
+                      </div>
+                      <div class="form-floating mb-1">
+                          <input type="text" 
+                          name="lastname" 
+                          id="lastname" 
+                          class="form-control" 
+                          pattern="[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{2,48}" 
+                          autocomplete="off"
+                          autocomplete="ÑÖcompletes"
+                          onkeyup=validateInput(lastname)
+                          placeholder="Ej: ejemplo ejemplo"
+                          >
+                          <label for="lastname">Apellidos</label>
+                      </div>
+                      
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <input id="updateButton" type="submit" value="Actualizar" class="btn btn-primary">                
+                      </div> 
+                  </form>
+              </div>
+            </div>
+          </div>
+      </div>
+
+      <!-- Password Modal -->
+      <div class="modal fade" id="passwordModal" tabindex="-1" aria-labelledby="passwordModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="passwordModalLabel">Actualizar contrasena</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                  <form action="/apiClient/updateInfo" method="post">
+                      <input type="hidden" id="id" name="id" value="<%= session.Id %> ">                  
+                      <div class="form-floating mb-3">
+                          <input 
+                          type="password" 
+                          name="oldPassword" 
+                          id="oldPassword" 
+                          class="form-control" 
+                          pattern="[A-Za-z0-9!?-]{8,12}"
+                          autocomplete="off"
+                          placeholder="password"
+                          onkeyup=validateInput(oldPassword)
+                          required>
+                          <label for="password">Contrasena actual</label>
+                          <div class="invalid-tooltip">La contrasena debe contener entre 8-20 caracteres.</div>
+                      </div>
+                      <div class="form-floating mb-3">
+                          <input 
+                          type="password" 
+                          name="newPassword" 
+                          id="newPassword" 
+                          class="form-control" 
+                          pattern="[A-Za-z0-9!?-]{8,12}"
+                          autocomplete="off"
+                          placeholder="password"
+                          onkeyup=validateInput(newPassword)
+                          required>
+                          <label for="pass2">Nueva contrasena</label>
+                          <div class="invalid-tooltip">La contrasena debe contener entre 8-20 caracteres.</div>
+                      </div>
+                      <div class="form-floating mb-3">
+                          <input 
+                          type="password" 
+                          name="newPassword2" 
+                          id="newPassword2" 
+                          class="form-control" 
+                          pattern="[A-Za-z0-9!?-]{8,12}"
+                          autocomplete="off"
+                          placeholder="password"
+                          onkeyup=validateInput(newPassword2)
+                          required>
+                          <label for="pass2">Confirmar contrasena</label> 
+                          <div class="invalid-tooltip">La contrasena debe contener entre 8-20 caracteres.</div>
+                      </div>
+                      
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <input id="updateButton" type="submit" value="Actualizar contrasena" class="btn btn-primary">                
+                      </div>
+                  </form>
+              </div>
+            </div>
+          </div>
+      </div>
+      <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="logoutModalLabel">Cerrar Sesion</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <p>Esta seguro que desea cerrar la sesion?</p>
+              <p>Se borraran los cambios que no fueron guardados</p>
+            </div>
+            <div class="modal-footer">
+              <a type="button" href="/auth/logout" class="btn btn-secondary">Cerrar sesion</a>
+              <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cancelar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <% if(typeof info!='undefined') { %>
+          <div class="modal fade" id="info2Modal" tabindex="-1" aria-labelledby="info2ModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="info2ModalLabel">Lo sentimos...</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <% if (info == 0) { %>
+                    <p>La contrasena actual es incorrecta.</p>
+                  <% } else if (info == 1) { %>
+                    <p>Las contrasenas no coinciden.</p>
+                  <% } %>  
+
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Entendido</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <script>
+            const myModal = new bootstrap.Modal(document.getElementById("info2Modal"), {});
+            document.onreadystatechange = function () {
+              myModal.show();
+          };
+          </script>
+      <% } %> 
+      <script src="/scripts/activePage.js"></script>
+  </body>
+</html>
