@@ -324,6 +324,26 @@ div::-webkit-scrollbar-thumb {
 .toolsDiv > h4 {
     min-height: 72px;
 }
+
+.newElementButton {
+    text-decoration: none;
+    border: dashed 3px var(--darkGray);
+    height: 70px;
+    width: 80%;
+    margin: auto;
+    text-align: center;
+    padding: 15px;
+    font-size:20px;
+    color: var(--darkGray);
+    font-weight: bold;
+    border-radius: 9px;
+}
+
+.newElementButton:hover {
+    color: #48577B;
+    border-color: #48577B;
+}
+
 @media (min-width: 992px) {
     body{
         margin-top: 64px !important;
@@ -455,6 +475,9 @@ div::-webkit-scrollbar-thumb {
 
     .formsContainer {
         margin-top: 63px;
+    }
+    .newElementButton {
+        width: 70px;
     }
 }
 

@@ -24,7 +24,7 @@ const focusMarker = (marker) => {
     const lng = coords.lng;
     removeMarkers();
     marker.addTo(map);
-    map.flyTo([lat, lng], 13, {
+    map.flyTo([lat, lng], 15, {
         animate: true,
         duration: 1.5
     });

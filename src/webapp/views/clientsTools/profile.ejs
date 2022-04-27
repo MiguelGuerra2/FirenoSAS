@@ -5,7 +5,7 @@
         <h1 class="fs-3 text-center fw-bold">Informacion de la cuenta</h1>
         <div class="container border border-2 rounded py-3 px-3 px-md-5">
             <div class="d-flex mb-3">
-                <img class="col-3 col-md-2 mx-auto" src="/icons/profileHeader.svg" alt="">
+                <img class="col-3 col-md-2 mx-auto" src="/icons/profile.png" alt="">
             </div>
             <p class="mb-1 fw-bold">Nombre completo:</p>
             <p class="text-center mx-auto mb-2 fw-light"><%= session.Nombre %> <%= session.Apellido %></p>
@@ -20,8 +20,8 @@
                 <p class="text-center mx-auto mb-1 fw-light">Administrador</p>
             <% } %> 
             <div class="d-flex flex-wrap mt-3">
-                <a type="button" class="btn btn-secondary text-center mx-auto my-2" style="font-size: 15px;" href="#" data-bs-toggle="modal" data-bs-target="#infoModal">Actualizar informacion</a>
-                <a type="button" class="btn btn-secondary text-center mx-auto my-2" style="font-size: 15px;" href="#" data-bs-toggle="modal" data-bs-target="#passwordModal">Cambiar contrasena</a>
+                <a type="button" class="btn seeMore text-center mx-auto my-2" style="font-size: 15px;" href="#" data-bs-toggle="modal" data-bs-target="#infoModal">Actualizar informacion</a>
+                <a type="button" class="btn seeMore text-center mx-auto my-2" style="font-size: 15px;" href="#" data-bs-toggle="modal" data-bs-target="#passwordModal">Cambiar contrasena</a>
             </div>
         </div>
     </div>
@@ -67,7 +67,7 @@
                 
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                  <input id="updateButton" type="submit" value="Actualizar" class="btn btn-primary">                
+                  <input id="updateButton" type="submit" value="Actualizar" class="btn seeMore">                
                 </div> 
             </form>
         </div>
@@ -131,7 +131,7 @@
                 
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                  <input id="updateButton" type="submit" value="Actualizar contrasena" class="btn btn-primary">                
+                  <input id="updateButton" type="submit" value="Actualizar contrasena" class="btn seeMore">                
                 </div>
             </form>
         </div>

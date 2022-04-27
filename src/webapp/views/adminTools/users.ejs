@@ -132,11 +132,18 @@
       </div>
       <div class="d-flex flex-column greyLightBg py-3 mx-auto mt-4 col-11 col-md-8 rounded-3" id="usersColumn">
         <h1 class="text-center fs-3">Lista de usuarios</h1>
-        <div class="my-2 d-none d-lg-block col-3 me-2 ms-auto">
-          <input id="searchInput" name="searchInput" type="search" class="rounded border-0 ps-3 col-10 d-inline-block py-1 me-2" placeholder="Ej: 123" aria-label="Search" aria-describedby="search-addon" onkeyup="search(this)"/>
-          <p id="searchInput" class="d-inline-block m-0" style="cursor: pointer;"><img src="/icons/search.svg" alt="search"/></p>
+        
+        <div class="input-group my-2 w-50 me-2 ms-auto">
+          <input type="text" id="searchInput" class="form-control col-10" placeholder="Nombre usuario" aria-label="Nombre Usuario" aria-describedby="basic-addon2" onkeyup="search(this)">
+          <span class="input-group-text" style="cursor: pointer;" id="basic-addon2"><img src="/icons/search.svg" alt="search"/></span>
         </div>
+        
         <div id="usersContainer">
+          <div class="col-12 d-none mt-3" id="noResults">
+            <p class="text-center text-muted">No se han encontrado resultados para su busqueda.</p>
+          </div>
+        </div>
+        <div class="col-12 d-flex" id="newUserDiv">
 
         </div>
       </div>
@@ -209,7 +216,6 @@
                   <input 
                   type="text" 
                   name="name"
-                  id="names" 
                   class="form-control"
                   pattern="[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{2,48}" 
                   autocomplete="off"
@@ -220,7 +226,6 @@
               <div class="form-floating mb-3">
                   <input type="text" 
                   name="lastname" 
-                  id="lastname" 
                   class="form-control" 
                   pattern="[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{2,64}"
                   autocomplete="off"
@@ -231,7 +236,6 @@
               <div class="form-floating mb-3">
                   <input type="text" 
                   name="company" 
-                  id="company" 
                   class="form-control" 
                   minlength="3"
                   maxlength="20"
@@ -243,7 +247,6 @@
               <div class="form-floating mb-3">
                   <input type="email" 
                   name="email" 
-                  id="email" 
                   class="form-control" 
                   pattern="^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$"
                   autocomplete="off"
@@ -252,7 +255,7 @@
                   <label for="email">Email</label>
               </div>
               <div class="form-floating mb-4">
-                  <select name="rol" id="rol" class="form-select" onkeyup=validateInput(rol) >
+                  <select name="rol" class="form-select" onkeyup=validateInput(rol) >
                       <option selected disabled value="">Seleccione el tipo de usuario</option>
                       <option value="3">Administrador</option>
                       <option value="1">Cliente</option>
@@ -263,7 +266,99 @@
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <input type="submit" value="Actualizar" class="btn btn-primary"/>
+                <input type="submit" value="Actualizar" class="btn seeMore"/>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" id="newUserModal" tabindex="-1" aria-labelledby="newUserModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="newUserModalLabel">Actualizar informacion</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form action="/apiAdmin/createUser" method="post">
+              <div class="form-floating mb-3">
+                  <input 
+                  type="text" 
+                  name="name"
+                  class="form-control"
+                  pattern="[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{2,48}" 
+                  autocomplete="off"
+                  onkeyup=validateInput(names)
+                  >
+                  <label for="floatingInput">Nombres</label>                    
+              </div> 
+              <div class="form-floating mb-3">
+                  <input type="text" 
+                  name="lastname" 
+                  class="form-control" 
+                  pattern="[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{2,64}"
+                  autocomplete="off"
+                  onkeyup=validateInput(lastname)
+                  >
+                  <label for="lastname">Apellidos</label>
+              </div>
+              <div class="form-floating mb-3">
+                  <input type="text" 
+                  name="company" 
+                  class="form-control" 
+                  minlength="3"
+                  maxlength="20"
+                  autocomplete="off"
+                  onkeyup=validateInput(company)
+                  >
+                  <label for="company">Empresa</label>
+              </div>
+              <div class="form-floating mb-3">
+                  <input type="email" 
+                  name="email" 
+                  class="form-control" 
+                  pattern="^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$"
+                  autocomplete="off"
+                  onkeyup=validateInput(email)
+                  >
+                  <label for="email">Email</label>
+              </div>
+              <div class="form-floating mb-3">
+                  <input 
+                  type="password" 
+                  name="password" 
+                  class="form-control" 
+                  pattern="[A-Za-z0-9!?-]{8,12}"
+                  autocomplete="off"
+                  onkeyup=validateInput(password)
+                  required>
+                  <label for="password">Contrasena</label>
+                  <div class="invalid-tooltip">La contrasena debe contener entre 8-20 caracteres.</div>
+              </div>
+              <div class="form-floating mb-3">
+                  <input type="password" 
+                  name="pass2" 
+                  class="form-control" 
+                  pattern="[A-Za-z0-9!?-]{8,12}"
+                  autocomplete="off"
+                  onkeyup=validateInput(pass2)
+                  required>
+                  <label for="pass2">Confirmar contrasena</label>
+              </div>
+              <div class="form-floating mb-4">
+                  <select name="rol" class="form-select" onkeyup=validateInput(rol) >
+                      <option selected disabled value="">Seleccione el tipo de usuario</option>
+                      <option value="3">Administrador</option>
+                      <option value="1">Cliente</option>
+                      <option value="2">Miembro de Fireno S.A.S</option>
+                      <option value="4">Administrador de Certificados</option>
+                  </select>
+                  <label for="rol">Tipo de usuario</label>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <input type="submit" value="Crear" class="btn seeMore"/>
               </div>
             </form>
           </div>
@@ -272,5 +367,8 @@
     </div>
     <script src="/scripts/users.js"></script>
     <script src="/scripts/activePage.js"></script>
+    <script src="/scripts/validateForms.js"></script>
+    <script src="/scripts/filter.js"></script>
+    <script src="/scripts/search.js"></script>
   </body>
 </html>

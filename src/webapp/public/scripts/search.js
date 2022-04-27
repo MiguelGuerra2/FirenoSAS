@@ -3,32 +3,35 @@
 const search = (searchInput) => {
     const pageName = window.location.pathname.split('/').pop();
     let noResultsDiv = document.getElementById('noResults');
-    let machinesFound = 0;
-    // Get all machines
-    let machines;
+    let elementsFound = 0;
+    // Get all elements
+    let elements;
     if (pageName == 'realTime') {
-        machines = document.querySelectorAll('.vehicleInfo');
+        elements = document.querySelectorAll('.vehicleInfo');
+    } else if (pageName == 'users' || pageName == 'machines') {
+        elements = document.querySelectorAll('.divUsers');
     } else {
-        machines = document.querySelectorAll('.vehicleInfoRecord');
+        elements = document.querySelectorAll('.vehicleInfoRecord');
     };
     // Apply filter if exist
     filter();
+    
     // Get value of input type search
-    const searchData = searchInput.value;
+    const searchData = searchInput.value.toString().toLowerCase();
     // Apply search if input isn't empty
     if (searchData != '') {
-        machines.forEach(element => {
+        elements.forEach(element => {
             if (element.id) { 
                 // Check if certificate id starts with text on input type search
                 if (element.id.startsWith(searchData)) {
                     element.style.display = 'block';
-                    machinesFound++
+                    elementsFound++
                 } else {
                     element.style.display = 'none';
                 };
             };
         });
-        if (machinesFound == 0) {
+        if (elementsFound == 0) {
             noResultsDiv.classList.remove('d-none');
             noResultsDiv.classList.add('d-block');
         } else {

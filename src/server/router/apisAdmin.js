@@ -249,13 +249,13 @@ router.post('/updateMachine',authApiAdmin,({body},res) => {
     const nuevaReferencia = body.reference;
     const nuevaMarca = body.trademark;
     let queryTxt =`UPDATE equipos SET `;
-    if ((nuevoNumero != null && nuevoNumero != undefined) && nuevoNumero != ''){
+    if (nuevoNumero){
         queryTxt += `Numero = '${nuevoNumero}',`;
     };
-    if ((nuevaReferencia != null && nuevaReferencia != undefined) && nuevaReferencia != ''){
+    if (nuevaReferencia){
         queryTxt += `Referencia = '${nuevaReferencia}',`;
     };
-    if ((nuevaMarca != null && nuevaMarca != undefined) && nuevaMarca != ''){
+    if (nuevaMarca){
         queryTxt += `Marca = '${nuevaMarca}',`;
     };
     queryTxt += `Id = ${id} WHERE Id = '${id}';`;
@@ -263,10 +263,10 @@ router.post('/updateMachine',authApiAdmin,({body},res) => {
         queryTxt, (err,result) => {
             if (!err) {
                 console.log('Registro actualizado exitosamente')
-                res.status(200).redirect(`../tools/updateMachine?m=1&id=${id}`)
+                res.status(200).redirect(`../tools/machines`)
             } else {
                 console.log(`Ha ocurrido el siguiente ${err}`)
-                res.status(500).redirect(`../tools/updateMachine?m=2&id=${id}`)
+                res.status(500).redirect(`../tools/machines`)
             };
         }
     );
@@ -280,7 +280,7 @@ router.get('/deleteMachine',authApiAdmin,(req,res) => {
                 return res.redirect('../tools/machines?m=1');
             } else {
                 console.log(`Ha ocurrido el siguiente ${err}`);
-                res.status(500).redirect('../tools/updateMachine?m=2');
+                res.status(500).redirect('../tools/machines?m=2');
             }
         }   
     )

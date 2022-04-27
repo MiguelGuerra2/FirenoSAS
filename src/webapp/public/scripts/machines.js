@@ -11,8 +11,11 @@ const createElements = () => {
     elements.divInfo3 = document.createElement('div');
     elements.divInfo4 = document.createElement('div');
 
+    elements.configLink = document.createElement('a');
 
     elements.imgUser = document.createElement('img');
+    elements.imgConfig = document.createElement('img');
+
     elements.userTitle = document.createElement('h4');
     elements.p1 = document.createElement('p');
     elements.p2 = document.createElement('p');
@@ -28,7 +31,7 @@ const createElements = () => {
 
 const assignClasses = (elements) => {
     elements.div.classList.add('col-11','col-lg-5','mx-4','bgGrayLight','my-3','py-3','px-4','divUsers');
-    elements.divLogo.classList.add('col-12','d-flex')
+    elements.divLogo.classList.add('col-12','d-flex','position-relative','d-flex');
     elements.divButton.classList.add('container','d-flex','col-12','my-4');
 
     elements.divInfo1.classList.add('d-flex','justify-content-between','col-12');
@@ -36,6 +39,7 @@ const assignClasses = (elements) => {
     elements.divInfo3.classList.add('d-flex','justify-content-between','col-12');
     elements.divInfo4.classList.add('d-flex','justify-content-between','col-12');
 
+    elements.configLink.classList.add('rounded-circle','updateLogoContainer','position-absolute');
 
     elements.userTitle.classList.add('fs-5','mx-auto','col-7')
     elements.p1.classList.add('textLabel','w-50');
@@ -48,6 +52,7 @@ const assignClasses = (elements) => {
     elements.p8.classList.add('textInfo','fw-light');
     
     elements.imgUser.classList.add('imgVehicle');
+    elements.imgConfig.classList.add('updateLogo','ms-auto','me-3');
 
     elements.buttonDelete.classList.add('btn','mx-auto','btn-danger');    
     return elements;
@@ -67,8 +72,12 @@ const configElements = (elements,info) => {
     elements.buttonDelete.textContent = 'Eliminar';
     elements.buttonDelete.dataset.bsToggle = 'modal';
     elements.buttonDelete.dataset.bsTarget = '#deleteModal';
+    elements.configLink.dataset.bsToggle = 'modal';
+    elements.configLink.dataset.bsTarget = '#updateModal';
     
-    elements.imgUser.src = '/icons/profileHeader.svg';
+    elements.imgUser.src = '/icons/truck.svg';
+    elements.imgConfig.src = '../icons/settings.svg'
+
     elements.imgUser.style.height = '40px';
 
     return elements;
@@ -77,8 +86,11 @@ const buildBlock = (info) => {
     let elements = createElements();
     elements = assignClasses(elements);
     elements = configElements(elements,info);
+    
+    elements.configLink.appendChild(elements.imgConfig);
 
     elements.divLogo.appendChild(elements.imgUser);
+    elements.divLogo.appendChild(elements.configLink);
 
     elements.divButton.appendChild(elements.buttonDelete);
 
@@ -101,14 +113,32 @@ const buildBlock = (info) => {
     return elements.div;
 };
 
-const addListeners = (divButton,info) => {
-    const deleteButton = divButton.firstChild;
+const addListeners = (machine,info) => {
+    const buttonDiv = machine.lastElementChild;
+
+    const settingsButton = machine.firstChild.lastElementChild;
+    const deleteButton = buttonDiv.firstChild;
+    
+    settingsButton.addEventListener('click',() => {
+        const idInputForm = document.getElementById('idMachineForm');
+        idInputForm.value = info.Id;
+    })
     
     deleteButton.addEventListener('click',() => {
         const deleteButtonModal = document.getElementById('deleteButton');
-        deleteButtonModal.href = `/apiAdmin/deleteMachine?id=${info.Id}`
+        deleteButtonModal.href = `/apiAdmin/deleteMachine?id=${info.Id}`;
     })
 };
+
+const createMachineButton = () => {
+    const addButton = document.createElement('a');
+    addButton.textContent = '+'
+    addButton.dataset.bsToggle = 'modal';
+    addButton.dataset.bsTarget = '#newMachineModal';
+    addButton.classList.add('newElementButton');
+    return addButton;
+}
+
 
 
 const getMachines = async () => {
@@ -119,11 +149,12 @@ const getMachines = async () => {
         
         for (let i = 0; i < usersData.length; i++) {
             const machine = buildBlock(usersData[i]);
-            const buttonDiv = machine.lastElementChild;
-            addListeners(buttonDiv,usersData[i]);
+            addListeners(machine,usersData[i]);
             fragment.appendChild(machine);
         }
+        const newMachineButton = createMachineButton()
         usersColumn.appendChild(fragment);
+        usersColumn.appendChild(newMachineButton);
     }   
 }
 getMachines();

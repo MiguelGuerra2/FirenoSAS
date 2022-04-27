@@ -30,7 +30,9 @@ const filter = (checkbox) => {
     let machines;
     if (pageName == 'realTime') {
         machines = document.querySelectorAll('.vehicleInfo');
-    } else {
+    } else if (pageName == 'users' || pageName == 'machines') {
+        machines = document.querySelectorAll('.divUsers');
+    }  else {
         machines = document.querySelectorAll('.vehicleInfoRecord');
     };
     // If checkbox is defined, uncheck the others

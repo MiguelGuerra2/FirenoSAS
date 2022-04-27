@@ -44,7 +44,7 @@ const assignClasses = (elements) => {
     elements.divInfo4.classList.add('d-flex','justify-content-between','col-12');
     elements.divInfo5.classList.add('d-flex','justify-content-between','col-12');
 
-    elements.configLink.classList.add('rounded-circle','updateLogoContainer');
+    elements.configLink.classList.add('rounded-circle','updateLogoContainer','position-absolute');
 
     elements.p1.classList.add('textLabel');
     elements.p2.classList.add('textInfo','fw-light');
@@ -58,7 +58,7 @@ const assignClasses = (elements) => {
     elements.p10.classList.add('textInfo','fw-light');
 
     elements.imgUser.classList.add('imgVehicle');
-    elements.imgConfig.classList.add('updateLogo','position-absolute','ms-auto','me-3');
+    elements.imgConfig.classList.add('updateLogo','ms-auto','me-3');
 
     elements.buttonDelete.classList.add('btn','mx-auto','mt-2','btn-danger');    
     elements.buttonConfirm.classList.add('btn','mx-auto','mt-2','btn-success');
@@ -67,7 +67,7 @@ const assignClasses = (elements) => {
 }
 
 const configElements = (elements,info) => {
-    elements.div.id = info.Id;
+    elements.div.id = info.Nombre.toLowerCase() + ' ' + info.Apellido.toLowerCase();
     elements.p1.textContent = 'Nombre:';
     elements.p2.textContent = `${info.Nombre}`;
     elements.p9.textContent = 'Apellido:';
@@ -91,7 +91,7 @@ const configElements = (elements,info) => {
         case 4: 
             elements.p8.textContent = `Administrador Certificados`;
             break;
-        }
+    } 
     elements.buttonDelete.textContent = 'Eliminar';
     elements.buttonDelete.dataset.bsToggle = 'modal';
     elements.buttonDelete.dataset.bsTarget = '#deleteModal';
@@ -104,7 +104,7 @@ const configElements = (elements,info) => {
     info.Confirmado ? elements.buttonConfirm.style.display = 'none': null;
 
     
-    elements.imgUser.src = '/icons/profileHeader.svg';
+    elements.imgUser.src = '/icons/profile.png';
     elements.imgConfig.src = '../icons/settings.svg'
 
     elements.imgUser.style.height = '40px';
@@ -166,6 +166,14 @@ const addListeners = (user,info) => {
     })
 };
 
+const createUserButton = () => {
+    const addButton = document.createElement('a');
+    addButton.textContent = '+';
+    addButton.dataset.bsToggle = 'modal';
+    addButton.dataset.bsTarget = '#newUserModal';
+    addButton.classList.add('newElementButton','mx-auto','w-50');
+    return addButton;
+}
 
 const getUsers = async () => {
     const response = await fetch('/apiAdmin/getElements?q=1');
@@ -178,6 +186,9 @@ const getUsers = async () => {
             fragment.appendChild(user);
         }
         usersColumn.appendChild(fragment);
+        const newUserDiv = document.getElementById('newUserDiv');
+        const newUserButton = createUserButton();
+        newUserDiv.appendChild(newUserButton);
     }   
 }
 getUsers();

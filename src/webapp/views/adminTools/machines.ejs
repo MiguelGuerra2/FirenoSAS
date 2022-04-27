@@ -132,12 +132,16 @@
       </div>
       <div class="d-flex flex-wrap greyLightBg py-3 mx-auto mt-4 col-11 col-md-8 rounded-3" id="usersColumn">
         <h1 class="text-center fs-3 col-12">Lista de maquinas</h1>
-        <div class="my-2 d-none d-lg-block col-3 me-2 ms-auto">
-          <input id="searchInput" name="searchInput" type="search" class="rounded border-0 ps-3 col-10 d-inline-block py-1 me-2" placeholder="Ej: 123" aria-label="Search" aria-describedby="search-addon" onkeyup="search(this)"/>
-          <p id="searchInput" class="d-inline-block m-0" style="cursor: pointer;"><img src="/icons/search.svg" alt="search"/></p>
+        
+        <div class="input-group my-2 w-50 me-2 ms-auto">
+          <input type="text" id="searchInput" class="form-control col-10" placeholder="Numero Maquina" aria-label="Numero Maquina" aria-describedby="basic-addon2" onkeyup="search(this)">
+          <span class="input-group-text" style="cursor: pointer;max-height: 35.27px;" id="basic-addon2"><img src="/icons/search.svg" alt="search"/></span>
         </div>
-        <div id="machinesContainer" class="col-12 d-flex flex-wrap">
 
+        <div id="machinesContainer" class="col-12 d-flex flex-wrap mx-auto">
+          <div class="col-12 d-none mt-3" id="noResults">
+            <p class="text-center text-muted">No se han encontrado resultados para su busqueda.</p>
+          </div>
         </div>
       </div>
     </div>
@@ -177,6 +181,143 @@
         </div>
       </div>
     </div>
+    <div class="modal fade" id="newMachineModal" tabindex="-1" aria-labelledby="newMachineModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="newMachineModalLabel">Crear maquina</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form action="/apiAdmin/createMachine" id="form" method="post">
+              <div class="form-floating mb-3">
+                  <input 
+                  type="text" 
+                  name="number"
+                  class="form-control"
+                  pattern="\d+$" 
+                  autocomplete="off"
+                  onkeyup=validateInput(number)
+                  placeholder="Numero"
+                  required
+                  >
+                  <label for="number">Numero</label>                    
+              </div> 
+              <div class="form-floating mb-3">
+                  <input type="text" 
+                  name="reference" 
+                  class="form-control" 
+                  pattern="[A-Za-z0-9]{1,9}"
+                  autocomplete="off"
+                  onkeyup=validateInput(reference)
+                  placeholder="Referencia"
+                  required
+                  >
+                  <label for="reference">Referencia</label>
+              </div>
+              <div class="form-floating mb-3">
+                  <input type="text" 
+                  name="trademark" 
+                  class="form-control" 
+                  pattern="[A-Za-z0-9]{3,6}"
+                  maxlength="20"
+                  autocomplete="off"
+                  onkeyup=validateInput(trademark)
+                  placeholder="Marca"
+                  required
+                  >
+                  <label for="trademark">Marca</label>
+              </div>
+              <div class="form-floating mb-3">
+                  <input type="text" 
+                  name="clients" 
+                  class="form-control" 
+                  pattern="\d+$"
+                  autocomplete="off"
+                  onkeyup=validateInput(clients)
+                  placeholder="Cliente"
+                  required
+                  >
+                  <label for="clients">Cliente</label>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <input type="submit" value="Crear" class="btn seeMore"/>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="updateModalLabel">Actualizar maquina</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form action="/apiAdmin/updateMachine" id="form" method="post">
+              <input type="hidden" value="" id="idMachineForm" name="id">
+              <div class="form-floating mb-3">
+                  <input 
+                  type="text" 
+                  name="number"
+                  class="form-control"
+                  pattern="\d+$" 
+                  autocomplete="off"
+                  onkeyup=validateInput(number)
+                  placeholder="Numero"
+                  >
+                  <label for="number">Numero</label>                    
+              </div> 
+              <div class="form-floating mb-3">
+                  <input type="text" 
+                  name="reference" 
+                  class="form-control" 
+                  pattern="[A-Za-z0-9]{1,9}"
+                  autocomplete="off"
+                  onkeyup=validateInput(reference)
+                  placeholder="Referencia"
+                  >
+                  <label for="reference">Referencia</label>
+              </div>
+              <div class="form-floating mb-3">
+                  <input type="text" 
+                  name="trademark" 
+                  class="form-control" 
+                  pattern="[A-Za-z0-9]{3,6}"
+                  maxlength="20"
+                  autocomplete="off"
+                  onkeyup=validateInput(trademark)
+                  placeholder="Marca"
+                  >
+                  <label for="trademark">Marca</label>
+              </div>
+              <div class="form-floating mb-3">
+                  <input type="text" 
+                  name="clients" 
+                  class="form-control" 
+                  pattern="\d+$"
+                  autocomplete="off"
+                  onkeyup=validateInput(clients)
+                  placeholder="Cliente"
+                  >
+                  <label for="clients">Cliente</label>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <input type="submit" value="Crear" class="btn seeMore"/>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
     <script src="/scripts/machines.js"></script>
+    <script src="/scripts/activePage.js"></script>
+    <script src="/scripts/validateForms.js"></script>
+    <script src="/scripts/filter.js"></script>
+    <script src="/scripts/search.js"></script>
 </body>
 </html>
