@@ -130,7 +130,7 @@
               
           </ul>        
       </div>
-      <div class="row mx-auto d-flex flex-column py-4 my-auto col-8">
+      <div class="row mx-auto d-flex flex-column py-4 my-auto col-11 col-md-8">
           <div class="col-12 col-md-10 mx-auto rounded p-4 border greyLightBg">
               <h1 class="fs-3 text-center fw-bold">Informacion de la cuenta</h1>
               <div class="container border border-2 rounded pt-3 pb-4 px-3 px-md-5">
@@ -167,7 +167,7 @@
               </div>
               <div class="modal-body">
                   <form class="needs-validation col-11 mx-auto" action="/apiClient/updateInfo" method="post" id="form2">
-                      <input type="hidden" id="id" name="id" value="<%= session.Id %> ">                  
+                      <input type="hidden" name="id" value="<%= session.Id %> ">                  
                       <div class="form-floating mb-1">
                           <input 
                           type="text" 
@@ -197,14 +197,13 @@
                       
                       <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                        <input id="updateButton" type="submit" value="Actualizar" class="btn seeMore">                
+                        <input type="submit" value="Actualizar" class="btn seeMore">                
                       </div> 
                   </form>
               </div>
             </div>
           </div>
       </div>
-
       <!-- Password Modal -->
       <div class="modal fade" id="passwordModal" tabindex="-1" aria-labelledby="passwordModalLabel" aria-hidden="true">
           <div class="modal-dialog">

@@ -48,6 +48,11 @@ const createElements = () => {
     elements.divButton = document.createElement('div');
     elements.divVehicle = document.createElement('div');
 
+    elements.divCenter1 = document.createElement('div');
+    elements.divCenter2 = document.createElement('div');
+    elements.divCenter3 = document.createElement('div');
+    elements.divCenter4 = document.createElement('div');
+
     elements.alertTitle = document.createElement('h4');
     elements.p1 = document.createElement('p');
     elements.p2 = document.createElement('p');
@@ -86,7 +91,7 @@ const createElements = () => {
 
 const assignClasses = (elements) => {
     elements.div.classList.add('vehicleInfo');
-    elements.divAlertContainer.classList.add('flex-column','align-items-center','mx-auto','my-2', 'rounded','d-none','d-lg-flex');
+    elements.divAlertContainer.classList.add('flex-column','align-items-center','mx-auto','my-2', 'rounded','d-flex');
     elements.divAlert1.classList.add('row','col-11','flex-wrap','mx-auto','px-auto','py-1','align-items-center','justify-content-center');
     elements.divAlert2.classList.add('alertsInfo');
     elements.divAlert3.classList.add('alertsInfo');
@@ -100,6 +105,11 @@ const assignClasses = (elements) => {
     elements.divAlert11.classList.add('alertsInfo');
     elements.divButton.classList.add('container','d-flex','col-12');
     elements.divVehicle.classList.add('col-12','mx-0','d-flex');
+    
+    elements.divCenter1.classList.add('col-11', 'mx-auto', 'd-flex', 'justify-content-between');
+    elements.divCenter2.classList.add('col-11', 'mx-auto', 'd-flex', 'justify-content-between');
+    elements.divCenter3.classList.add('col-11', 'mx-auto', 'd-flex', 'justify-content-between');
+    elements.divCenter4.classList.add('col-11', 'mx-auto', 'd-flex', 'justify-content-between');
 
     elements.alertTitle.classList.add('fs-5','mx-auto')
     elements.p1.classList.add('textLabel');
@@ -143,7 +153,7 @@ const configElements = (elements,info,loopNumber) => {
     elements.divAlert11.title = 'Alarma 10';
 
     elements.alertTitle.textContent = 'Alertas'
-    elements.p1.textContent = 'Numero del equipo:';
+    elements.p1.textContent = 'Numero:';
     elements.p2.textContent = `${info.Numero}`;
     elements.p3.textContent = 'Marca:';
     elements.p4.textContent = `${info.Marca}`;
@@ -227,14 +237,18 @@ const buildBlock = (info,loopNumber) => {
     elements.divButton.appendChild(elements.button);
 
     elements.div.appendChild(elements.divVehicle);
-    elements.div.appendChild(elements.p1);
-    elements.div.appendChild(elements.p2);
-    elements.div.appendChild(elements.p3);
-    elements.div.appendChild(elements.p4);
-    elements.div.appendChild(elements.p5);
-    elements.div.appendChild(elements.p6);
-    elements.div.appendChild(elements.p7);
-    elements.div.appendChild(elements.p8);
+    elements.divCenter1.appendChild(elements.p1);
+    elements.divCenter1.appendChild(elements.p2);
+    elements.divCenter2.appendChild(elements.p3);
+    elements.divCenter2.appendChild(elements.p4);
+    elements.divCenter3.appendChild(elements.p5);
+    elements.divCenter3.appendChild(elements.p6);
+    elements.divCenter4.appendChild(elements.p7);
+    elements.divCenter4.appendChild(elements.p8);
+    elements.div.appendChild(elements.divCenter1);    
+    elements.div.appendChild(elements.divCenter2);    
+    elements.div.appendChild(elements.divCenter3);    
+    elements.div.appendChild(elements.divCenter4);    
     elements.div.appendChild(elements.divAlertContainer);
     elements.div.appendChild(elements.divButton);    
 

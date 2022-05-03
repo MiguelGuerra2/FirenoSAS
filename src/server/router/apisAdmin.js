@@ -13,7 +13,7 @@ const {authApiAdmin} = require('./authMiddlewords');
 router.get('/getElements',authApiAdmin,(req,res) => {
     if (req.query.q == 1) {
         connection.query(
-            `SELECT * FROM usuarios WHERE Id != ${req.session.userData.Id};`, (err,result) => {
+            `SELECT * FROM usuarios WHERE Id != ${req.session.userData.Id} ORDER BY Id DESC;`, (err,result) => {
                 if (!err) {
                     return res.send(result)
                 } else {
@@ -24,7 +24,7 @@ router.get('/getElements',authApiAdmin,(req,res) => {
         )
     } else if (req.query.q == 2) {
         connection.query(
-            `SELECT * FROM equipos;`, (err,result) => {
+            `SELECT * FROM equipos ORDER BY Id DESC;`, (err,result) => {
                 if (!err) {
                     return res.send(result)
                 } else {

@@ -8,17 +8,19 @@ let info,equipo,problema,alarma,latitud,longitud,horaEnvio,queryvalues;
 
 const validarMensaje = (msg,rinfo) => {
     info = msg.toString().split(';');
-    
+
+    for (let i = 0; i < info.length; i++){   
+        registrarInfo(info);
+    };
+};
+
+const registrarInfo = (mensaje) => {
     for (let i = 0; i < info.length-2; i++){   
         if ( isNaN(info[i]) ) {
             console.log('Dato invalido');
             return false;
         };
     };
-    registrarInfo(info);
-};
-
-const registrarInfo = (mensaje) => {
 
     equipo = mensaje[0];
     problema = mensaje[1];

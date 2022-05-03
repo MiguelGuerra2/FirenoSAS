@@ -1,9 +1,6 @@
 import socket
-import sys                                                                         
 import time                                                                        
-import threading                                                                   
 import serial                                                                      
-from signal import pause                                                           
 from gpiozero import LED, Button                                                   
 from time import strftime                                                                                                                                                                                                                                
 ser = serial.Serial('/dev/ttyUSB2',115200)                                         

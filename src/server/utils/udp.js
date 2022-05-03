@@ -6,36 +6,39 @@ const activateSocket = (port) => {
     const connection = require('./db');
 
     const validateMessage = (msg,rinfo) => {
-        const info = msg.toString().split(',');
-
-        info[1] == 'GPS ERROR' ? info[1] = 0 : info[1] = info[1];
-        info[2] == 'GPS ERROR' ? info[2] = 0 : info[2] = info[2];  
-
-        for (let i = 0; i < info.length; i++){   
-            if ( isNaN(info[i] && i != 3) ) {
-                console.log('Dato invalido');
-                return false;
+        const messages = msg.toString().split(';')
+        for (let i = 0; i < messages.length; i++) {
+            const info = msg.toString().split(',');
+            
+            info[1] == 'GPS ERROR' ? info[1] = 0 : info[1] = info[1];
+            info[2] == 'GPS ERROR' ? info[2] = 0 : info[2] = info[2];  
+    
+            for (let j = 0; j < info.length; j++){   
+                if ( isNaN(info[j] && j != 3) ) {
+                    console.log('Dato invalido');
+                    return false;
+                };
             };
-        };
-        saveInfo(info);
+            saveInfo(info);
+        }
     };
 
-    const saveInfo = (mensaje) => {
-        const equipo = mensaje[0];
-        const latitud = mensaje[1];
-        const longitud = mensaje[2];
-        const horaEnvio = mensaje[3];
+    const saveInfo = (message) => {
+        const equipo = message[0];
+        const latitud = message[1];
+        const longitud = message[2];
+        const horaEnvio = message[3];
 
-        const alarma_1 = mensaje[4];
-        const alarma_2 = mensaje[5];
-        const alarma_3 = mensaje[6];
-        const alarma_4 = mensaje[7];
-        const alarma_5 = mensaje[8];
-        const alarma_6 = mensaje[9];
-        const alarma_7 = mensaje[10];
-        const alarma_8 = mensaje[11];
-        const alarma_9 = mensaje[12];
-        const alarma_10 = mensaje[13];
+        const alarma_1 = message[4];
+        const alarma_2 = message[5];
+        const alarma_3 = message[6];
+        const alarma_4 = message[7];
+        const alarma_5 = message[8];
+        const alarma_6 = message[9];
+        const alarma_7 = message[10];
+        const alarma_8 = message[11];
+        const alarma_9 = message[12];
+        const alarma_10 = message[13];
 
         const columns = 'Equipo,Latitud,Longitud,Hora_envio,Alarma_1,Alarma_2,Alarma_3,Alarma_4,Alarma_5,Alarma_6,Alarma_7,Alarma_8,Alarma_9,Alarma_10';
 

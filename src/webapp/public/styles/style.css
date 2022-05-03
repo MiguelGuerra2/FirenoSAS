@@ -156,15 +156,15 @@ div::-webkit-scrollbar-thumb {
     width: 100%;
 }
 .vehicleInfoRecord {
+    padding-top: 15px;
     box-sizing: content-box;
-    height: 240px;
     overflow-y: hidden;
     transition: height 0.5s linear;
     width: 100%;
 }
 .vehicleInfo {
     padding-top: 15px;
-    height: 240px;
+    padding-bottom: 15px;
     width: 100%;
 }
 #vehicleContainer > .vehicleInfo {
@@ -219,22 +219,22 @@ div::-webkit-scrollbar-thumb {
 }
 #mapContainer {
     width:100vw;
-    min-height:calc(100vh - 430px);
+    min-height: 50vh;
 }
 .vehicleTool {
     flex-wrap: wrap;
 }
 .textLabel {
-    width: 40%;
+    text-align: center;
+    width: 30%;
     display: inline-block;
     margin: 5px auto;
     font-weight: bold;
-    padding-left: 5%;
 }
 .textInfo {
     text-align: center;
     margin: 5px auto;
-    width: 40%;
+    width: 30%;
     display: inline-block;
     overflow-wrap: break-word;
 }
@@ -329,7 +329,7 @@ div::-webkit-scrollbar-thumb {
     text-decoration: none;
     border: dashed 3px var(--darkGray);
     height: 70px;
-    width: 80%;
+    width: 50%;
     margin: auto;
     text-align: center;
     padding: 15px;
@@ -475,9 +475,6 @@ div::-webkit-scrollbar-thumb {
 
     .formsContainer {
         margin-top: 63px;
-    }
-    .newElementButton {
-        width: 70px;
     }
 }
 

@@ -152,9 +152,10 @@ const getMachines = async () => {
             addListeners(machine,usersData[i]);
             fragment.appendChild(machine);
         }
+        const newMachineDiv = document.getElementById('newUserDiv');
         const newMachineButton = createMachineButton()
+        newMachineDiv.appendChild(newMachineButton);
         usersColumn.appendChild(fragment);
-        usersColumn.appendChild(newMachineButton);
     }   
 }
 getMachines();

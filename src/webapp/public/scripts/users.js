@@ -171,7 +171,7 @@ const createUserButton = () => {
     addButton.textContent = '+';
     addButton.dataset.bsToggle = 'modal';
     addButton.dataset.bsTarget = '#newUserModal';
-    addButton.classList.add('newElementButton','mx-auto','w-50');
+    addButton.classList.add('newElementButton');
     return addButton;
 }
 

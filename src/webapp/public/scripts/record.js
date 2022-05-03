@@ -22,11 +22,16 @@ const startendIcon = new L.Icon({
 const createElements = () => {
     let elements = {};
     elements.div = document.createElement('div');
-    elements.divCalendar1 = document.createElement('div')
-    elements.divCalendar2 = document.createElement('div')
-    elements.divButton = document.createElement('div')
-    elements.divArrow = document.createElement('div')
+    elements.divCalendar1 = document.createElement('div');
+    elements.divCalendar2 = document.createElement('div');
+    elements.divButton = document.createElement('div');
+    elements.divArrow = document.createElement('div');
     elements.divVehicle = document.createElement('div');
+
+    elements.divCenter1 = document.createElement('div');
+    elements.divCenter2 = document.createElement('div');
+    elements.divCenter3 = document.createElement('div');
+    elements.divCenter4 = document.createElement('div');
 
     elements.p1 = document.createElement('p');
     elements.p2 = document.createElement('p');
@@ -59,6 +64,11 @@ const assignClasses = (elements) => {
     elements.divArrow.classList.add('d-flex','col-12');
     elements.divVehicle.classList.add('col-12','mx-0','d-flex');
 
+    elements.divCenter1.classList.add('col-11', 'mx-auto', 'd-flex', 'justify-content-between');
+    elements.divCenter2.classList.add('col-11', 'mx-auto', 'd-flex', 'justify-content-between');
+    elements.divCenter3.classList.add('col-11', 'mx-auto', 'd-flex', 'justify-content-between');
+    elements.divCenter4.classList.add('col-11', 'mx-auto', 'd-flex', 'justify-content-between');
+
     elements.p1.classList.add('textLabel');
     elements.p2.classList.add('textInfo','fw-light');
     elements.p3.classList.add('textLabel');
@@ -83,7 +93,7 @@ const assignClasses = (elements) => {
 const configElements = (elements,info) => {
     elements.imgVehicle.src = '/icons/truck.svg';
     elements.div.id = info.Numero;
-    elements.p1.textContent = 'Numero del equipo:';
+    elements.p1.textContent = 'Numero:';
     elements.p2.textContent = info.Numero;
     elements.p3.textContent = 'Marca:';
     elements.p4.textContent = info.Marca;
@@ -91,7 +101,7 @@ const configElements = (elements,info) => {
     elements.p6.textContent = info.Referencia;
     elements.p7.textContent = 'Empresa:';
     elements.p8.textContent = info.Empresa;
-    elements.button.textContent = 'Ver ubicacion';
+    elements.button.textContent = 'Consultar';
     elements.label1.textContent = 'Fecha inicial:';
     elements.label2.textContent = 'Fecha final:';
     elements.label1.htmlFor = 'calendar1' + info.Numero;
@@ -122,14 +132,19 @@ const buildBlock = (info) => {
     elements.divArrow.appendChild(elements.arrow);
 
     elements.div.appendChild(elements.divVehicle);
-    elements.div.appendChild(elements.p1);
-    elements.div.appendChild(elements.p2);
-    elements.div.appendChild(elements.p3);
-    elements.div.appendChild(elements.p4);
-    elements.div.appendChild(elements.p5);
-    elements.div.appendChild(elements.p6);
-    elements.div.appendChild(elements.p7);
-    elements.div.appendChild(elements.p8);
+    elements.divCenter1.appendChild(elements.p1);
+    elements.divCenter1.appendChild(elements.p2);
+    elements.divCenter2.appendChild(elements.p3);
+    elements.divCenter2.appendChild(elements.p4);
+    elements.divCenter3.appendChild(elements.p5);
+    elements.divCenter3.appendChild(elements.p6);
+    elements.divCenter4.appendChild(elements.p7);
+    elements.divCenter4.appendChild(elements.p8);
+
+    elements.div.appendChild(elements.divCenter1);
+    elements.div.appendChild(elements.divCenter2);
+    elements.div.appendChild(elements.divCenter3);
+    elements.div.appendChild(elements.divCenter4);
     elements.div.appendChild(elements.divButton);
     elements.div.appendChild(elements.divArrow);    
 
@@ -138,19 +153,19 @@ const buildBlock = (info) => {
 
 const addListeners = (vehicle,info) => {
     const vehicleArrow = vehicle.lastElementChild;
-    const buttonDiv = vehicle.children[9];
+    const buttonDiv = vehicle.children[5];
     const button = buttonDiv.lastElementChild;
     vehicleArrow.addEventListener('click',()=> {
         const vehicle = document.getElementById(info.Numero);
         const buttonDivs = document.querySelectorAll('.vehicleButtonRecord');
         const vehicleDivs = document.querySelectorAll('.vehicleInfoRecord');
         const arrows = document.querySelectorAll('.arrowDown');
-        if (vehicle.style.height == '442px') {
-            vehicle.style.height = '240px';
+        if (vehicle.style.height == '422px') {
+            vehicle.style.height = '220px';
             buttonDiv.style.display = 'none';
             vehicleArrow.style.transform = 'rotate(0deg)';
         } else {
-            vehicle.style.height = '442px';
+            vehicle.style.height = '422px';
             buttonDiv.style.display = 'flex';
             vehicleArrow.style.transform = 'rotate(180deg)';
             vehicle.scrollIntoView({
@@ -159,7 +174,7 @@ const addListeners = (vehicle,info) => {
         }
         for (let i = 0; i < buttonDivs.length; i++) {  
             if(vehicleDivs[i] != vehicle) {
-                vehicleDivs[i].style.height = '240px';
+                vehicleDivs[i].style.height = '220px';
                 buttonDivs[i].style.display = 'none';
                 arrows[i].parentNode.style.transform = 'rotate(0deg)';
             };
