@@ -20,5 +20,37 @@
     transition: all 1s linear;
 }
 
+#titleDiv {
+    border-right: 5px solid #f7f7f7;
+    animation: blink1 1s steps(1) infinite;
+}
+
+#title {
+    font-family: monospace;
+    width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    animation: typing 8s steps(12) 1s infinite normal both;
+}
 
 
+@keyframes blink1 {
+    50% {
+      border-color: transparent;
+    }
+}
+
+@keyframes typing {
+    20% {
+        width: 0;
+    }
+    45% {
+        width: 185px;
+    }
+    75% {
+        width: 185px;
+    }
+    100% {
+        width: 0;
+    }
+}

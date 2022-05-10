@@ -2,27 +2,34 @@
 <%- include('../partials/header.ejs'); %> 
 <div class="row mx-auto d-flex flex-column py-4 formsContainer">
     <div class="col-11 col-md-6 mx-auto rounded p-4 border greyLightBg">
-        <h1 class="fs-3 text-center fw-bold">Informacion de la cuenta</h1>
-        <div class="container border border-2 rounded py-3 px-3 px-md-5">
-            <div class="d-flex mb-3">
-                <img class="col-3 col-md-2 mx-auto" src="/icons/profile.png" alt="">
-            </div>
-            <p class="mb-1 fw-bold">Nombre completo:</p>
-            <p class="text-center mx-auto mb-2 fw-light"><%= session.Nombre %> <%= session.Apellido %></p>
-            <p class="mb-1 fw-bold">Empresa:</p>
-            <p class="text-center mx-auto mb-2 fw-light"><%= session.Empresa %> </p>
-            <p class="mb-1 fw-bold">Email:</p>
-            <p class="text-center mx-auto mb-2 fw-light"><%= session.Email %> </p> 
-            <p class="mb-1 fw-bold">Tipo de usuario:</p>
-            <% if (session.Rol == 1) { %> 
-                <p class="text-center mx-auto mb-1 fw-light">Cliente</p> 
-            <% } else if (session.Rol == 2) { %> 
-                <p class="text-center mx-auto mb-1 fw-light">Administrador</p>
-            <% } %> 
-            <div class="d-flex flex-wrap mt-3">
-                <a type="button" class="btn seeMore text-center mx-auto my-2" style="font-size: 15px;" href="#" data-bs-toggle="modal" data-bs-target="#infoModal">Actualizar informacion</a>
-                <a type="button" class="btn seeMore text-center mx-auto my-2" style="font-size: 15px;" href="#" data-bs-toggle="modal" data-bs-target="#passwordModal">Cambiar contrasena</a>
-            </div>
+        <h1 class="fs-3 text-center fw-bold">Informacion de mi cuenta</h1>
+        <div class="d-flex flex-column mx-auto border border-1 border-dark rounded pb-3 col-12 col-lg-8 bgGrayLight">
+          <div class="redBg col-12" style="height: 100px; margin-bottom: -40px;">
+
+          </div>
+          <div class="d-flex mb-3 bgGrayLight rounded-circle border-dark border border-2 mx-auto" style="height: 74px; width: 74px;">
+              <img class="col-11 p-2 mx-auto" src="/icons/profile.png" alt="">
+          </div>
+          <p class="ms-3 ms-md-5 mb-1 fw-bold">Nombre completo:</p>
+          <p class="text-center mx-auto mb-2 fw-light"><%= session.Nombre %> <%= session.Apellido %></p>
+          <p class="ms-3 ms-md-5 mb-1 fw-bold">Empresa:</p>
+          <p class="text-center mx-auto mb-2 fw-light"><%= session.Empresa %> </p>
+          <p class="ms-3 ms-md-5 mb-1 fw-bold">Email:</p>
+          <p class="text-center mx-auto mb-2 fw-light"><%= session.Email %> </p> 
+          <p class="ms-3 ms-md-5 mb-1 fw-bold">Tipo de usuario:</p>
+          <% if (session.Rol == 1) { %> 
+            <p class="text-center mx-auto mb-1 fw-light">Cliente</p> 
+          <% } else if (session.Rol == 2) { %> 
+              <p class="text-center mx-auto mb-1 fw-light">Miembro de Fireno S.A.S</p>
+          <% } else if (session.Rol == 3) { %> 
+              <p class="text-center mx-auto mb-1 fw-light">Administrador</p>
+          <% } else if (session.Rol == 4) { %> 
+              <p class="text-center mx-auto mb-1 fw-light">Administrador de Certificados</p>  
+          <% } %> 
+          <div class="d-flex flex-column mt-3">
+              <a type="button" class="btn seeMore text-center mx-auto my-2" style="font-size: 15px;" href="#" data-bs-toggle="modal" data-bs-target="#infoModal">Actualizar informacion</a>
+              <a type="button" class="btn seeMore text-center mx-auto my-2" style="font-size: 15px;" href="#" data-bs-toggle="modal" data-bs-target="#passwordModal">Cambiar contrasena</a>
+          </div>
         </div>
     </div>
 </div>    

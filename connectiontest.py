@@ -41,6 +41,7 @@ message = get_msg()
 while True :
     send_state = send_message(message)
     message = get_msg(message,send_state)
+    
     time.sleep(5)
 
 

@@ -6,7 +6,6 @@ const polyline = L.polyline([["0", "0"]], {
     opacity: 0.9,
     smoothFactor: 1
 }).addTo(map);
-let firstLoop = true;
 let markers = {};
 let markersName = 'marcador';
 
@@ -206,6 +205,7 @@ const recordData = async (machine,id) => {
     const vehicleActive = document.querySelector('.vehicleInfoActive');
     if (vehicleActive) { vehicleActive.classList.remove('vehicleInfoActive')}
     let coords = [];
+    let alarms = [];
     let iDate = document.getElementById('calendar1'+machine).value;
     let fDate = document.getElementById('calendar2'+machine).value;
     iDate = iDate.replace(/-/g,'/');
@@ -218,35 +218,46 @@ const recordData = async (machine,id) => {
         };
         for (let i = 0; i < info.length; i++) {
             const coord = [info[i].Latitud,info[i].Longitud];
-            coords.push(coord);
-            if (i == 0) {
-                markers[i] = L.marker(coords[0],{
-                    title: "Coordenadas",
-                    draggable:false,
-                    icon: startendIcon
-                    }).addTo(map);
-                map.flyTo(coords[0], 12, {
-                    animate: true,
-                    duration: 1
-                });
-            } else if (i == info.length-1){
-                markers[i] = L.marker(coords[coords.length-1], {
-                    title: "Coordenadas",
-                    draggable:false,
-                    icon: startendIcon
-                    }).addTo(map);
-            } else {
-                markers[i] = L.marker(coord, {icon:recordIcon}).addTo(map);
-            };
+            const alarm_states = [info[i].Alarma_1,info[i].Alarma_2,info[i].Alarma_3,info[i].Alarma_4,info[i].Alarma_5,info[i].Alarma_6,info[i].Alarma_7,info[i].Alarma_8,info[i].Alarma_9,info[i].Alarma_10]
+            if (coord[0] != 0 && coord[1] != 0) {
+                coords.push(coord);
+                alarms.push(alarm_states);
+            }
         };
-        if (firstLoop == true) {
-            setTimeout(() => {
-                polyline.setLatLngs(coords);            
-            }, 1000);
-            firstLoop = false;
-        } else {
+        setTimeout(() => {
+            markers[0] = L.marker(coords[0],{
+                title: "Coordenadas",
+                draggable:false,
+                icon: startendIcon
+                }).addTo(map).bindPopup("<b>Punto incial</b>").openPopup();
+            map.flyTo(coords[0], 15, {
+                animate: true,
+                duration: 1
+            });
+            for (let i = 1; i < coords.length; i++) {   
+                const isFalse = (currentValue) => currentValue == false;
+                if (i % 20 == 0 || !alarms[i].every(isFalse)){
+                    if(alarms[i].every(isFalse)){
+                        markers[i] = L.marker(coords[i], {icon:recordIcon}).addTo(map).bindPopup("<b>Estado de alertas: </b> Normal");
+                        
+                    } else {
+                        markers[i] = L.marker(coords[i], {icon:recordIcon}).addTo(map).bindPopup("<b>Estado de alertas: </b> Hay alerta");
+                    }
+                    markers[i].on('mouseover', function (e) {
+                        this.openPopup();
+                    });
+                    markers[i].on('mouseout', function (e) {
+                        this.closePopup();
+                    });
+                }
+            };
+            markers[coords.length - 1] = L.marker(coords[coords.length-1], {
+                title: "Coordenadas",
+                draggable:false,
+                icon: startendIcon
+                }).addTo(map).bindPopup("<b>Punto final</b>");
             polyline.setLatLngs(coords);            
-        }
+        }, 1000);
     };
 };
 createDivs();

@@ -7,14 +7,14 @@ const activateSocket = (port) => {
 
     const validateMessage = (msg,rinfo) => {
         const messages = msg.toString().split(';')
-        for (let i = 0; i < messages.length; i++) {
-            const info = msg.toString().split(',');
+        for (let i = 0; i < messages.length - 1; i++) {
+            const info = messages[i].toString().split(',');
             
             info[1] == 'GPS ERROR' ? info[1] = 0 : info[1] = info[1];
             info[2] == 'GPS ERROR' ? info[2] = 0 : info[2] = info[2];  
     
             for (let j = 0; j < info.length; j++){   
-                if ( isNaN(info[j] && j != 3) ) {
+                if ( isNaN(info[j]) && j != 3 ) {
                     console.log('Dato invalido');
                     return false;
                 };
@@ -38,7 +38,7 @@ const activateSocket = (port) => {
         const alarma_7 = message[10];
         const alarma_8 = message[11];
         const alarma_9 = message[12];
-        const alarma_10 = message[13];
+        const alarma_10 = message[13].split(';').join('');
 
         const columns = 'Equipo,Latitud,Longitud,Hora_envio,Alarma_1,Alarma_2,Alarma_3,Alarma_4,Alarma_5,Alarma_6,Alarma_7,Alarma_8,Alarma_9,Alarma_10';
 
@@ -47,10 +47,12 @@ const activateSocket = (port) => {
             `INSERT INTO informacion (${columns}) VALUES (${queryvalues});`, err => {
                 if (err) {
                     console.log(`Ha ocurrido el siguiente error: ${err}`);
+                } else {
+                    console.log('Registro guardado exitosamente')
                 }
             }
         )
-    }
+    } 
 
     socket.on('message', validateMessage)
     socket.bind(socketPort);

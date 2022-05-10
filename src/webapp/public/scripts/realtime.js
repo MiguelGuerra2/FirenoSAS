@@ -318,7 +318,7 @@ const fragment = document.createDocumentFragment();
 
 const realTimeIcon = new L.Icon({
     iconUrl: "/icons/recordIcon1.png",
-    iconSize: [28, 40]
+    iconSize: [25, 65]
 });
 
 let firstLoop = true;
@@ -328,4 +328,4 @@ let markersName = 'marcador';
 let divsName = 'div';
 
 loadData();
-setInterval(updateData,1000);
+setInterval(updateData,500);
