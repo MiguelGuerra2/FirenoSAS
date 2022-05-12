@@ -328,4 +328,4 @@ let markersName = 'marcador';
 let divsName = 'div';
 
 loadData();
-setInterval(updateData,500);
+setInterval(updateData,1000);

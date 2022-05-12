@@ -236,13 +236,17 @@ const recordData = async (machine,id) => {
             });
             for (let i = 1; i < coords.length; i++) {   
                 const isFalse = (currentValue) => currentValue == false;
-                if (i % 20 == 0 || !alarms[i].every(isFalse)){
-                    if(alarms[i].every(isFalse)){
-                        markers[i] = L.marker(coords[i], {icon:recordIcon}).addTo(map).bindPopup("<b>Estado de alertas: </b> Normal");
+                if ( !alarms[i].every(isFalse) ){
+                        let popupInfo = "";
+                        for (j = 0; j < alarms[i].length; j++) {
+                            if ( !isFalse(alarms[i][j]) ) {
+                                const alarmNumber = j+1;
+                                popupInfo += `Alarma <b>#${alarmNumber}</b> Activa <br>`
+                            }
+                        }
                         
-                    } else {
-                        markers[i] = L.marker(coords[i], {icon:recordIcon}).addTo(map).bindPopup("<b>Estado de alertas: </b> Hay alerta");
-                    }
+                        markers[i] = L.marker(coords[i], {icon:recordIcon}).addTo(map).bindPopup(popupInfo);
+                    
                     markers[i].on('mouseover', function (e) {
                         this.openPopup();
                     });
