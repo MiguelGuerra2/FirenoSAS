@@ -104,23 +104,23 @@
           <hr>
           <ul class="nav nav-pills flex-column mb-auto">
               <li style="height: 67px">
-                  <a href="/tools/users" class="nav-link">
-                      <img class="navIcon bi me-2 col-3" src="/icons/usersHeader.svg" alt="">
-                      Usuarios
-                  </a>
+                <a href="/tools/users" class="nav-link">
+                    <img class="navIcon bi me-2 col-3" src="/icons/usersHeader.svg" alt="">
+                    Usuarios
+                </a>
               </li>
-              <li style="height: 67px" class="nav-item active-link">
-                  <a href="/tools/machines" class="nav-link">
+              <li style="height: 67px">
+                  <a href="/tools/machines" class="nav-link link-dark">
                       <img class="navIcon bi me-2 col-3" src="/icons/truck.svg" alt="">
                       Maquinas
                   </a>
               </li>
-              <li style="height: 67px">
-                <a href="/tools/clients" class="nav-link link-dark">
+              <li style="height: 67px" class="nav-item active-link">
+                <a href="/tools/clients" class="nav-link">
                     <img class="navIcon bi me-2 col-3" src="/icons/clients.svg" alt="">
                     Clientes
                 </a>
-              </li>
+            </li>
               <li style="height: 67px">
                   <a href="/tools/profile" class="nav-link link-dark">
                       <img class="navIcon bi me-2 col-3" src="/icons/settingsFill.svg" alt="">
@@ -133,21 +133,21 @@
                     Cerrar sesion
                 </a>
             </li>
+              
           </ul>        
       </div>
-      <div class="d-flex flex-wrap greyLightBg py-3 mx-auto mt-4 col-11 col-md-8 rounded-3" id="usersColumn">
-        <h1 class="text-center fs-3 col-12">Lista de maquinas</h1>
+      <div class="d-flex flex-column greyLightBg py-3 mx-auto mt-4 col-11 col-md-8 rounded-3" id="usersColumn">
+        <h1 class="text-center fs-3">Lista de clientes</h1>
         
         <div class="input-group my-2 w-50 me-2 ms-auto">
-          <input type="text" id="searchInput" class="form-control col-10" placeholder="Numero Maquina" aria-label="Numero Maquina" aria-describedby="basic-addon2" onkeyup="search(this)">
-          <span class="input-group-text" style="cursor: pointer;max-height: 35.27px;" id="basic-addon2"><img src="/icons/search.svg" alt="search"/></span>
+          <input type="text" id="searchInput" class="form-control col-10" placeholder="Nombre empresa" aria-label="Nombre empresa" aria-describedby="basic-addon2" onkeyup="search(this)">
+          <span class="input-group-text" style="cursor: pointer;" id="basic-addon2"><img src="/icons/search.svg" alt="search"/></span>
         </div>
-
-        <div class="col-12 d-flex mt-4" id="newUserDiv" title="Crear nuevo usuario">
+        
+        <div class="col-12 d-flex mt-4" id="newClientDiv" title="Crear nuevo usuario">
 
         </div>
-
-        <div id="machinesContainer" class="col-12 d-flex flex-wrap mx-auto">
+        <div id="clientsContainer">
           <div class="col-12 d-none mt-3" id="noResults">
             <p class="text-center text-muted">No se han encontrado resultados para su busqueda.</p>
           </div>
@@ -158,12 +158,12 @@
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="deleteModalLabel">Eliminar Maquina</h5>
+            <h5 class="modal-title" id="deleteModalLabel">Eliminar cliente</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-              <p>Esta seguro que desea eliminar permanentemente esta maquina?</p> 
-              <p>Una vez eliminada no podra ser recuperada.</p>
+              <p>Esta seguro que desea eliminar permanentemente este cliente?</p> 
+              <p>Una vez eliminado no podra ser recuperado.</p>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
@@ -190,119 +190,56 @@
         </div>
       </div>
     </div>
-    <div class="modal fade" id="newMachineModal" tabindex="-1" aria-labelledby="newMachineModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="newMachineModalLabel">Crear maquina</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <form action="/apiAdmin/createMachine" id="form" method="post">
-              <div class="form-floating mb-3">
-                  <input 
-                  type="text" 
-                  name="number"
-                  class="form-control"
-                  pattern="\d+$" 
-                  autocomplete="off"
-                  onkeyup=validateInput(number)
-                  placeholder="Numero"
-                  required
-                  >
-                  <label for="number">Numero</label>                    
-              </div> 
-              <div class="form-floating mb-3">
-                  <input type="text" 
-                  name="reference" 
-                  class="form-control" 
-                  pattern="[A-Za-z0-9]{1,9}"
-                  autocomplete="off"
-                  onkeyup=validateInput(reference)
-                  placeholder="Referencia"
-                  required
-                  >
-                  <label for="reference">Referencia</label>
-              </div>
-              <div class="form-floating mb-3">
-                  <input type="text" 
-                  name="trademark" 
-                  class="form-control" 
-                  pattern="[A-Za-z0-9]{3,6}"
-                  maxlength="20"
-                  autocomplete="off"
-                  onkeyup=validateInput(trademark)
-                  placeholder="Marca"
-                  required
-                  >
-                  <label for="trademark">Marca</label>
-              </div>
-              <div class="form-floating mb-3">
-                  <select class="form-select usersOptions" name="clients" required>
-                    <option selected value="">Seleccionar usuario...</option>
-                  </select>
-                  <label for="clients">Usuario</label>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <input type="submit" value="Crear" class="btn seeMore"/>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
     <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="updateModalLabel">Actualizar maquina</h5>
+            <h5 class="modal-title" id="updateModalLabel">Actualizar informacion</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <form action="/apiAdmin/updateMachine" id="form" method="post">
-              <input type="hidden" value="" id="idMachineForm" name="id">
+            <form action="/apiAdmin/updateClient" id="form" method="post">
+              <input type="hidden" value="" id="idClientForm" name="id">
               <div class="form-floating mb-3">
                   <input 
                   type="text" 
-                  name="number"
+                  name="names"
                   class="form-control"
-                  pattern="\d+$" 
+                  pattern="[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{2,48}" 
                   autocomplete="off"
-                  onkeyup=validateInput(number)
-                  placeholder="Numero"
+                  onkeyup=validateInput(names)
                   >
-                  <label for="number">Numero</label>                    
+                  <label for="floatingInput">Nombre de empresa</label>                    
               </div> 
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <input type="submit" value="Actualizar" class="btn seeMore"/>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" id="newUserModal" tabindex="-1" aria-labelledby="newUserModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="newUserModalLabel">Crear nuevo cliente</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form action="/apiAdmin/createClient" method="post">
               <div class="form-floating mb-3">
-                  <input type="text" 
-                  name="reference" 
-                  class="form-control" 
-                  pattern="[A-Za-z0-9]{1,9}"
+                  <input 
+                  type="text" 
+                  name="name"
+                  class="form-control"
+                  pattern="[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{2,48}" 
                   autocomplete="off"
-                  onkeyup=validateInput(reference)
-                  placeholder="Referencia"
+                  onkeyup=validateInput(name)
                   >
-                  <label for="reference">Referencia</label>
-              </div>
-              <div class="form-floating mb-3">
-                  <input type="text" 
-                  name="trademark" 
-                  class="form-control" 
-                  pattern="[A-Za-z0-9]{3,6}"
-                  maxlength="20"
-                  autocomplete="off"
-                  onkeyup=validateInput(trademark)
-                  placeholder="Marca"
-                  >
-                  <label for="trademark">Marca</label>
-              </div>
-              <div class="form-floating mb-3">
-                  <select class="form-select usersOptions" required name="clients">
-                    <option selected value="">Seleccionar usuario...</option>
-                  </select>
-                  <label for="clients">Usuario</label>
-              </div>
+                  <label for="floatingInput">Nombres</label>                    
+              </div> 
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                 <input type="submit" value="Crear" class="btn seeMore"/>
@@ -312,7 +249,7 @@
         </div>
       </div>
     </div>
-    <% if(typeof modal!='undefined') { %>
+    <% if(typeof m!='undefined') { %>
       <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
@@ -321,21 +258,22 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              <% if (modal == 1) { %>
-                <p>La maquina ha sido eliminada exitosamente.</p>
-              <% } else if (modal == 2) { %>
-                <h6>No es posible eliminar esta maquina.</h6>
-              <% } else if (modal == 3) { %>
-                <p>Maquina creada exitosamente.</p>
-              <% } else if (modal == 4) { %>
-                <p>Informacion de la maquina actualizada exitosamente</p>
-              <% } else if (modal == 5) { %>
-                <p>No es posible actualizar la informacion de esta maquina</p>
-              <% } else if (modal == 6) { %>
-                <p>Lo sentimos, no es posible crear la maquina. Los datos ingresados ya corresponden a una maquina.</p>
-              <% } else if (modal == 7) { %>
-                <p>Lo sentimos, no es posible crear la maquina. Los datos ingresados no son validos.</p>
-              <% } %>
+              <% if (m == 1) { %>
+                <p>El cliente ha sido eliminado exitosamente.</p>
+              <% } else if (m == 2) { %>
+                <h6>No es posible eliminar este cliente</h6>
+                <p>Esto puede ser debido a que algun usuario se encuentra registrado con esta empresa.</p>                                
+              <% } else if (m == 3) { %>
+                <p>Cliente creado exitosamente.</p>
+              <% } else if (m == 4) { %>
+                <p>Informacion del cliente actualizada exitosamente</p>
+              <% } else if (m == 5) { %>
+                <h6>No es posible crear el cliente</h6>
+                <p>Ya existe un cliente con los datos ingresados.</p>                                
+              <% } else if (m == 6) { %>
+                <h6>No es posible crear el cliente</h6>
+                <p>Los datos ingresados son invalidos.</p>                                
+              <% } %> 
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Entendido</button>
@@ -350,11 +288,10 @@
       };
       </script>
     <% } %>
-    <script src="/scripts/usersOptions.js"></script>
-    <script src="/scripts/machines.js"></script>
+    <script src="/scripts/clients.js"></script>
     <script src="/scripts/activePage.js"></script>
     <script src="/scripts/validateForms.js"></script>
     <script src="/scripts/filter.js"></script>
     <script src="/scripts/search.js"></script>
-</body>
+  </body>
 </html>

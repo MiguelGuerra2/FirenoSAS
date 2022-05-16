@@ -11,7 +11,7 @@ const getUser = async () => {
 
         actualName.innerText = info[0].Nombre;
         actualLastname.innerText = info[0].Apellido;
-        actualCompany.innerText = info[0].Empresa;
+        actualCompany.innerText = info[0].Compania;
         
         if (info[0].Rol == 1) {
             actualRol.innerText = 'Cliente';

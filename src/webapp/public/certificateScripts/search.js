@@ -1,11 +1,10 @@
 // Search certificates by CC (DNI) 
 const search = (searchInput) => {
-    // Apply filter if exist
-    filter();
-    // Get value of input type search
+    const filterInput = document.getElementById('filterInput');
     const searchData = searchInput.value;
+
+    filter(filterInput.value);
     
-    // Apply search if input isn't empty
     if (searchData != '') {
         certificates.forEach(certificate => {
             if (certificate.id) {                

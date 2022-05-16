@@ -80,13 +80,13 @@ router.get('/login', (req,res) => {
 
 router.post('/login', (req,res) => {
     connection.query( 
-        `SELECT * FROM usuarios WHERE Email = '${req.body.email}';`, (err,result) => {
+        `SELECT u.*, c.Compania FROM usuarios AS u INNER JOIN clients AS c ON u.Empresa = c.Id WHERE u.Email = '${req.body.email}';`, (err,result) => {
             if (!err) {
                 if(result.length < 1) {
                     return res.redirect('./login?i=0');
                 } else {
                     const infoUsuario = result[0];
-                    const isValidUser = req.body.email.toLowerCase() == infoUsuario.Email;
+                    const isValidUser = req.body.email.toLowerCase() == infoUsuario.Email.toLowerCase();
                     const isValidPass = bcrypt.compareSync(req.body.password, infoUsuario.Passwords);    
                     if(isValidUser && isValidPass){
                         session=req.session;

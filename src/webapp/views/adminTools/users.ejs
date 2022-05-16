@@ -116,6 +116,12 @@
                   </a>
               </li>
               <li style="height: 67px">
+                <a href="/tools/clients" class="nav-link link-dark">
+                    <img class="navIcon bi me-2 col-3" src="/icons/clients.svg" alt="">
+                    Clientes
+                </a>
+              </li>
+              <li style="height: 67px">
                   <a href="/tools/profile" class="nav-link link-dark">
                       <img class="navIcon bi me-2 col-3" src="/icons/settingsFill.svg" alt="">
                       Configuracion
@@ -197,7 +203,7 @@
           </div>
           <div class="modal-footer">
             <a type="button" href="/auth/logout" class="btn btn-secondary">Cerrar sesion</a>
-            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cancelar</button>
+            <button type="button" class="btn seeMore" data-bs-dismiss="modal">Cancelar</button>
           </div>
         </div>
       </div>
@@ -234,14 +240,14 @@
                   <label for="lastname">Apellidos</label>
               </div>
               <div class="form-floating mb-3">
-                  <input type="text" 
-                  name="company" 
-                  class="form-control" 
-                  minlength="3"
-                  maxlength="20"
-                  autocomplete="off"
-                  onkeyup=validateInput(company)
+                  <select 
+                  name="company"
+                  class="form-select clientOptions" 
+                  onchange="filter(this.value)"
+                  onclick=validateInput(company)
                   >
+                    <option selected disabled value="">Seleccionar Cliente</option>
+                  </select>  
                   <label for="company">Empresa</label>
               </div>
               <div class="form-floating mb-3">
@@ -256,7 +262,7 @@
               </div>
               <div class="form-floating mb-4">
                   <select name="rol" class="form-select" onkeyup=validateInput(rol) >
-                      <option selected disabled value="">Seleccione el tipo de usuario</option>
+                      <option selected disabled value="">Seleccionar tipo de usuario</option>
                       <option value="3">Administrador</option>
                       <option value="1">Cliente</option>
                       <option value="2">Miembro de Fireno S.A.S</option>
@@ -285,7 +291,7 @@
               <div class="form-floating mb-3">
                   <input 
                   type="text" 
-                  name="name"
+                  name="names"
                   class="form-control"
                   pattern="[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{2,48}" 
                   autocomplete="off"
@@ -304,14 +310,13 @@
                   <label for="lastname">Apellidos</label>
               </div>
               <div class="form-floating mb-3">
-                  <input type="text" 
-                  name="company" 
-                  class="form-control" 
-                  minlength="3"
-                  maxlength="20"
-                  autocomplete="off"
-                  onkeyup=validateInput(company)
+                  <select class="form-select clientOptions" 
+                  name="company"
+                  required 
+                  onclick=validateInput(company)
                   >
+                    <option selected disabled value="">Seleccionar Cliente</option>
+                  </select>
                   <label for="company">Empresa</label>
               </div>
               <div class="form-floating mb-3">
@@ -365,6 +370,50 @@
         </div>
       </div>
     </div>
+    <% if(typeof modal!='undefined') { %>
+      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Informacion</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <% if (modal == 1) { %>
+                <p>El usuario ha sido eliminado exitosamente.</p>
+              <% } else if (modal == 2) { %>
+                <h6>No es posible eliminar este usuario</h6>
+                <p>Esto puede ser debido a que algun equipo se encuentra registrado a su nombre.</p>                                
+              <% } else if (modal == 3) { %>
+                <p>Usuario creado exitosamente.</p>
+              <% } else if (modal == 4) { %>
+                <p>Informacion del usuario actualizada exitosamente</p>
+              <% } else if (modal == 5) { %>
+                <p>No es posible actualizar la informacion de este usuario</p>
+              <% } else if (modal == 6) { %>
+                <p>Lo sentimos, no es posible crear el usuario. El correo electronico ingresado ya se encuentra en uso.</p>
+              <% } else if (modal == 7) { %>
+                <p>Lo sentimos, no es posible crear el usuario. Las contrasenas no coinciden.</p>
+              <% } else if (modal == 8) { %>
+                <p>Lo sentimos, no es posible crear el usuario. Los datos ingresados no son validos.</p>
+              <% } else if (modal == 9) { %>
+                <p>El usuario ha sido confirmado exitosamente.</p>
+              <% } %>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Entendido</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script>
+        const myModal = new bootstrap.Modal(document.getElementById("exampleModal"), {});
+        document.onreadystatechange = function () {
+          myModal.show();
+      };
+      </script>
+    <% } %>
+    <script src="/scripts/filterOptions.js"></script>
     <script src="/scripts/users.js"></script>
     <script src="/scripts/activePage.js"></script>
     <script src="/scripts/validateForms.js"></script>

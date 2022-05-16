@@ -95,7 +95,7 @@ const configElements = (elements,info) => {
     elements.p7.textContent = `Certificado valido hasta:`;
     formatDates(info.Valid_Until,elements.p8);
     elements.p9.textContent = `Cliente:`;
-    elements.p10.textContent = info.Client;
+    elements.p10.textContent = info.Compania;
     
     elements.a1.innerHTML = 'Ver certificado';
     elements.a1.id = info.Cc;
@@ -164,7 +164,6 @@ const showCertificates = async () => {
     const response = await fetch('/apiCertificate/getCertificates');
     if (response.status == 200){
         const certificates = await response.json();
-
         // Create every single certificate with info from API
         for (let i = 0; i < certificates.length; i++) {
             const certificate = createCertificate(certificates[i]);

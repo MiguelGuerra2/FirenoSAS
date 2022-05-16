@@ -7,8 +7,12 @@ const connection = require('../utils/db');
 
 // Admin Middleword
 const authAdmin = (req,res,next) => {
-    if (req.session.admin) {
-        return next();
+    if (req.session.userData) {
+        if ( req.session.userData.Rol == 4 || req.session.userData.Rol == 3 ) {
+            return next();
+        } else {
+            return res.redirect('/');
+        }
     }else {
         return res.redirect('/');
     };
@@ -16,7 +20,7 @@ const authAdmin = (req,res,next) => {
 
 // Home
 router.get('/',(req,res) => {
-    if(req.session.admin){
+    if(req.session.Rol == 4){
         return res.redirect('/admin');
     } else {
         return res.render('./certificates/certificatesHome',{title:'Consultas'});
@@ -27,7 +31,7 @@ router.get('/',(req,res) => {
 router.post('/',(req,res) => {
     const id = req.body.id;
     connection.query( 
-        `SELECT * FROM certificates WHERE Id = ${id} OR Cc = ${id}`, (err,result) => {
+        `SELECT * FROM certificates AS ce INNER JOIN clients AS cl WHERE ce.Id = ${id} OR ce.Cc = ${id}`, (err,result) => {
             if (!err) {
                 if (result.length < 1) {
                     return res.render('./certificates/certificatesHome',{title: 'Consultas',certificateInfo:'noCertificate'});
@@ -40,9 +44,23 @@ router.post('/',(req,res) => {
     );
 });
 
+router.get('/apiClients', authAdmin, (req,res) => {
+    connection.query( 
+        `SELECT * FROM clients;`, (err,result) => {
+            if (!err) {
+                res.send(result);
+            } else {
+                console.log(`Ha ocurrido el siguiente ${err}`);
+            };
+        }
+    );
+});
+
 // Admin Home
 router.get('/admin',authAdmin,(req,res) => {
-    return res.render(`./admin`,{title:'Inicio Administrador',header:'off'});
+    const firstName = req.session.userData.Nombre.split(' ')[0];
+
+    return res.render('./certificates/adminCertificates',{title:'Inicio Administrador', rol:req.session.userData.Rol, header:'off', name1:firstName});
 });
 
 // Update certificate

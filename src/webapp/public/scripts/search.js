@@ -8,8 +8,10 @@ const search = (searchInput) => {
     let elements;
     if (pageName == 'realTime') {
         elements = document.querySelectorAll('.vehicleInfo');
-    } else if (pageName == 'users' || pageName == 'machines') {
+    } else if (pageName == 'users' || pageName == 'machines' || pageName == 'clients') {
         elements = document.querySelectorAll('.divUsers');
+    } else if (pageName == 'admin') {
+        elements = document.querySelectorAll('.certificateContainer');
     } else {
         elements = document.querySelectorAll('.vehicleInfoRecord');
     };

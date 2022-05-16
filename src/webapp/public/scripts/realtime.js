@@ -160,7 +160,7 @@ const configElements = (elements,info,loopNumber) => {
     elements.p5.textContent = 'Referencia:';
     elements.p6.textContent = `${info.Referencia}`;
     elements.p7.textContent = 'Empresa:';
-    elements.p8.textContent = `${info.Empresa}`;
+    elements.p8.textContent = `${info.Compania}`;
     elements.button.textContent = 'Ver ubicacion';
     
     elements.imgAlert1.src = '/icons/alarm_10.png';

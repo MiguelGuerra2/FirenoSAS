@@ -31,7 +31,7 @@ const authAdmin = (req,res,next) => {
 // Get all certificates from DB
 router.get('/getCertificates',authAdmin,(req,res) => {
     connection.query( 
-        `SELECT * FROM certificates ORDER BY Valid_Until`, (err,result) => {
+        `SELECT * FROM certificates AS ce INNER JOIN clients AS cl WHERE ce.Client = cl.Id ORDER BY Valid_Until`, (err,result) => {
             if (!err) {
                 return res.send(result);
             } else {

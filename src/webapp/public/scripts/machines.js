@@ -68,7 +68,7 @@ const configElements = (elements,info) => {
     elements.p5.textContent = 'Marca:';
     elements.p6.textContent = `${info.Marca}`;
     elements.p7.textContent = 'Cliente:';
-    elements.p8.textContent = `${info.Cliente}`;
+    elements.p8.textContent = `${info.Nombre.split(' ')[0]}` + " " + `${info.Apellido.split(' ')[0]}`;
     elements.buttonDelete.textContent = 'Eliminar';
     elements.buttonDelete.dataset.bsToggle = 'modal';
     elements.buttonDelete.dataset.bsTarget = '#deleteModal';
@@ -121,12 +121,12 @@ const addListeners = (machine,info) => {
     
     settingsButton.addEventListener('click',() => {
         const idInputForm = document.getElementById('idMachineForm');
-        idInputForm.value = info.Id;
+        idInputForm.value = info.id;
     })
     
     deleteButton.addEventListener('click',() => {
         const deleteButtonModal = document.getElementById('deleteButton');
-        deleteButtonModal.href = `/apiAdmin/deleteMachine?id=${info.Id}`;
+        deleteButtonModal.href = `/apiAdmin/deleteMachine?id=${info.id}`;
     })
 };
 

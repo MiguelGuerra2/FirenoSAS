@@ -238,6 +238,12 @@ div::-webkit-scrollbar-thumb {
     width: 30%;
     display: inline-block;
     overflow-wrap: break-word;
+    white-space: nowrap;
+}
+.text-overflow-center {
+    margin-left: -100%;
+    margin-right: -100%;
+    text-align: center;
 }
 
 .alertsInfo {

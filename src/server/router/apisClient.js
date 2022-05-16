@@ -11,7 +11,7 @@ const {authApiClient} = require('./authMiddlewords');
 router.get('/getCoordsRealTime',authApiClient,(req,res) => {
     if(req.session.userData.Rol == 2){
         connection.query(
-            `SELECT * FROM informacion AS i INNER JOIN equipos AS e ON i.Equipo = e.Id INNER JOIN usuarios AS u ON e.Cliente = u.Id WHERE i.Id IN (SELECT MAX(Id) FROM informacion GROUP BY Equipo);`, (err,result) => {
+            `SELECT * FROM informacion AS i INNER JOIN equipos AS e ON i.Equipo = e.Id INNER JOIN usuarios AS u ON e.Cliente = u.Id INNER JOIN clients AS cl ON cl.Id = u.Empresa WHERE i.Id IN (SELECT MAX(Id) FROM informacion GROUP BY Equipo);`, (err,result) => {
                 if (!err) {
                     return res.send(result);
                 } else {
@@ -22,7 +22,7 @@ router.get('/getCoordsRealTime',authApiClient,(req,res) => {
         );
     }else if (req.session.userData.Rol == 1) {
         connection.query(
-            `SELECT * FROM informacion AS i INNER JOIN equipos AS e ON i.Equipo = e.Id INNER JOIN usuarios AS u ON e.Cliente = u.Id WHERE i.Id IN (SELECT MAX(Id) FROM informacion GROUP BY Equipo) AND e.Cliente = ${req.session.userData.Id};`, (err,result) => {
+            `SELECT * FROM informacion AS i INNER JOIN equipos AS e ON i.Equipo = e.Id INNER JOIN usuarios AS u ON e.Cliente = u.Id INNER JOIN clients AS cl ON cl.Id = u.Empresa WHERE i.Id IN (SELECT MAX(Id) FROM informacion GROUP BY Equipo) AND e.Cliente = ${req.session.userData.Id};`, (err,result) => {
                 if (!err) {
                     return res.send(result);
                 } else {

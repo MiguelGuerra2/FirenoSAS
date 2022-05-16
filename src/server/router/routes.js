@@ -21,9 +21,9 @@ const authUser = (req,res,next) => {
 router.get('/',authUser,(req,res) => {
     const firstName = req.session.userData.Nombre.split(' ')[0];
     if(session.userData.Rol == 3){
-        return res.render('./adminTools/users',{nombre:req.session.userData.Nombre,modal:0,title:'Usuarios', rol:req.session.userData.Rol, name1:firstName});
+        return res.redirect('/tools/users');
     } else if (session.userData.Rol == 4) {
-        return res.render('./certificates/adminCertificates',{title:'Inicio', rol:req.session.userData.Rol, header:'off', name1:firstName});
+        return res.redirect('/certificates/admin');
     } else {
         return res.render('./homes/home',{title:'Inicio', rol:req.session.userData.Rol, name1:firstName});
     }

@@ -13,7 +13,7 @@ const {authApiAdmin} = require('./authMiddlewords');
 router.get('/getElements',authApiAdmin,(req,res) => {
     if (req.query.q == 1) {
         connection.query(
-            `SELECT * FROM usuarios WHERE Id != ${req.session.userData.Id} ORDER BY Id DESC;`, (err,result) => {
+            `SELECT u.*, c.Compania FROM usuarios AS u INNER JOIN clients AS c ON u.Empresa = c.Id WHERE u.Id != ${req.session.userData.Id} ORDER BY u.Id DESC;`, (err,result) => {
                 if (!err) {
                     return res.send(result)
                 } else {
@@ -24,7 +24,7 @@ router.get('/getElements',authApiAdmin,(req,res) => {
         )
     } else if (req.query.q == 2) {
         connection.query(
-            `SELECT * FROM equipos ORDER BY Id DESC;`, (err,result) => {
+            `SELECT e.*, u.*,e.id AS id FROM equipos AS e INNER JOIN usuarios AS u ON u.Id = e.Cliente ORDER BY e.Id DESC;`, (err,result) => {
                 if (!err) {
                     return res.send(result)
                 } else {
@@ -40,7 +40,21 @@ router.get('/getElements',authApiAdmin,(req,res) => {
 router.get('/getElement',authApiAdmin,(req,res) => {
     const id = req.query.id;
     connection.query(
-        `SELECT * FROM usuarios WHERE Id = '${id}';`, (err,result) => {
+        `SELECT * FROM usuarios AS u INNER JOIN clients AS c ON u.Empresa = c.Id WHERE u.Id = '${id}';`, (err,result) => {
+            if (!err) {
+                return res.send(result)
+            } else {
+                console.log(`Ha ocurrido el siguiente ${err}`)
+                return res.status(500)
+            }
+        }
+    )
+});
+
+//Get list of clients companys
+router.get('/getClients',authApiAdmin,(req,res) => {
+    connection.query(
+        `SELECT * FROM clients ORDER BY Id DESC;`, (err,result) => {
             if (!err) {
                 return res.send(result)
             } else {
@@ -53,36 +67,35 @@ router.get('/getElement',authApiAdmin,(req,res) => {
 
 //Create a new user
 router.post('/createUser',authApiAdmin,({body},res) => {
-    const nombre = body.name;
+    const nombre = body.names;
     const apellido = body.lastname;
     const empresa = body.company;
     const email = body.email;
     const rol = body.rol;
     const pass1 = body.password;
     const pass2 = body.pass2;
-
     connection.query(
         `SELECT Id FROM usuarios WHERE Email = '${email}';`, (err,result) => {
             if (!err) {
                 if(result.length > 0) {
-                    return res.send('Ya existe un usuario con el correo electronico ingresado.');
+                    return res.redirect('/tools/users?m=6')
                 } else  {
                     if( nombre == null || nombre.length == 0 ){
-                        return res.send('Ingrese un nombre valido');
+                        return res.redirect('/tools/users?m=8')
                     }else if( apellido == null || apellido.length == 0 ){
-                        return res.send('Ingrese un apellido valido');
+                        return res.redirect('/tools/users?m=8')
                     }else if( empresa == null || empresa.length == 0 ){
-                        return res.send('Ingrese una empresa valida');
+                        return res.redirect('/tools/users?m=8')
                     }else if( !(/\S+@\S+\.\S+/.test(email.value) || email.length > 0) ) {
-                        return res.send('Ingrese un email valido');
+                        return res.redirect('/tools/users?m=8')
                     }else if( pass1 == null || pass1.length < 8 ) {
-                        return res.send('Ingrese una contrasena valida');
+                        return res.redirect('/tools/users?m=8')
                     }else if( pass1 != pass2 ) {
-                        return res.send('Las contrasenas no coinciden');
+                        return res.redirect('/tools/users?m=7')
                     }else {
                         const hash = bcrypt.hashSync(body.password, 10);
                     
-                        queryvalues = `'${nombre}','${apellido}','${empresa}','${email}','${hash}',${rol},1`;
+                        const queryvalues = `'${nombre}','${apellido}','${empresa}','${email}','${hash}',${rol},1`;
 
                         connection.query(
                             `INSERT INTO usuarios (Nombre,Apellido,Empresa,Email,Passwords,Rol,Confirmado) VALUES (${queryvalues});`, err => {
@@ -93,7 +106,7 @@ router.post('/createUser',authApiAdmin,({body},res) => {
                                 };
                             }
                         );
-                        res.render('./statusResponse/200')
+                        res.redirect('/tools/users?m=3')
                     };
                 };
             } else {
@@ -107,46 +120,49 @@ router.post('/createUser',authApiAdmin,({body},res) => {
 router.post('/updateUser',authApiAdmin,(req,res) => {
     let session = req.session;
     const id = req.body.id;
-    const nuevoNombre = req.body.name;
+    const nuevoNombre = req.body.names;
     const nuevoApellido = req.body.lastname;
     const nuevaEmpresa = req.body.company;
     const nuevoRol = req.body.rol;
     let queryTxt =`UPDATE usuarios SET `;
-    if ((nuevoNombre != null && nuevoNombre != undefined) && nuevoNombre != ''){
+    if (nuevoNombre){
         queryTxt += `Nombre = '${nuevoNombre}',`;
     }
-    if ((nuevoApellido != null && nuevoApellido != undefined) && nuevoApellido != ''){
+    if (nuevoApellido){
         queryTxt += `Apellido = '${nuevoApellido}',`;
     }
-    if ((nuevaEmpresa != null && nuevaEmpresa != undefined) && nuevaEmpresa != ''){
+    if (nuevaEmpresa){
         queryTxt += `Empresa = '${nuevaEmpresa}',`;
     }
-    if ((nuevoRol != null && nuevoRol != undefined) && nuevoRol != 0 && nuevoRol != ''){
+    if (nuevoRol){
         queryTxt += `Rol = '${nuevoRol}',`;
+    }
+    if (!nuevoNombre && !nuevoApellido && !nuevaEmpresa && !nuevoRol) {
+        return res.redirect('/tools/users?m=8')
     }
     queryTxt += ` Id = ${id} WHERE Id = '${id}';`;
     connection.query(
         queryTxt, (err,result) => {
             if (!err) {
                 if (session.userData.Id == id){
-                    if ((nuevoNombre != null && nuevoNombre != undefined) && nuevoNombre != ''){
+                    if (nuevoNombre){
                         session.userData.Nombre  = nuevoNombre;
                     };
-                    if ((nuevoApellido != null && nuevoApellido != undefined) && nuevoApellido != ''){
+                    if (nuevoApellido){
                         session.userData.Apellido = nuevoApellido;
                     };
-                    if ((nuevaEmpresa != null && nuevaEmpresa != undefined) && nuevaEmpresa != ''){
+                    if (nuevaEmpresa){
                         session.userData.Empresa = nuevaEmpresa;
                     };
-                    if ((nuevoRol != null && nuevoNombre != undefined) && nuevoRol != 0 && nuevoRol != ''){
+                    if (nuevoRol){
                         session.userData.Rol = nuevoRol;
                     };
                 };
                 console.log('Registro actualizado exitosamente')
-                res.status(200).redirect('../tools/updateUser?m=1')
+                res.status(200).redirect('/tools/users?m=4')
             } else {
                 console.log(`Ha ocurrido el siguiente ${err}`)
-                res.status(500).redirect('../tools/updateUser?m=2')
+                res.status(500).redirect('/tools/users?m=5')
             };
         }
     );
@@ -160,23 +176,23 @@ router.get('/confirmUser',authApiAdmin,(req,res) => {
             if (!err) {
                 if (result[0].Confirmado == 1) {
                     console.log('El usuario ya ha sido confirmado');
-                    return res.redirect('../tools/users');
+                    return res.redirect('/tools/users');
                 } else {
                     connection.query(
                         `UPDATE usuarios SET Confirmado = 1 WHERE Id = ${id}`, (err,result) => {
                             if (!err) {
                                 console.log('Usuario confirmado exitosamente');
-                                return res.redirect('../tools/users');
+                                return res.redirect('/tools/users?m=9');
                             } else {
                                 console.log(`Ha ocurrido el siguiente ${err}`);
-                                res.status(500).redirect('../tools/users');                
+                                res.status(500).redirect('/tools/users');                
                             };
                         }
                     );
                 };
             } else {
                 console.log(`Ha ocurrido el siguiente ${err}`)
-                res.status(500).redirect('../tools/users');
+                res.status(500).redirect('/tools/users');
             };
         }
     );
@@ -187,10 +203,10 @@ router.get('/deleteUser',authApiAdmin,(req,res) => {
     const id = req.query.id;
     connection.query(`DELETE FROM usuarios WHERE Id = ${id}`,(err,result) => {
             if (!err) {
-                return res.redirect('../tools/users?m=1');
+                return res.redirect('/tools/users?m=1');
             } else {
                 console.log(`Ha ocurrido el siguiente ${err}`)
-                res.status(500).redirect('../tools/updateUser?m=2')
+                res.status(500).redirect('/tools/users?m=2')
             }
         }   
     )
@@ -207,19 +223,19 @@ router.post('/createMachine',authApiAdmin,({body},res) => {
         `SELECT Id FROM equipos WHERE Numero = '${numero}' AND Referencia = '${referencia}' AND marca = '${marca}' AND cliente = '${cliente}';`, (err,result) => {
             if (!err) {
                 if(result.length > 0) {
-                    return res.send('Ya existe una maquina con los datos ingresados.');
+                    return res.redirect('/tools/machines?m=6');
                 } else  {
-                    if( referencia == null || referencia.length == 0 ){
-                        return res.send('Ingrese una referencia valida');
-                    }else if( marca == null || marca.length == 0 ){
-                        return res.send('Ingrese una marca valida');
+                    if( referencia ){
+                        return res.redirect('/tools/machines?m=7');
+                    }else if( marca ){
+                        return res.redirect('/tools/machines?m=7');
                     }else if( isNaN(numero) || numero%1 != 0 ){
-                        return res.send('Ingrese un numero valido');
+                        return res.redirect('/tools/machines?m=7');
                     }else if( isNaN(cliente) || cliente%1 != 0 ) {
-                        return res.send('Ingrese un cliente valido');
+                        return res.redirect('/tools/machines?m=7');
                     }else {
                     
-                        queryvalues = `'${referencia}','${marca}','${numero}','${cliente}'`;
+                        const queryvalues = `'${referencia}','${marca}','${numero}','${cliente}'`;
 
                         connection.query(
                             `INSERT INTO equipos (Referencia,Marca,Numero,Cliente) VALUES (${queryvalues});`, err => {
@@ -227,7 +243,7 @@ router.post('/createMachine',authApiAdmin,({body},res) => {
                                     console.log(`Ha ocurrido el siguiente error: ${err}`);
                                 } else {
                                     console.log('Se ha creado la maquina exitosamente.');
-                                    return res.redirect('/tools/machines');
+                                    return res.redirect('/tools/machines?m=3');
                                 };
                             }
                         );
@@ -236,7 +252,6 @@ router.post('/createMachine',authApiAdmin,({body},res) => {
                 };
             } else {
                 console.log(`Ha ocurrido el siguiente ${err}`);
-                return res.re
             };          
         }
     );    
@@ -248,6 +263,7 @@ router.post('/updateMachine',authApiAdmin,({body},res) => {
     const nuevoNumero = body.number;
     const nuevaReferencia = body.reference;
     const nuevaMarca = body.trademark;
+    const nuevoCliente = body.clients;
     let queryTxt =`UPDATE equipos SET `;
     if (nuevoNumero){
         queryTxt += `Numero = '${nuevoNumero}',`;
@@ -258,15 +274,18 @@ router.post('/updateMachine',authApiAdmin,({body},res) => {
     if (nuevaMarca){
         queryTxt += `Marca = '${nuevaMarca}',`;
     };
+    if (nuevoCliente){
+        queryTxt += `Cliente = '${nuevoCliente}',`;
+    };
     queryTxt += `Id = ${id} WHERE Id = '${id}';`;
     connection.query(
         queryTxt, (err,result) => {
             if (!err) {
                 console.log('Registro actualizado exitosamente')
-                res.status(200).redirect(`../tools/machines`)
+                res.status(200).redirect(`/tools/machines?m=4`)
             } else {
                 console.log(`Ha ocurrido el siguiente ${err}`)
-                res.status(500).redirect(`../tools/machines`)
+                res.status(500).redirect(`/tools/machines?m=5`)
             };
         }
     );
@@ -277,13 +296,82 @@ router.get('/deleteMachine',authApiAdmin,(req,res) => {
     const id = req.query.id;
     connection.query(`DELETE FROM equipos WHERE Id = ${id}`,(err,result) => {
             if (!err) {
-                return res.redirect('../tools/machines?m=1');
+                return res.redirect('/tools/machines?m=1');
             } else {
                 console.log(`Ha ocurrido el siguiente ${err}`);
-                res.status(500).redirect('../tools/machines?m=2');
+                return res.status(500).redirect('/tools/machines?m=2');
             }
         }   
     )
+});
+
+//Update client info
+router.post('/updateClient',authApiAdmin,({body},res) => {
+    const id = body.id;
+    const nuevoNombre = body.names;
+    let queryTxt =`UPDATE clients SET `;
+    if (nuevoNombre){
+        queryTxt += `Compania = '${nuevoNombre}',`;
+    };
+    queryTxt += `Id = ${id} WHERE Id = '${id}';`;
+    connection.query(
+        queryTxt, (err,result) => {
+            if (!err) {
+                console.log('Registro actualizado exitosamente')
+                return res.status(200).redirect(`../tools/clients?m=4`)
+            } else {
+                console.log(`Ha ocurrido el siguiente ${err}`)
+                return res.status(500).redirect(`../tools/clients`)
+            };
+        }
+    );
+});
+
+//Delete specific machine
+router.get('/deleteClient',authApiAdmin,(req,res) => {
+    const id = req.query.id;
+    connection.query(`DELETE FROM clients WHERE Id = ${id}`,(err,result) => {
+            if (!err) {
+                return res.redirect('../tools/clients?m=1');
+            } else {
+                console.log(`Ha ocurrido el siguiente ${err}`);
+                return res.status(500).redirect('../tools/clients?m=2');
+            }
+        }   
+    )
+});
+
+router.post('/createClient',authApiAdmin,({body},res) => {
+    const nombreCliente = body.name;
+
+    connection.query(
+        `SELECT Id FROM clients WHERE Compania = '${nombreCliente}';`, (err,result) => {
+            if ( !err ) {
+                if (result.length > 0) {
+                    return res.redirect('/tools/clients?m=5');
+                } else {
+                    if ( nombreCliente ){
+                        return res.redirect('/tools/clients?m=6');
+                    } else {
+                        connection.query(
+                            `INSERT INTO clients (Compania) VALUES ('${nombreCliente}');`, err => {
+                                if ( err ) {
+                                    console.log(`Ha ocurrido el siguiente error: ${err}`);
+                                } else {
+                                    console.log('Se ha creado el cliente exitosamente.');
+                                    return res.redirect('/tools/clients?m=3');
+                                };
+                            }
+                        );
+                        
+                    };
+                };
+            } else {
+                console.log(`${err}`);
+                return res.redirect('/tools/clients');
+            };          
+        }
+    );    
 });
 
 module.exports = router;
