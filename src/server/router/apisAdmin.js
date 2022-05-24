@@ -138,7 +138,7 @@ router.post('/updateUser',authApiAdmin,(req,res) => {
         queryTxt += `Rol = '${nuevoRol}',`;
     }
     if (!nuevoNombre && !nuevoApellido && !nuevaEmpresa && !nuevoRol) {
-        return res.redirect('/tools/users?m=8')
+        return res.redirect('/tools/users?m=10')
     }
     queryTxt += ` Id = ${id} WHERE Id = '${id}';`;
     connection.query(
@@ -218,40 +218,37 @@ router.post('/createMachine',authApiAdmin,({body},res) => {
     const referencia = body.reference;
     const marca = body.trademark;
     const cliente = body.clients;
-
+    if( !referencia ){
+        return res.redirect('/tools/machines?m=7');
+    }else if( !marca ){
+        return res.redirect('/tools/machines?m=7');
+    }else if( isNaN(numero) || numero%1 != 0 ){
+        return res.redirect('/tools/machines?m=7');
+    }else if( isNaN(cliente) || cliente%1 != 0 ) {
+        return res.redirect('/tools/machines?m=7');
+    }
     connection.query(
         `SELECT Id FROM equipos WHERE Numero = '${numero}' AND Referencia = '${referencia}' AND marca = '${marca}' AND cliente = '${cliente}';`, (err,result) => {
             if (!err) {
                 if(result.length > 0) {
                     return res.redirect('/tools/machines?m=6');
                 } else  {
-                    if( referencia ){
-                        return res.redirect('/tools/machines?m=7');
-                    }else if( marca ){
-                        return res.redirect('/tools/machines?m=7');
-                    }else if( isNaN(numero) || numero%1 != 0 ){
-                        return res.redirect('/tools/machines?m=7');
-                    }else if( isNaN(cliente) || cliente%1 != 0 ) {
-                        return res.redirect('/tools/machines?m=7');
-                    }else {
-                    
-                        const queryvalues = `'${referencia}','${marca}','${numero}','${cliente}'`;
+                    const queryvalues = `'${referencia}','${marca}','${numero}','${cliente}'`;
 
-                        connection.query(
-                            `INSERT INTO equipos (Referencia,Marca,Numero,Cliente) VALUES (${queryvalues});`, err => {
-                                if (err) {
-                                    console.log(`Ha ocurrido el siguiente error: ${err}`);
-                                } else {
-                                    console.log('Se ha creado la maquina exitosamente.');
-                                    return res.redirect('/tools/machines?m=3');
-                                };
-                            }
-                        );
-                        
-                    };
+                    connection.query(
+                        `INSERT INTO equipos (Referencia,Marca,Numero,Cliente) VALUES (${queryvalues});`, err => {
+                            if (err) {
+                                console.log(`Ha ocurrido el siguiente error: ${err}`);
+                            } else {
+                                console.log('Se ha creado la maquina exitosamente.');
+                                return res.redirect('/tools/machines?m=3');
+                            };
+                        }
+                    );
                 };
             } else {
                 console.log(`Ha ocurrido el siguiente ${err}`);
+                return res.redirect('/tools/machines')
             };          
         }
     );    
@@ -282,10 +279,10 @@ router.post('/updateMachine',authApiAdmin,({body},res) => {
         queryTxt, (err,result) => {
             if (!err) {
                 console.log('Registro actualizado exitosamente')
-                res.status(200).redirect(`/tools/machines?m=4`)
+                return res.status(200).redirect(`/tools/machines?m=4`)
             } else {
                 console.log(`Ha ocurrido el siguiente ${err}`)
-                res.status(500).redirect(`/tools/machines?m=5`)
+                return res.status(500).redirect(`/tools/machines?m=5`)
             };
         }
     );
@@ -318,10 +315,10 @@ router.post('/updateClient',authApiAdmin,({body},res) => {
         queryTxt, (err,result) => {
             if (!err) {
                 console.log('Registro actualizado exitosamente')
-                return res.status(200).redirect(`../tools/clients?m=4`)
+                return res.status(200).redirect(`/tools/clients?m=4`)
             } else {
                 console.log(`Ha ocurrido el siguiente ${err}`)
-                return res.status(500).redirect(`../tools/clients`)
+                return res.status(500).redirect(`/tools/clients`)
             };
         }
     );
@@ -332,10 +329,10 @@ router.get('/deleteClient',authApiAdmin,(req,res) => {
     const id = req.query.id;
     connection.query(`DELETE FROM clients WHERE Id = ${id}`,(err,result) => {
             if (!err) {
-                return res.redirect('../tools/clients?m=1');
+                return res.redirect('/tools/clients?m=1');
             } else {
                 console.log(`Ha ocurrido el siguiente ${err}`);
-                return res.status(500).redirect('../tools/clients?m=2');
+                return res.status(500).redirect('/tools/clients?m=2');
             }
         }   
     )
@@ -350,7 +347,7 @@ router.post('/createClient',authApiAdmin,({body},res) => {
                 if (result.length > 0) {
                     return res.redirect('/tools/clients?m=5');
                 } else {
-                    if ( nombreCliente ){
+                    if ( !nombreCliente ){
                         return res.redirect('/tools/clients?m=6');
                     } else {
                         connection.query(

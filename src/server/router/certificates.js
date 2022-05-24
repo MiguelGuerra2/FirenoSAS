@@ -44,7 +44,7 @@ router.post('/',(req,res) => {
     );
 });
 
-router.get('/apiClients', authAdmin, (req,res) => {
+router.get('/apiClients', (req,res) => {
     connection.query( 
         `SELECT * FROM clients;`, (err,result) => {
             if (!err) {

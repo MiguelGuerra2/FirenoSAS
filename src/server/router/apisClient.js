@@ -6,7 +6,7 @@ const bcrypt = require('bcryptjs');
 
 
 const connection = require('../utils/db');
-const {authApiClient} = require('./authMiddlewords');
+const {authApiClient,authUser} = require('./authMiddlewords');
 
 router.get('/getCoordsRealTime',authApiClient,(req,res) => {
     if(req.session.userData.Rol == 2){
@@ -50,7 +50,7 @@ router.get('/getCoordsRecord',authApiClient,(req,res) => {
     );
 });
 
-router.post('/updateInfo',authApiClient,(req,res) => {
+router.post('/updateInfo',authUser,(req,res) => {
     const id = req.body.id;
     const nuevoNombre = req.body.newName;
     const nuevoApellido = req.body.lastname;
@@ -85,27 +85,27 @@ router.post('/updateInfo',authApiClient,(req,res) => {
             queryTxt, (err,result) => {
                 if (!err) {
                     if (session.userData.Id == id){
-                        if ((nuevoNombre != null && nuevoNombre != undefined) && nuevoNombre != ''){
+                        if (nuevoNombre ){
                             session.userData.Nombre  = nuevoNombre;
                         };
-                        if ((nuevoApellido != null && nuevoApellido != undefined) && nuevoApellido != ''){
+                        if (nuevoApellido){
                             session.userData.Apellido = nuevoApellido;
                         };
-                        if ((newPassword != null && newPassword != undefined) && newPassword != ''){
+                        if (newPassword){
                             session.userData.Password = hash;
                         };
                     };
                     console.log('Registro actualizado exitosamente')
-                    res.status(200).redirect('../tools/profile?m=1')
+                    return res.status(200).redirect('/tools/profile?info=3')
                 } else {
                     console.log(`Ha ocurrido el siguiente ${err}`)
-                    res.status(500).redirect('../tools/profile?m=2')
+                    return res.status(500).redirect('/tools/profile?info=4')
                 };
             }
         );
     }else{
         console.log('No tiene permisos para modificar otro usuario');
-        res.status(500).redirect('../tools/profile?m=2');
+        return res.status(500).redirect('/tools/profile?m=2');
     }
     
 });

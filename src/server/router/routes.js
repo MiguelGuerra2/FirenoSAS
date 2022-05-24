@@ -29,4 +29,8 @@ router.get('/',authUser,(req,res) => {
     }
 });
 
+router.get('/contactUs',(req,res) => {
+    return res.render('./homes/contactUs',{title:'Contacto'});
+});
+
 module.exports = router;

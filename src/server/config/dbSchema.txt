@@ -1,0 +1,58 @@
+CREATE TABLE clients (
+        Id INT PRIMARY KEY AUTO_INCREMENT,
+        Compania VARCHAR(50) NOT NULL
+        )
+
+CREATE TABLE usuarios (
+        Id INT PRIMARY KEY AUTO_INCREMENT,
+        Nombre VARCHAR(50) NOT NULL,
+        Apellido VARCHAR(50) NOT NULL,
+        Empresa INT NOT NULL,
+        Email VARCHAR (50) NOT NULL,
+        Passwords VARCHAR(300) NOT NULL,
+        Rol INT NOT NULL,
+        Confirmado BOOLEAN NOT NULL
+)
+
+CREATE TABLE equipos (
+        Id INT PRIMARY KEY AUTO_INCREMENT,
+        Referencia VARCHAR(50) NOT NULL,
+        Marca VARCHAR(50) NOT NULL,
+        Cliente INT NOT NULL,
+        Numero INT NOT NULL
+)
+
+CREATE TABLE roles (
+        Id INT PRIMARY KEY AUTO_INCREMENT,
+        Rol VARCHAR(50) NOT NULL
+)
+
+CREATE TABLE informacion (
+        Id INT PRIMARY KEY AUTO_INCREMENT,
+        Equipo INT NOT NULL,
+        Latitud DECIMAL(10,8),
+        Longitud DECIMAL(10,8),
+        Hora DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
+        Hora_envio DATETIME,
+        Alarma_1 BOOLEAN NOT NULL,
+        Alarma_2 BOOLEAN NOT NULL,
+        Alarma_3 BOOLEAN NOT NULL,
+        Alarma_4 BOOLEAN NOT NULL,
+        Alarma_5 BOOLEAN NOT NULL,
+        Alarma_6 BOOLEAN NOT NULL,
+        Alarma_7 BOOLEAN NOT NULL,
+        Alarma_8 BOOLEAN NOT NULL,
+        Alarma_9 BOOLEAN NOT NULL,
+        Alarma_10 BOOLEAN NOT NULL
+)
+
+CREATE TABLE cetificates (
+        Id INT PRIMARY KEY AUTO_INCREMENT,
+        Name VARCHAR(50) NOT NULL,
+        Lastname VARCHAR(50) NOT NULL,
+        Passwords VARCHAR(200) NOT NULL,
+        Certificate_Name VARCHAR(200) NOT NULL,
+        Created_At DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
+        Valid_Until DATETIME NOT NULL,
+        Client INT NOT NULL
+)
