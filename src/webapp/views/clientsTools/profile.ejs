@@ -25,7 +25,11 @@
               <p class="text-center mx-auto mb-1 fw-light">Administrador</p>
           <% } else if (session.Rol == 4) { %> 
               <p class="text-center mx-auto mb-1 fw-light">Administrador de Certificados</p>  
-          <% } %> 
+          <% } else if (session.Rol == 5) { %> 
+            <p class="text-center mx-auto mb-1 fw-light">Administrador de Extintores</p>  
+          <% } else if (session.Rol == 6) { %> 
+            <p class="text-center mx-auto mb-1 fw-light">Cliente de extintores</p>   
+          <% } %>  
           <div class="d-flex flex-column mt-3">
               <a type="button" class="btn seeMore text-center mx-auto my-2" style="font-size: 15px;" href="#" data-bs-toggle="modal" data-bs-target="#infoModal">Actualizar informacion</a>
               <a type="button" class="btn seeMore text-center mx-auto my-2" style="font-size: 15px;" href="#" data-bs-toggle="modal" data-bs-target="#passwordModal">Cambiar contrasena</a>
@@ -150,7 +154,7 @@
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="info2ModalLabel">Lo sentimos...</h5>
+            <h5 class="modal-title" id="info2ModalLabel">Informacion</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
@@ -158,6 +162,10 @@
               <p>La contrasena actual es incorrecta.</p>
             <% } else if (info == 1) { %>
               <p>Las contrasenas no coinciden.</p>
+            <% } else if (info == 3) { %>
+              <p>Informacion actualizada exitosamente.</p>
+            <% } else if (info == 4) { %>
+              <p>No fue posible actualizar la informacion.</p>
             <% } %>  
 
           </div>

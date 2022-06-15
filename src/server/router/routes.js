@@ -14,19 +14,25 @@ const authUser = (req,res,next) => {
             return res.render('./homes/home',{title:'Inicio',info:9});
         }
     }else {
-        return res.render('./homes/home',{title:'Inicio'});
+        // return res.render('./homes/home',{title:'Inicio'});
+        return res.redirect('/certificates/');
     }
 }
 
 router.get('/',authUser,(req,res) => {
-    const firstName = req.session.userData.Nombre.split(' ')[0];
-    if(session.userData.Rol == 3){
-        return res.redirect('/tools/users');
-    } else if (session.userData.Rol == 4) {
+    // const firstName = req.session.userData.Nombre.split(' ')[0];
+    if(session.userData.Rol == 4){
         return res.redirect('/certificates/admin');
-    } else {
-        return res.render('./homes/home',{title:'Inicio', rol:req.session.userData.Rol, name1:firstName});
     }
+    // } else if (session.userData.Rol == 4) {
+    //     return res.redirect('/certificates/admin');
+    // } else if (session.userData.Rol == 5 || session.userData.Rol == 6) {
+    //     return res.redirect('/extinguishers');
+    // } else {
+    //     return res.render('./homes/home',{title:'Inicio', rol:req.session.userData.Rol, name1:firstName});
+    // }
+    return res.redirect('/certificates/');
+
 });
 
 router.get('/contactUs',(req,res) => {

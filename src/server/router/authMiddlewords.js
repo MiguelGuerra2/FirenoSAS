@@ -17,6 +17,9 @@ const authApiAdmin = (req,res,next) => {
             } else {
                 return res.status(401).redirect('/')
             };
+        } else {
+            console.log('Usuario no confirmado')
+            return res.redirect('/')                
         }
     }else {
         console.log('No ha iniciado sesion')
@@ -32,18 +35,12 @@ const authApiClient = (req,res,next) => {
             } else {
                 return res.status(401).redirect('../')
             };
+        } else {
+            console.log('Usuario no confirmado')
+            return res.redirect('/')  
         }
     }else {
         console.log('No ha iniciado sesion')
-        return res.redirect('/')
-    };
-};
-
-const noSignIn = (req,res,next) => {
-    if (!req.session.userData) {
-        return next()
-    }else {
-        console.log('Ya ha iniciado sesion')
         return res.redirect('/')
     };
 };

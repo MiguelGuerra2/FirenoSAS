@@ -366,6 +366,42 @@ div::-webkit-scrollbar-thumb {
     width: 100%;
 }
 
+.contactCard {
+    border: 1px solid var(--graymid);
+    border-top: 5px solid var(--mainColor);
+    margin: 30px auto;
+    border-radius: 16px;
+    display: flex;    
+    flex-wrap: wrap;
+}
+
+.markerIcon {
+    /* filter: invert(99%) sepia(5%) saturate(357%) hue-rotate(217deg) brightness(113%) contrast(94%); */
+    filter: invert(42%) sepia(0%) saturate(0%) hue-rotate(15deg) brightness(95%) contrast(92%);
+}
+
+.zoneContainer {
+    height: calc(100vh - 64px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.zoneDiv {
+    width: 200px;
+    height: 250px;
+    margin: 0 20px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    border-radius: 8px;
+    transition: all 0.2s;
+}
+.zoneDiv:hover {
+    background-color: #d1d1d1;
+    transform: translateY(-5px)
+}
+
 @media (min-width: 992px) {
     body{
         margin-top: 64px !important;

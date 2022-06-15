@@ -79,6 +79,19 @@
                     <li><a class="dropdown-item" href="/auth/logout">Cerrar sesion</a></li>
                   </ul>
                 </li>
+              <% } else if (rol == '5' || rol == '6') { %>
+                <a id="tools" class="nav-link redHover px-3 mx-2 my-1" href="/tools"><img class="navIcon" src="/icons/toolsHeader.svg" alt="">Herramientas</a>
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle px-3 mx-2 my-1" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img class="navIcon" src="/icons/profileHeader.svg" alt="">
+                    <%= name1 %> 
+                  </a>
+                  <ul class="dropdown-menu bgGray" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" href="/tools/profile">Configuracion</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="/auth/logout">Cerrar sesion</a></li>
+                  </ul>
+                </li>
               <% } else { %>
               <a id="users" class="nav-link redHover px-3 mx-2 my-1" href="/tools/users"><img class="navIcon" src="/icons/usersHeader.svg" alt="">Usuarios</a>
               <a id="machines" class="nav-link redHover px-3 mx-2 my-1" href="/tools/machines"><img class="navIcon" src="/icons/truck.svg" alt="">Maquinas</a>

@@ -3,14 +3,13 @@
         <div class="col-11 col-md-4 mx-auto rounded p-4 border" style="background-color: white;">
             <h1 class="text-center pb-2">Registrarme</h1>
             <form action="/auth/register" id="form" method="post">
-               
                 <div class="form-floating mb-3">
                     <input 
                     type="text" 
                     name="names" 
                     id="names" 
                     class="form-control"
-                    pattern="[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{2,48}" 
+                    pattern="[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð]{2,64}" 
                     autocomplete="off"
                     onkeyup=validateInput(names)
                     required>
@@ -28,16 +27,16 @@
                     <label for="lastname">Apellidos</label>
                 </div>
                 <div class="form-floating mb-3">
-                    <input type="text" 
-                    name="company" 
-                    id="company" 
-                    class="form-control" 
-                    minlength="3"
-                    maxlength="20"
-                    autocomplete="off"
-                    onkeyup=validateInput(company)
-                    required>
-                    <label for="company">Empresa</label>
+                    <div class="form-floating mb-3">
+                        <select class="form-select clientOptions" 
+                        name="company"
+                        required 
+                        onclick=validateInput(company)
+                        >
+                          <option selected disabled value="">Seleccionar Cliente</option>
+                        </select>
+                        <label for="company">Empresa</label>
+                    </div>
                 </div>
                 <div class="form-floating mb-3">
                     <input type="email" 
@@ -90,5 +89,5 @@
             </form>
         </div>
     </div>    
-
-<%- include('../partials/footer.ejs'); %> 
+    <script src="/scripts/filterOptions.js"></script>
+    <%- include('../partials/footer.ejs'); %> 

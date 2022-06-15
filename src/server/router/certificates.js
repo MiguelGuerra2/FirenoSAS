@@ -8,7 +8,7 @@ const connection = require('../utils/db');
 // Admin Middleword
 const authAdmin = (req,res,next) => {
     if (req.session.userData) {
-        if ( req.session.userData.Rol == 4 || req.session.userData.Rol == 3 ) {
+        if ( req.session.userData.Rol == 4 ) {
             return next();
         } else {
             return res.redirect('/');
@@ -61,11 +61,6 @@ router.get('/admin',authAdmin,(req,res) => {
     const firstName = req.session.userData.Nombre.split(' ')[0];
 
     return res.render('./certificates/adminCertificates',{title:'Inicio Administrador', rol:req.session.userData.Rol, header:'off', name1:firstName});
-});
-
-// Update certificate
-router.get('/update',authAdmin,(req,res) => {
-    return res.render(`./update`,{title:'Actualizar Informacion'});
 });
 
 module.exports = router;

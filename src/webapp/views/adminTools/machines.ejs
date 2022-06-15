@@ -196,7 +196,7 @@
           <div class="modal-header">
             <h5 class="modal-title" id="newMachineModalLabel">Crear maquina</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
+          </div>  
           <div class="modal-body">
             <form action="/apiAdmin/createMachine" id="form" method="post">
               <div class="form-floating mb-3">
@@ -298,14 +298,14 @@
                   <label for="trademark">Marca</label>
               </div>
               <div class="form-floating mb-3">
-                  <select class="form-select usersOptions" required name="clients">
+                  <select class="form-select usersOptions" name="clients">
                     <option selected value="">Seleccionar usuario...</option>
                   </select>
                   <label for="clients">Usuario</label>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <input type="submit" value="Crear" class="btn seeMore"/>
+                <input type="submit" value="Actualizar" class="btn seeMore"/>
               </div>
             </form>
           </div>

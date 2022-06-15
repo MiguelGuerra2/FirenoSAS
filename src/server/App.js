@@ -40,9 +40,11 @@ app.use('/', require('./router/routes'));
 app.use('/auth', require('./router/auth'));
 app.use('/tools', require('./router/tools'));
 app.use('/certificates', require('./router/certificates'));
+app.use('/extinguishers', require('./router/extinguishers'));
 app.use('/apiAdmin', require('./router/apisAdmin'));
 app.use('/apiClient', require('./router/apisClient'));
 app.use('/apiCertificate', require('./router/apisCertificate'));
+app.use('/apiExtinguishers', require('./router/apisExtinguishers'));
 
 app.use((req, res, next) => {
     //Handle 404 Status

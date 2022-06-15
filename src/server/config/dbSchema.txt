@@ -46,7 +46,7 @@ CREATE TABLE informacion (
         Alarma_10 BOOLEAN NOT NULL
 )
 
-CREATE TABLE cetificates (
+CREATE TABLE certificates (
         Id INT PRIMARY KEY AUTO_INCREMENT,
         Name VARCHAR(50) NOT NULL,
         Lastname VARCHAR(50) NOT NULL,
@@ -55,4 +55,26 @@ CREATE TABLE cetificates (
         Created_At DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
         Valid_Until DATETIME NOT NULL,
         Client INT NOT NULL
+)
+
+CREATE TABLE extinguisher (
+        Id_Extinguisher INT PRIMARY KEY AUTO_INCREMENT,
+        Client INT NOT NULL,
+        Agent INT NOT NULL,
+        Capacity DECIMAL(3,1) NOT NULL,
+        Id_Code VARCHAR(200) NOT NULL,
+        Zone INT NOT NULL
+)
+
+CREATE TABLE agents (
+        Id_Agent INT PRIMARY KEY AUTO_INCREMENT,
+        Agent_Name VARCHAR(50) NOT NULL
+)
+
+CREATE TABLE maintenances (
+        Id INT PRIMARY KEY AUTO_INCREMENT,
+        Extinguisher_Id INT NOT NULL,
+        Created_At DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
+        Valid_Until DATETIME NOT NULL,
+        Comment VARCHAR(255)
 )

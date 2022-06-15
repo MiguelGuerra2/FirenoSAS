@@ -99,7 +99,7 @@ const configElements = (elements,info) => {
     elements.p5.textContent = 'Referencia:';
     elements.p6.textContent = info.Referencia;
     elements.p7.textContent = 'Empresa:';
-    elements.p8.textContent = info.Empresa;
+    elements.p8.textContent = info.Compania;
     elements.button.textContent = 'Consultar';
     elements.label1.textContent = 'Fecha inicial:';
     elements.label2.textContent = 'Fecha final:';
