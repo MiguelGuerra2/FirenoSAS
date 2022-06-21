@@ -7,13 +7,13 @@ const {authUser, authApiAdmin, authApiClient} = require('./authMiddlewords');
 //HERRAMIENTAS DE CLIENTES EN GENERAL
 
 router.get('/', (req,res) =>{
-    // if (req.session.userData) {
-    //     const firstName = req.session.userData.Nombre.split(' ')[0];
-    //     return res.render('./clientsTools/tools',{title:'Herramientas', rol:req.session.userData.Rol, name1:firstName})            
-    // } else {
-    //     return res.render('./clientsTools/tools',{title:'Herramientas'})    
-    // }
-    return res.redirect('/certificates/');
+    if (req.session.userData) {
+        const firstName = req.session.userData.Nombre.split(' ')[0];
+        return res.render('./clientsTools/tools',{title:'Herramientas', rol:req.session.userData.Rol, name1:firstName})            
+    } else {
+        return res.render('./clientsTools/tools',{title:'Herramientas'})    
+    }
+    
 }) 
 
 router.get('/profile', authUser, (req,res) =>{

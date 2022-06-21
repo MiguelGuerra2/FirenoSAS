@@ -65,6 +65,8 @@ router.post('/updateCertificate',authAdmin,(req,res) => {
     const newCreatedAt = req.body.newCreated_at;
     const newValidUntil = req.body.newValid_until;
     const newClient = req.body.newClient;
+    console.log(req.body.newCreated_at)
+
 
     let queryTxt =`UPDATE certificates SET `;
 

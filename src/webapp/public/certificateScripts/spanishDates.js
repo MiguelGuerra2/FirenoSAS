@@ -7,12 +7,11 @@ const formatDates = (originalDate, dateField) => {
         "Agosto", "Septiembre", "Octubre",
         "Noviembre", "Diciembre"
     ];
-    
-    // Create date and get date, month and year  
-    const date = new Date(originalDate);
-    const dd = date.getDate();
-    const mm = date.getMonth();
-    const yyyy = date.getFullYear();
+
+    const variables = originalDate.split("T")[0].split("-");
+    const yyyy = variables[0]
+    const mm = parseInt(variables[1], 10) - 1
+    const dd = parseInt(variables[2], 10) 
 
     // Create formated date string
     const formatedDate = dd + ' de ' + months[mm] + ' del ' + yyyy;

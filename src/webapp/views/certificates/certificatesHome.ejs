@@ -69,11 +69,14 @@
 <script src="/certificateScripts/spanishDates.js"></script>
 <script src="/certificateScripts/showPDF.js"></script>
 <script>
-  const created_at = document.getElementById('created_at');
-  const valid_until = document.getElementById('valid_until');
+  const created_atField = document.getElementById("created_at");
+  const valid_untilField = document.getElementById("valid_until");
+  const created_at = new Date(document.getElementById('created_at').textContent).toISOString();
+  const valid_until = new Date(document.getElementById('valid_until').textContent).toISOString();
+
   if (created_at && valid_until) {
-    formatDates(created_at.textContent,created_at);
-    formatDates(valid_until.textContent,valid_until);
+    formatDates(created_at,created_atField);
+    formatDates(valid_until,valid_untilField);
   };
 </script>
 <%- include('../partials/footer.ejs'); %> 

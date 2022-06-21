@@ -3,7 +3,6 @@
 // External imports
 const express = require('express');
 const router = express.Router();
-const connection = require('../utils/db');
 
 // Admin Middleword
 const authAdmin = (req,res,next) => {
@@ -47,7 +46,13 @@ router.get('/', authClient, (req,res) => {
     };
 });
 
-router.get('/maintenances', authClient, (req,res) => {
+router.get('/maintenances', authAdmin, (req,res) => {
+
+    return res.render('./extinguishers/maintenances',{title:'Mantenimientos', header:'off'});
+    
+});
+
+router.get('/maintenances/:extinguisherID', authClient, (req,res) => {
     if(req.session.userData.Rol == 5){
         return res.render('./extinguishers/maintenancesAdmin',{title:'Mantenimientos', header:'off'});
     } else {

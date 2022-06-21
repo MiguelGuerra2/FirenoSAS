@@ -29,19 +29,24 @@ router.get('/',(req,res) => {
 
 // Home-Post : Show query results
 router.post('/',(req,res) => {
-    const id = req.body.id;
-    connection.query( 
-        `SELECT * FROM certificates AS ce INNER JOIN clients AS cl WHERE ce.Id = ${id} OR ce.Cc = ${id}`, (err,result) => {
-            if (!err) {
-                if (result.length < 1) {
-                    return res.render('./certificates/certificatesHome',{title: 'Consultas',certificateInfo:'noCertificate'});
-                }
-                return res.render('./certificates/certificatesHome',{title: 'Consultas',certificateInfo:result[0]});
-            } else {
-                console.log(`Ha ocurrido el siguiente ${err}`);
-            };
-        }
-    );
+    const id = parseInt(req.body.id,10);
+    if ( Number.isInteger(id) ) {
+        connection.query( 
+            `SELECT * FROM certificates AS ce INNER JOIN clients AS cl WHERE ce.Id = ${id} OR ce.Cc = ${id}`, (err,result) => {
+                if (!err) {
+                    if (result.length < 1) {
+                        return res.render('./certificates/certificatesHome',{title: 'Consultas',certificateInfo:'noCertificate'});
+                    }
+                    return res.render('./certificates/certificatesHome',{title: 'Consultas',certificateInfo:result[0]});
+                } else {
+                    console.log(`Ha ocurrido el siguiente ${err}`);
+                };
+            }
+        );
+    } else {
+        return res.render('./certificates/certificatesHome',{title: 'Consultas',info:15});
+
+    }
 });
 
 router.get('/apiClients', (req,res) => {

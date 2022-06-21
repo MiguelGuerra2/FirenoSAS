@@ -15,8 +15,7 @@ router.get('/register', (req,res) => {
     if(req.session.userData){
         return res.redirect('../');
     } else {
-        // res.render('./auth/register',{title:'Registro',info:req.query.i});
-        return res.redirect('../');
+        return res.render('./auth/register',{title:'Registro',info:req.query.i});
     };
 });
 
@@ -92,6 +91,7 @@ router.post('/login', (req,res) => {
                     if(isValidUser && isValidPass){
                         session=req.session;
                         session.userData=infoUsuario;
+                        connection.relase
                         res.redirect('../');
                     }
                     else{
