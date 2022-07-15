@@ -2,33 +2,47 @@
 
 const express = require('express');
 const router = express.Router();
-let session;
 
-const authUser = (req,res,next) => {
-    session = req.session;
-    if (session.userData) {
-        if (session.userData.Confirmado == 1){
-            return next();
+router.get('/', (req,res) => {
+
+    if ( !req.session.userData ) {
+        
+        const isConfirmedUser = req.query.confirmed;
+
+        if ( isConfirmedUser == 0 ){
+
+            return res.render('./homes/home',{title:'Inicio', info:9});
+        
         } else {
-            session.destroy();
-            return res.render('./homes/home',{title:'Inicio',info:9});
-        }
-    }else {
-        return res.render('./homes/home',{title:'Inicio'});
-    }
-}
 
-router.get('/',authUser,(req,res) => {
-    const firstName = req.session.userData.Nombre.split(' ')[0];
-    if(session.userData.Rol == 3){
-        return res.redirect('/tools/users');
-    } else if (session.userData.Rol == 4) {
-        return res.redirect('/certificates/admin');
-    } else if (session.userData.Rol == 5 || session.userData.Rol == 6) {
-        return res.redirect('/extinguishers');
+            return res.render('./homes/home',{title:'Inicio'});
+
+        }
+
     } else {
-        return res.render('./homes/home',{title:'Inicio', rol:req.session.userData.Rol, name1:firstName});
+        
+        if ( req.session.userData.Rol == 1 || req.session.userData.Rol == 2 ) {
+
+            const firstName = req.session.userData.Nombre.split(' ')[0];
+            
+            return res.render('./homes/home',{title:'Inicio', rol:req.session.userData.Rol, name1:firstName});
+        
+        } else if (req.session.userData.Rol == 3) {
+        
+            return res.redirect('/tools/users');
+        
+        } else if (req.session.userData.Rol == 4) {
+        
+            return res.redirect('/certificates/admin');
+        
+        } else if (req.session.userData.Rol == 5 || req.session.userData.Rol == 6) {
+        
+            return res.redirect('/extinguishers');
+        
+        } 
+
     }
+
 });
 
 router.get('/contactUs',(req,res) => {

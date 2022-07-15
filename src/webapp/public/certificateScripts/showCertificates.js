@@ -16,8 +16,10 @@ const createElements = () => {
     elements.p8 = document.createElement("p");
     elements.p9 = document.createElement("p");
     elements.p10 = document.createElement("p");
+    elements.formDelete = document.createElement('form');
+    elements.formInput2 = document.createElement('input');
     elements.a1 = document.createElement("a");
-    elements.a2 = document.createElement("a");
+    elements.a2 = document.createElement("button");
     elements.a3 = document.createElement("a");
     elements.img = document.createElement("img");
     return elements;
@@ -50,7 +52,7 @@ const assignClasses = (elements) => {
 // Get date of one month from today
 const getOneMonth = () => {
     let currentDate = new Date();
-    let year = currentDate.getFullYear() ;
+    let year = currentDate.getFullYear();
     let date = currentDate.getDate();
     let month = currentDate.getMonth()+2;
     date < 10 ? date = '0'+ date : date = date;
@@ -103,22 +105,24 @@ const configElements = (elements,info) => {
     // Add event listener to open PDF files
     elements.a1.addEventListener('click',()=>{showPDF(info.Cc)});
     
+    elements.formDelete.action = `/apiCertificate/deleteCertificate`
+    elements.formDelete.method = 'POST'
+    elements.formInput2.name = 'cc'
+    elements.formInput2.value = info.Cc
+    elements.formInput2.type = 'hidden'
+
     elements.a2.innerHTML = 'Eliminar certificado';
-    elements.a2.dataset.bsToggle = 'modal';
-    elements.a2.dataset.bsTarget = '#deleteModal'; 
+    elements.a2.type = 'submit';
+
     elements.a3.dataset.bsToggle = 'modal';
     elements.a3.dataset.bsTarget = '#updateModal'; 
 
-    
-    // Add event listener to delete certificates
-    elements.a2.addEventListener('click',()=>{
-        const deleteButton = document.getElementById('deleteButton');
-        deleteButton.href = `/apiCertificate/deleteCertificate?cc=${info.Cc}`;
-    });
     // Add event listener to update certificates
     elements.a3.addEventListener('click',()=>{
         const idInput = document.getElementById('updateId');
-        idInput.value = `${info.Cc}`;
+        const ccInput = document.getElementById('actualCc');
+        idInput.value = info.Id;
+        ccInput.value = info.Cc;
     });
     return elements;
 };
@@ -140,7 +144,10 @@ const createCertificate = (info) => {
     elements['div2'].appendChild(elements['p9']);
     elements['div2'].appendChild(elements['p10']);
     elements['div3'].appendChild(elements['a1']);
-    elements['div3'].appendChild(elements['a2']);
+    elements['formDelete'].appendChild(elements['formInput2']);
+    elements['formDelete'].appendChild(elements['a2']);
+
+    elements['div3'].appendChild(elements['formDelete']);
     elements['a3'].appendChild(elements['img']);
     elements['div4'].appendChild(elements['h4']);
     elements['div4'].appendChild(elements['a3']);

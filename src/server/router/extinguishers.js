@@ -4,41 +4,10 @@
 const express = require('express');
 const router = express.Router();
 
-// Admin Middleword
-const authAdmin = (req,res,next) => {
-    if (req.session.userData) {
-        if ( req.session.userData.Rol == 5 ) {
-            return next();
-        } else {
-            return res.redirect('/');
-        }
-    }else {
-        return res.redirect('/');
-    };
-};
-
-// Client Middleword
-const authClient = (req,res,next) => {
-    if (req.session.userData) {
-        if (req.session.userData.Confirmado = 1) {
-            if (req.session.userData.Rol == 6 || req.session.userData.Rol == 5 ) {
-                return next();
-            } else {
-                console.log('Usuario no autorizado')
-                return res.status(401).redirect('../')
-            };
-        } else {
-            console.log('Usuario no confirmado')
-            return res.redirect('/')  
-        }
-    }else {
-        console.log('No ha iniciado sesion')
-        return res.redirect('/')
-    };
-};
+const { isValidUser , isExtinguishersAdmin , isExtinguishersClient } = require('./authMiddlewords');
 
 // Home
-router.get('/', authClient, (req,res) => {
+router.get('/',isValidUser,isExtinguishersClient, (req,res) => {
     if(req.session.userData.Rol == 5){
         return res.render('./extinguishers/extinguishersAdmin',{title:'Admin Extintores', header:'off'});
     } else {
@@ -46,13 +15,13 @@ router.get('/', authClient, (req,res) => {
     };
 });
 
-router.get('/maintenances', authAdmin, (req,res) => {
+router.get('/maintenances', isValidUser,isExtinguishersAdmin, (req,res) => {
 
     return res.render('./extinguishers/maintenances',{title:'Mantenimientos', header:'off'});
     
 });
 
-router.get('/maintenances/:extinguisherID', authClient, (req,res) => {
+router.get('/maintenances/:extinguisherID', isValidUser,isExtinguishersClient, (req,res) => {
     if(req.session.userData.Rol == 5){
         return res.render('./extinguishers/maintenancesAdmin',{title:'Mantenimientos', header:'off'});
     } else {

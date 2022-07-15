@@ -28,6 +28,12 @@ const createElements = () => {
     elements.p9 = document.createElement('p');
     elements.p10 = document.createElement('p');
 
+    elements.formDelete = document.createElement('form');
+    elements.formInput2 = document.createElement('input');
+
+    elements.formConfirm = document.createElement('form');
+    elements.formInput = document.createElement('input');
+
     elements.buttonDelete = document.createElement('button');
     elements.buttonConfirm = document.createElement('button');   
     return elements;
@@ -96,12 +102,25 @@ const configElements = (elements,info) => {
             elements.p8.style.marginLeft = '-5px'
             break;
     } 
+
+    elements.formDelete.action = `/apiAdmin/deleteUser`
+    elements.formDelete.method = 'POST'
+    elements.formInput2.name = 'id'
+    elements.formInput2.value = info.Id
+    elements.formInput2.type = 'hidden'
+
+    elements.formConfirm.action = `/apiAdmin/confirmUser`
+    elements.formConfirm.method = 'POST'
+    elements.formInput.name = 'id'
+    elements.formInput.value = info.Id
+    elements.formInput.type = 'hidden'
+
     elements.buttonDelete.textContent = 'Eliminar';
-    elements.buttonDelete.dataset.bsToggle = 'modal';
-    elements.buttonDelete.dataset.bsTarget = '#deleteModal';
+    elements.buttonDelete.type = 'submit';
+
     elements.buttonConfirm.textContent = 'Confirmar';
-    elements.buttonConfirm.dataset.bsToggle = 'modal';
-    elements.buttonConfirm.dataset.bsTarget = '#confirmModal';
+    elements.buttonConfirm.type = 'submit'
+
     elements.configLink.dataset.bsToggle = 'modal';
     elements.configLink.dataset.bsTarget = '#updateModal'; 
 
@@ -125,8 +144,14 @@ const buildBlock = (info) => {
     elements.divLogo.appendChild(elements.imgUser);
     elements.divLogo.appendChild(elements.configLink);
 
-    elements.divButton.appendChild(elements.buttonDelete);
-    elements.divButton.appendChild(elements.buttonConfirm);
+    elements.formDelete.appendChild(elements.formInput2);
+    elements.formDelete.appendChild(elements.buttonDelete);
+
+    elements.formConfirm.appendChild(elements.formInput);
+    elements.formConfirm.appendChild(elements.buttonConfirm);    
+
+    elements.divButton.appendChild(elements.formDelete);
+    elements.divButton.appendChild(elements.formConfirm);
 
     elements.div.appendChild(elements.divLogo);
     elements.divInfo1.appendChild(elements.p1);
@@ -164,10 +189,7 @@ const addListeners = (user,info) => {
         const deleteButtonModal = document.getElementById('deleteButton');
         deleteButtonModal.href = `/apiAdmin/deleteUser?id=${info.Id}`
     })
-    confirmButton.addEventListener('click',() => {
-        const confirmButtonModal = document.getElementById('confirmButton');
-        confirmButtonModal.href = `/apiAdmin/confirmUser?id=${info.Id}`
-    })
+    
 };
 
 const createUserButton = () => {

@@ -1,100 +1,136 @@
 //External imports
 const express = require('express');
 const router = express.Router();
+const { param , validationResult } = require('express-validator');
+
+//Local imports
 const connection = require('../utils/db');
+const { isValidUser, isExtinguishersUser , isExtinguishersAdmin } = require('./authMiddlewords');
 
-const authClient = (req,res,next) => {
-    if (req.session.userData) {
-        if (req.session.userData.Confirmado = 1) {
-            if (req.session.userData.Rol == 6 || req.session.userData.Rol == 5 ) {
-                return next();
-            } else {
-                console.log('Usuario no autorizado')
-                return res.status(401).redirect('../')
-            };
-        } else {
-            console.log('Usuario no confirmado')
-            return res.redirect('/')  
-        }
-    }else {
-        console.log('No ha iniciado sesion')
-        return res.redirect('/')
-    };
-};
+//Function to find elements from specific table on DB by Id
+const findExtinguisherById = ( id , req ) => {
+    
+    return new Promise((resolve, reject) => {
 
-// Admin Middleword
-const authAdmin = (req,res,next) => {
-    if (req.session.userData) {
-        if ( req.session.userData.Rol == 5 ) {
-            return next();
-        } else {
-            return res.redirect('/');
-        }
-    }else {
-        return res.redirect('/');
-    };
-};
+        connection.query(
+
+            `SELECT * FROM extintores WHERE Id_Extinguisher = ${id};`, (err,result) => {
+    
+                if (!err) {
+                                        
+                    resolve(result);
+                
+                } else {
+                
+                    console.log(`Ha ocurrido el siguiente ${err}`)
+                    
+                    reject(err);
+                
+                }
+            }
+        )     
+    })
+}
 
 // Get all extinguishers from DB
-router.get('/getExtinguishers',authClient,(req,res) => {
-    if (req.session.userData.Rol == 6) {
-        connection.query( 
-            `SELECT * FROM extinguisher AS ex INNER JOIN clients AS cl ON ex.Client = cl.Id INNER JOIN agents AS ag ON ex.Agent = ag.Id_Agent WHERE ex.Client = ${req.session.userData.Empresa} ORDER BY ex.Id_Extinguisher DESC`, (err,result) => {
-                if (!err) {
-                    return res.send(result);
-                } else {
-                    console.log(`Ha ocurrido el siguiente ${err}`);
-                };
-            }
-        );
-    } else {
-        connection.query( 
-            `SELECT * FROM extinguisher AS ex INNER JOIN clients AS cl ON ex.Client = cl.Id INNER JOIN agents AS ag ON ex.Agent = ag.Id_Agent ORDER BY ex.Id_Extinguisher DESC`, (err,result) => {
-                if (!err) {
-                    return res.send(result);
-                } else {
-                    console.log(`Ha ocurrido el siguiente ${err}`);
-                };
-            }
-        );
-    }
-});
-
-router.get('/getMaintenances',authAdmin,(req,res) => {
+router.get('/getExtinguishers',isValidUser,isExtinguishersUser, (req,res) => {
+    
+    let queryTxt =''
+    req.session.userData.Rol == 6 
+    ? queryTxt = `SELECT * FROM extintores AS ex INNER JOIN clients AS cl ON ex.Client = cl.Id INNER JOIN agents AS ag ON ex.Agent = ag.Id_Agent WHERE ex.Client = ${req.session.userData.Empresa} ORDER BY ex.Id_Extinguisher DESC` 
+    : queryTxt = `SELECT * FROM extintores AS ex INNER JOIN clients AS cl ON ex.Client = cl.Id INNER JOIN agents AS ag ON ex.Agent = ag.Id_Agent ORDER BY ex.Id_Extinguisher DESC`
+    
     connection.query( 
-        `SELECT * FROM maintenances AS ma INNER JOIN extinguisher AS ex ON ex.Id_Extinguisher = ma.Extinguisher_Id ORDER BY ma.Id DESC`, (err,result) => {
+
+        queryTxt, (err,result) => {
+
             if (!err) {
+
                 return res.send(result);
+
             } else {
+
                 console.log(`Ha ocurrido el siguiente ${err}`);
+
             };
+
         }
+
     );
+    
 });
 
-router.get('/getMaintenances/:extinguisherID',authClient,(req,res) => {
-    if (req.session.userData.Rol == 6) {
-        connection.query( 
-            `SELECT * FROM maintenances AS ma INNER JOIN extinguisher AS ex ON ex.Id_Extinguisher = ma.Extinguisher_Id WHERE ex.Client = ${req.session.userData.Empresa} AND ma.Extinguisher_Id = ${req.params.extinguisherID} ORDER BY ma.Id DESC`, (err,result) => {
-                if (!err) {
-                    return res.send(result);
-                } else {
-                    console.log(`Ha ocurrido el siguiente ${err}`);
-                };
-            }
-        );
-    } else {
-        connection.query( 
-            `SELECT * FROM maintenances AS ma INNER JOIN extinguisher AS ex ON ex.Id_Extinguisher = ma.Extinguisher_Id WHERE ma.Extinguisher_Id = ${req.params.extinguisherID} ORDER BY ma.Id DESC`, (err,result) => {
-                if (!err) {
-                    return res.send(result);
-                } else {
-                    console.log(`Ha ocurrido el siguiente ${err}`);
-                };
-            }
-        );
-    }
+// Get all maintenances from DB
+router.get('/getMaintenances',isValidUser,isExtinguishersAdmin, (req,res) => {
+   
+    connection.query( 
+   
+        `SELECT * FROM mantenimientos AS ma INNER JOIN extintores AS ex ON ex.Id_Extinguisher = ma.Extinguisher_Id ORDER BY ma.Id DESC`, (err,result) => {
+   
+            if (!err) {
+   
+                return res.send(result);
+   
+            } else {
+   
+                console.log(`Ha ocurrido el siguiente ${err}`);
+   
+            };
+   
+        }
+   
+    );
+
 });
 
+// Get maintentnaces from specific extinguisher
+router.get('/getMaintenances/:extinguisherID',
+  isValidUser, 
+  isExtinguishersUser,
+  param('extinguisherID').isInt().bail().custom( (value , { req } ) => { 
+
+    return findExtinguisherById( value ).then( element => {
+
+        if ( element.length == 0 || element[0].Client != req.session.userData.Empresa ) {
+    
+            return Promise.reject('Invalid extinguisher');
+    
+        };
+    
+    })
+  
+  }),
+  
+  (req,res) => {
+
+    const errors = validationResult(req);
+    
+    if ( !errors.isEmpty() ) { return res.status(400).send( 'No tiene permisos para ver este mantenimiento' ) }
+
+    let queryTxt
+
+    req.session.userData.Rol == 6 
+    ? queryTxt = `SELECT * FROM mantenimientos AS ma INNER JOIN extintores AS ex ON ex.Id_Extinguisher = ma.Extinguisher_Id WHERE ex.Client = ${req.session.userData.Empresa} AND ma.Extinguisher_Id = ${req.params.extinguisherID} ORDER BY ma.Id DESC`
+    : queryTxt = `SELECT * FROM mantenimientos AS ma INNER JOIN extintores AS ex ON ex.Id_Extinguisher = ma.Extinguisher_Id WHERE ma.Extinguisher_Id = ${req.params.extinguisherID} ORDER BY ma.Id DESC`
+
+    connection.query( 
+
+        queryTxt, (err,result) => {
+
+            if (!err) {
+
+                return res.send(result);
+
+            } else {
+
+                console.log(`Ha ocurrido el siguiente ${err}`);
+
+            };
+
+        }
+
+    );
+
+});
 
 module.exports = router;

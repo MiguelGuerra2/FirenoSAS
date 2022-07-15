@@ -48,7 +48,7 @@
         </div>
         <div class="modal-body">
             <form class="needs-validation col-11 mx-auto" action="/apiClient/updateInfo" method="post" id="form2">
-                <input type="hidden" id="id" name="id" value="<%= session.Id %> ">                  
+                <input type="hidden" id="id" name="id" value="<%= session.Id %>">                  
                 <div class="form-floating mb-1">
                     <input 
                     type="text" 
@@ -95,8 +95,8 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-            <form action="/apiClient/updateInfo" method="post">
-                <input type="hidden" id="idPassword" name="id" value="<%= session.Id %> ">                  
+            <form action="/apiClient/updatePassword" method="post">
+                <input type="hidden" id="idPassword" name="id" value="<%= session.Id %>">                  
                 <div class="form-floating mb-3">
                     <input 
                     type="password" 

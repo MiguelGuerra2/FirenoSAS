@@ -24,7 +24,9 @@ const oneMonth = 1000 * 60 * 60 * 24 * 30;
 app.use(sessions({
     secret: process.env.SECRET_SESSION,
     saveUninitialized:true,
-    cookie: { maxAge: oneMonth },
+    cookie: { 
+        httpOnly: true,
+        maxAge: oneMonth },
     resave: false
 }));
 

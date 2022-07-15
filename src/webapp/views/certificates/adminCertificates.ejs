@@ -9,57 +9,61 @@
           </div>
 
           <h1 class="my-2 text-center fs-3">Registrar certificado</h1>
-          <form class="needs-validation col-11 mx-auto" enctype="multipart/form-data" action="/apiCertificate/createCertificate" method="post" id="form">
+
+          <form class="needs-validation col-11 mx-auto" enctype="multipart/form-data" action="/apiCertificate/createCertificate" method="post" id="form2">
             <div class="form-floating mb-1">
-              <input 
+                <input 
                 type="text" 
-                name="name" 
-                id="name" 
+                name="names" 
+                id="names"
                 class="form-control" 
                 pattern="[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{2,48}" 
                 autocomplete="off"
-                onkeyup=validateInput(name)
+                onkeyup=validateInput(names)
                 placeholder="Ej: ejemplo ejemplo"
-                required>
-              <label for="email">Nombres</label>
+                required
+                >
+                <label for="names">Nombres</label>
             </div>
             <div class="form-floating mb-1">
-              <input type="text" 
+                <input type="text" 
                 name="lastname" 
                 id="lastname" 
                 class="form-control" 
                 pattern="[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{2,48}" 
                 autocomplete="off"
                 autocomplete="ÑÖcompletes"
-                onkeyup=validateInput(name)
-                placeholder="Ej: ejemplo@email.com"
-                required>
-              <label for="lastname">Apellidos</label>
+                onkeyup=validateInput(lastname)
+                placeholder="Ej: ejemplo ejemplo"
+                required
+                >
+                <label for="lastname">Apellidos</label>
             </div>
             <div class="form-floating mb-1">
-              <input type="text" 
+                <input type="text" 
                 name="cc" 
                 id="cc" 
                 class="form-control" 
                 pattern="^\d+$" 
                 autocomplete="off"
-                onkeyup=validateInput(name)
+                onkeyup=validateInput(cc)
                 placeholder="Ej: 12345678"
-                required>
-              <label for="email">Cedula de Ciudadania</label>
+                required
+                >
+                <label for="email">Cedula de Ciudadania</label>
             </div>
             <label for="created_at">Creado el dia: </label>
-            <div class="form-floating mb-1 form-control position-relative">
-              <input class="col-12 mx-0 border-0 p-2" type="date"  id="created_at" name="created_at">
+            <div class="form-floating mb-1 form-control position-relative p-0">
+                <input class="col-12 mx-0 border-0 p-2" type="date"  id="created_at" name="created_at" required>
             </div>
             <label for="valid_until" >Valido hasta el dia: </label>
-            <div class="form-floating mb-1 form-control position-relative">
-              <input class="col-12 mx-0 border-0 p-2" type="date"  id="valid_until" name="valid_until">
+            <div class="form-floating mb-1 form-control position-relative p-0">
+                <input class="col-12 mx-0 border-0 p-2" type="date"  id="valid_until" name="valid_until" required>
             </div>
             <div class="mb-1">
-              <select class="form-select py-2 clientOptions" id="client" required name="client">
-                <option selected disabled value="">Escoger cliente...</option>
-              </select>
+                <select class="form-select p-2 clientOptions" id="client" name="client" required>
+                  <option selected disabled value="">Escoger cliente...</option>
+                </select>
             </div>
             <div class="form-floating mt-3">
               <input type="file"
@@ -70,11 +74,12 @@
               required>
               <div class="invalid-feedback">Seleccione un archivo valido</div>
             </div>
-            
-            <div class="d-flex">
-                <input id="submit" type="submit" value="Registrar" class="btn text-light col-10 mx-auto my-4 p-2">                    
-            </div>    
+
+            <div class="modal-footer">
+              <input type="submit" value="Registrar" class="btn btn-success" />                
+            </div> 
           </form>
+
         </div>  
       </div>
 
@@ -108,7 +113,10 @@
             <form class="needs-validation col-11 mx-auto" action="/apiCertificate/updateCertificate" method="post" id="form2">
                 <div class="form-floating">
                   <input type="hidden" id="updateId" name="updateId">                  
-                </div>  
+                </div> 
+                <div class="form-floating">
+                  <input type="hidden" id="actualCc" name="actualCc">                  
+                </div>   
                 <div class="form-floating mb-1">
                     <input 
                     type="text" 

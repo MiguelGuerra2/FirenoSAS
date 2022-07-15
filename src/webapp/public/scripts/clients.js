@@ -20,6 +20,8 @@ const createElements = () => {
     elements.p1 = document.createElement('p');
     elements.p2 = document.createElement('p');
 
+    elements.formDelete = document.createElement('form');
+    elements.formInput2 = document.createElement('input');
     elements.buttonDelete = document.createElement('button');
     return elements;
 };
@@ -53,9 +55,12 @@ const configElements = (elements,info) => {
     elements.p1.textContent = 'Nombre de empresa:';
     elements.p2.textContent = `${info.Compania}`;
 
+    elements.formDelete.action = `/apiAdmin/deleteClient`
+    elements.formDelete.method = 'POST'
+    elements.formInput2.name = 'id'
+    elements.formInput2.value = info.Id
+    elements.formInput2.type = 'hidden'
     elements.buttonDelete.textContent = 'Eliminar';
-    elements.buttonDelete.dataset.bsToggle = 'modal';
-    elements.buttonDelete.dataset.bsTarget = '#deleteModal';
     elements.configLink.dataset.bsToggle = 'modal';
     elements.configLink.dataset.bsTarget = '#updateModal'; 
 
@@ -77,7 +82,11 @@ const buildBlock = (info) => {
     elements.divLogo.appendChild(elements.imgUser);
     elements.divLogo.appendChild(elements.configLink);
 
-    elements.divButton.appendChild(elements.buttonDelete);
+    elements.formDelete.appendChild(elements.formInput2);
+    elements.formDelete.appendChild(elements.buttonDelete);
+
+
+    elements.divButton.appendChild(elements.formDelete);
 
     elements.div.appendChild(elements.divLogo);
     elements.divInfo1.appendChild(elements.p1);

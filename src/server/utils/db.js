@@ -8,12 +8,5 @@ const connection = mysql.createPool({
     password: process.env.BD_PASSWORD 
 });
 console.log('BD connected succesfully');
-// connection.connect( err => {
-//     if(err) {
-//         console.error('Connection failed: ' + err.stack);
-//         return;
-//     }
-//     console.log('BD connected succesfully');
-// })
 
 module.exports = connection;

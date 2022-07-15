@@ -78,7 +78,7 @@ const sendEmail = (reciver, msg, token) => {
                                                 <tbody>
                                                     <tr>
                                                         <td style="padding-top: 24px;">
-                                                            <img src="https://www.tamtrongroup.com/wp-content/uploads/2019/07/firenoo.jpg" style="width: 100px;">
+                                                            <img src="https://anraci.org/wp-content/uploads/2021/03/Fireno-Positivo.jpg" style="width: 100px;">
                                                         </td>
                                                     </tr>
                                                     <tr>

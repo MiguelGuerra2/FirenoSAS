@@ -1,3 +1,5 @@
+
+
 import socket
 import time                                                                        
 import serial                                                                      
@@ -6,7 +8,7 @@ from time import strftime
 ser = serial.Serial('/dev/ttyUSB2',115200)                                         
 ser.flushInput()                                                                                                                                                      
 rec_buff = ''                                                                      
-
+#esot
 alerts_states = [False,False,False]
 
 def when_alarm_1_init_action():                                                        
