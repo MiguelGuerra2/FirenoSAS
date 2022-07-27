@@ -11,33 +11,7 @@ const config = require('../config/config');
 const connection = require('../utils/db');
 const { isNoLoggedUser , isValidUser , authToken } = require('./authMiddlewords')
 const { sendEmail } = require('../utils/mail.js')
-
-
-//Function to find specific users by Email
-const findUserByEmail = ( email ) => {
-    
-    return new Promise( ( resolve , reject ) => {
-
-        connection.query(
-
-            `SELECT * FROM usuarios WHERE Email = '${email}';`, ( err , result ) => {
-    
-                if (!err) {
-                                        
-                    return resolve(result);
-                
-                } else {
-                
-                    console.log(`Ha ocurrido el siguiente ${err}`)
-                    
-                    return reject(err);
-                
-                }
-            }
-        )     
-    })
-}
-
+const { findUserByEmail } = require('../utils/searchingFunctions')
 
 router.get('/register' , isNoLoggedUser , (req,res) => {
     return res.render('./auth/register',{title:'Registro',info:req.query.i});
@@ -89,9 +63,7 @@ router.post('/register', isNoLoggedUser ,
 });
 
 router.get('/login', isNoLoggedUser , (req,res) => {
-        
     return res.render('./auth/login',{title:'Iniciar Sesion',info:req.query.i});
-    
 });
 
 router.post('/login', isNoLoggedUser , 
@@ -103,7 +75,7 @@ router.post('/login', isNoLoggedUser ,
         };
     })
   }),
-  body('password').isStrongPassword(),
+//   body('password').isStrongPassword(),
 
   (req,res) => {
     
@@ -135,6 +107,7 @@ router.post('/login', isNoLoggedUser ,
                         } else {
                         
                             req.session.userData=result[0];
+
                             return res.redirect('../');
                         
                         }

@@ -4,10 +4,11 @@
 const express = require('express');
 const router = express.Router();
 
-const { isValidUser , isExtinguishersAdmin , isExtinguishersClient } = require('./authMiddlewords');
+const { isValidUser , isExtinguishersAdmin , isExtinguishersUser } = require('./authMiddlewords');
 
 // Home
-router.get('/',isValidUser,isExtinguishersClient, (req,res) => {
+router.get('/',isValidUser,isExtinguishersUser, (req,res) => {
+
     if(req.session.userData.Rol == 5){
         return res.render('./extinguishers/extinguishersAdmin',{title:'Admin Extintores', header:'off'});
     } else {
@@ -21,7 +22,8 @@ router.get('/maintenances', isValidUser,isExtinguishersAdmin, (req,res) => {
     
 });
 
-router.get('/maintenances/:extinguisherID', isValidUser,isExtinguishersClient, (req,res) => {
+router.get('/maintenances/:extinguisherID', isValidUser,isExtinguishersUser,(req,res) => {
+
     if(req.session.userData.Rol == 5){
         return res.render('./extinguishers/maintenancesAdmin',{title:'Mantenimientos', header:'off'});
     } else {

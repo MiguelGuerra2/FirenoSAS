@@ -8,6 +8,7 @@ const { body , validationResult } = require('express-validator');
 // Local imports
 const { isValidUser , isCertificatesAdmin } = require('./authMiddlewords');
 const connection = require('../utils/db');
+const { findCertificateByCc } = require('../utils/searchingFunctions')
 
 // Multer is used to save PDF files on server
 const upload = multer({
@@ -18,56 +19,6 @@ const upload = multer({
         }
     })
 });
-
-//Function to find specific certificate by id
-const findCertificateById = ( id ) => {
-    
-    return new Promise( ( resolve , reject ) => {
-
-        connection.query(
-
-            `SELECT * FROM certificates WHERE Id = '${id}';`, ( err , result ) => {
-    
-                if (!err) {
-                                        
-                    return resolve(result);
-                
-                } else {
-                
-                    console.log(`Ha ocurrido el siguiente ${err}`)
-                    
-                    return reject(err);
-                
-                }
-            }
-        )     
-    })
-}
-
-//Function to find specific certificate by cc
-const findCertificateByCc = ( cc ) => {
-    
-    return new Promise( ( resolve , reject ) => {
-
-        connection.query(
-
-            `SELECT * FROM certificates WHERE Cc = '${cc}';`, ( err , result ) => {
-    
-                if (!err) {
-                                        
-                    return resolve(result);
-                
-                } else {
-                
-                    console.log(`Ha ocurrido el siguiente ${err}`)
-                    
-                    return reject(err);
-                
-                }
-            }
-        )     
-    })
-}
 
 // Get all certificates from DB
 router.get('/getCertificates',isValidUser,isCertificatesAdmin,(req,res) => {
@@ -133,7 +84,7 @@ router.post('/updateCertificate',
 
   body('updateId').isInt().bail().custom( value => {
 
-    return findCertificateById(value).then( certificates => {
+    return findElementById(value,'certificates').then( certificates => {
     
         if ( certificates.length == 0 ) {
             

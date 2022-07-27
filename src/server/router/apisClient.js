@@ -10,31 +10,7 @@ const { body , query , validationResult } = require('express-validator');
 // Local imports
 const connection = require('../utils/db');
 const { isValidUser , isClient } = require('./authMiddlewords');
-
-//Function to find elements from specific table on DB by Id
-const findElementById = ( id , table ) => {
-    
-    return new Promise((resolve, reject) => {
-
-        connection.query(
-
-            `SELECT * FROM ${table} WHERE Id = ${id};`, (err,result) => {
-    
-                if (!err) {
-                                        
-                    resolve(result);
-                
-                } else {
-                
-                    console.log(`Ha ocurrido el siguiente ${err}`)
-                    
-                    reject(err);
-                
-                }
-            }
-        )     
-    })
-}
+const { findElementById } = require('../utils/searchingFunctions')
 
 // Get last coords of machines
 router.get('/getCoordsRealTime',isValidUser,isClient,(req,res) => {

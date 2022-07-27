@@ -9,149 +9,36 @@ const { body , validationResult } = require('express-validator');
 //Local imports
 const connection = require('../utils/db');
 const { isValidUser , isAdmin } = require('./authMiddlewords');
-
-//Function to find elements from specific table on DB by Id
-const findElementById = ( id , table ) => {
-    
-    return new Promise((resolve, reject) => {
-
-        connection.query(
-
-            `SELECT * FROM ${table} WHERE Id = ${id};`, (err,result) => {
-    
-                if (!err) {
-                                        
-                    resolve(result);
-                
-                } else {
-                
-                    console.log(`Ha ocurrido el siguiente ${err}`)
-                    
-                    reject(err);
-                
-                }
-            }
-        )     
-    })
-}
-
-//Function to find specific users by Email
-const findUserByEmail = ( email ) => {
-    
-    return new Promise( ( resolve , reject ) => {
-
-        connection.query(
-
-            `SELECT * FROM usuarios WHERE Email = '${email}';`, ( err , result ) => {
-    
-                if (!err) {
-                                        
-                    return resolve(result);
-                
-                } else {
-                
-                    console.log(`Ha ocurrido el siguiente ${err}`)
-                    
-                    return reject(err);
-                
-                }
-            }
-        )     
-    })
-}
-
-//Function to find specific machine by all specs
-const findMachineBySpecs = ( specs ) => {
-
-    return new Promise( ( resolve , reject ) => {
-
-        connection.query(
-
-            `SELECT Id FROM equipos WHERE Numero = '${specs.number}' AND Referencia = '${specs.reference}' AND marca = '${specs.trademark}' AND cliente = '${specs.clients}';`, (err,result) => {
-                
-                if (!err) {
-                    
-                    return resolve(result);
-
-                } else {
-                    
-                    console.log(`Ha ocurrido el siguiente ${err}`);
-                    
-                    return reject(err);
-                };          
-            }
-        );    
-           
-    })
-}
-
-//Function to find specific client by name
-const findClientByName = ( name ) => {
-    
-    return new Promise( ( resolve , reject ) => {
-
-        connection.query(
-
-            `SELECT * FROM clients WHERE Compania = '${name}';`, ( err , result ) => {
-    
-                if (!err) {
-                                        
-                    return resolve(result);
-                
-                } else {
-                
-                    console.log(`Ha ocurrido el siguiente ${err}`)
-                    
-                    return reject(err);
-                
-                }
-            }
-        )     
-    })
-}
+const { findElementById, findUserByEmail, findMachineBySpecs, findClientByName } = require('../utils/searchingFunctions');
 
 //Get all users and machines info
 router.get( '/getElements',isValidUser,isAdmin , (req,res) => {
+    
+    let queryTxt
+    
+    // Get users (q=1) and Get Machines (q=2)
+    req.query.q == 1 
+    ? queryTxt = `SELECT u.*, c.Compania FROM usuarios AS u INNER JOIN clients AS c ON u.Empresa = c.Id WHERE u.Id != ${req.session.userData.Id} ORDER BY u.Id DESC;`
+    : queryTxt = `SELECT e.*, u.*,e.id AS Id FROM equipos AS e INNER JOIN usuarios AS u ON u.Id = e.Cliente ORDER BY e.Id DESC;`
 
-    if (req.query.q == 1) {
+    // Get all users info
+    connection.query(
 
-        // Get all users info
-        connection.query(
-    
-            `SELECT u.*, c.Compania FROM usuarios AS u INNER JOIN clients AS c ON u.Empresa = c.Id WHERE u.Id != ${req.session.userData.Id} ORDER BY u.Id DESC;`, (err,result) => {
-    
-                if (!err) {
-    
-                    return res.send(result)
-    
-                } else {
-    
-                    console.log(`Ha ocurrido el siguiente ${err}`)
-                    return res.status(500)
-    
-                }
+        queryTxt, (err,result) => {
+
+            if (!err) {
+
+                return res.send(result)
+
+            } else {
+
+                console.log(`Ha ocurrido el siguiente ${err}`)
+                return res.status(500)
+
             }
-        )
-    } else if (req.query.q == 2) {
+        }
+    )
 
-        // Get all machines info
-        connection.query(
-        
-            `SELECT e.*, u.*,e.id AS Id FROM equipos AS e INNER JOIN usuarios AS u ON u.Id = e.Cliente ORDER BY e.Id DESC;`, (err,result) => {
-        
-                if (!err) {
-        
-                    return res.send(result)
-        
-                } else {
-        
-                    console.log(`Ha ocurrido el siguiente ${err}`)
-                    return res.status(500)
-        
-                }
-            }
-        )
-    };
 });
 
 //Get all info from specific user

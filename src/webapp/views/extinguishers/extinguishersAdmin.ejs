@@ -4,6 +4,18 @@
 <a href="/auth/logout">Cerrar sesion</a>
 <a href="/extinguishers/maintenances">Ver mantenimientos</a>
 <h2>Administrador</h2>
+<h3>CREAR EXTINTOR</h3>
+<form action="/apiExtinguishers/createExtinguisher" method="POST">
+  <label for="client">Cliente:</label>
+  <input type="text" name="client">
+  <label for="agent">Agente:</label>
+  <input type="text" name="agent">
+  <label for="capacity">Capacidad:</label>
+  <input type="text" name="capacity">
+  <label for="id_code">Codigo:</label>
+  <input type="text" name="id_code">
+  <input type="submit" value="Crear">
+</form>
 <ul id="extinguishersContainer" class="mx-auto">
 
 </ul>

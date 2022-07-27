@@ -36,7 +36,6 @@ router.get('/', (req,res) => {
             return res.redirect('/certificates/admin');
         
         } else if (req.session.userData.Rol == 5 || req.session.userData.Rol == 6) {
-        
             return res.redirect('/extinguishers');
         
         } 

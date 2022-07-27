@@ -1,7 +1,48 @@
 <%- include('../partials/header.ejs'); %> 
-
-<h1 style="text-align:center;">Mantenimientos</h1>
+   
+<h1 style="text-align:center;">Extintores</h1>
+<a href="/auth/logout">Cerrar sesion</a>
+<a href="/extinguishers">Extintores</a>
 <h2>Administrador</h2>
+<h3>CREAR MANTENIMIENTO</h3>
+<form action="/apiExtinguishers/createMaintenance" method="POST">
+  <input type="hidden" name="extinguisher_id" id="extinguisher_id">
+  <label for="created_at">Creado el dia:</label>
+  <input type="date" name="created_at">
+  <label for="valid_until">Valido hasta:</label>
+  <input type="date" name="valid_until">
+  <label for="capacity">Comentarios:</label>
+  <input type="text" name="comment">
+  <input type="submit" value="Actualizar">
+</form>
+<h3>EDITAR MANTENIMIENTO</h3>
+
+<form action="/apiExtinguishers/updateMaintenance" method="POST">
+  <input type="hidden" name="extinguisher_id" id="extinguisher_id_update">
+  <label for="maintenance_id">Id de mantenimiento:</label>
+  <input type="text" name="maintenance_id">
+  <label for="created_at">Creado el dia:</label>
+  <input type="date" name="created_at">
+  <label for="valid_until">Valido hasta:</label>
+  <input type="date" name="valid_until">
+  <label for="capacity">Comentarios:</label>
+  <input type="text" name="comment">
+  <input type="submit" value="Actualizar">
+</form>
+
+<h3>ACTUALIZAR INFORMACION DE EXTINTOR</h3>
+<form action="/apiExtinguishers/updateExtinguisher" method="POST">
+  <input type="hidden" name="id" id="id">
+  <label for="client">Cliente:</label>
+  <input type="text" name="client">
+  <label for="agent">Agente:</label>
+  <input type="text" name="agent">
+  <label for="capacity">Capacidad:</label>
+  <input type="text" name="capacity">
+  <input type="submit" value="Actualizar">
+</form>
+
+<h3>MANTENIMIENTOS</h3>
 <ul id="maintenancesContainer" class="mx-auto">
 
 </ul>
